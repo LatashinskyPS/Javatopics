@@ -22,36 +22,44 @@ public class JsonAccountRepository implements MyRepository<Account> {
         return jsonAccountRepository;
     }
 
-    @Override
-    public Account findById(int id) {
-        Account account = findAll().stream().filter(r -> r.getId() == id).findAny().orElse(null);
+    private Account update(Account account) {
+        if (account == null) return null;
         account.setTransactionsFrom(new ArrayList<>());
         List<Transaction> arrayListFrom = account.getTransactionsFrom();
-        JsonTransactionRepository.getInstance().findAll().stream().forEach(
-                r->{
-                    if(r.getIdAccountFrom()==account.getId()){
+        JsonTransactionRepository.getInstance().findAll().forEach(
+                r -> {
+                    if (r.getIdAccountFrom() == account.getId()) {
                         arrayListFrom.add(r);
                     }
                 }
         );
-        account.setTransactionsFrom(new ArrayList<>());
+        account.setTransactionsTo(new ArrayList<>());
         List<Transaction> arrayListTo = account.getTransactionsTo();
-        JsonTransactionRepository.getInstance().findAll().stream().forEach(
-                r->{
-                    if(r.getIdAccountTo()==account.getId()){
+        JsonTransactionRepository.getInstance().findAll().forEach(
+                r -> {
+                    if (r.getIdAccountTo() == account.getId()) {
                         arrayListTo.add(r);
                     }
                 }
         );
+        account.setBank(JsonBankRepository.getInstance().findById(account.getIdBank()));
+        account.setUser(JsonUserRepository.getInstance().findById(account.getIdUser()));
         return account;
+    }
+
+    @Override
+    public Account findById(int id) {
+        Account account = findAll().stream().filter(r -> r.getId() == id).findAny().orElse(null);
+        return update(account);
     }
 
     @Override
     public HashSet<Account> findAll() {
         try (BufferedReader fileReader = new BufferedReader(new FileReader("accounts.json"))) {
             String str = fileReader.readLine();
-            return new ObjectMapper().readValue(str, new TypeReference<HashSet<Account>>() {
+            HashSet<Account> hashSet = new ObjectMapper().readValue(str, new TypeReference<HashSet<Account>>() {
             });
+            hashSet.forEach(this::update);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

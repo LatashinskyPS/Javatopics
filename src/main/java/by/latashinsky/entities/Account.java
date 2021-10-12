@@ -34,17 +34,12 @@ public class Account {
     @ManyToOne
     @JoinColumn(name = "id_bank")
     @JsonIgnore
-    //@todo
     private Bank bank;
 
     @Column(name = "id_bank", insertable = false, updatable = false)
-    @JsonIgnore
-    //@todo
     private int idBank;
 
     @Column(name = "id_user", insertable = false, updatable = false)
-    @JsonIgnore
-    //@todo
     private int idUser;
 
     public boolean editBank() {
@@ -58,6 +53,7 @@ public class Account {
 
     @ManyToOne
     @JoinColumn(name = "id_user")
+    @JsonIgnore
     private User user;
 
     @OneToMany(fetch = FetchType.EAGER)
