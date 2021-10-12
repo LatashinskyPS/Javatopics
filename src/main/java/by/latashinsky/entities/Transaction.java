@@ -1,5 +1,7 @@
 package by.latashinsky.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -14,24 +16,25 @@ public class Transaction {
 
     @ManyToOne
     @JoinColumn(name = "id_account_from")
+    @JsonIgnore
+    //@todo
     private Account accountFrom;
 
     @ManyToOne
     @JoinColumn(name = "id_account_to")
+    @JsonIgnore
+    //@todo
     private Account accountTo;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Transaction that = (Transaction) o;
-        return id == that.id;
-    }
+    @Column(name = "id_account_from", insertable = false, updatable = false)
+    @JsonIgnore
+    //@todo
+    private int idAccountFrom;
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
+    @Column(name = "id_account_to", insertable = false, updatable = false)
+    @JsonIgnore
+    //@todo
+    private int idAccountTo;
 
     @Override
     public String toString() {
@@ -87,5 +90,34 @@ public class Transaction {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public int getIdAccountFrom() {
+        return idAccountFrom;
+    }
+
+    public void setIdAccountFrom(int idAccountFrom) {
+        this.idAccountFrom = idAccountFrom;
+    }
+
+    public int getIdAccountTo() {
+        return idAccountTo;
+    }
+
+    public void setIdAccountTo(int idAccountTo) {
+        this.idAccountTo = idAccountTo;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Transaction that = (Transaction) o;
+        return id == that.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

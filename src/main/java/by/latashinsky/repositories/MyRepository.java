@@ -2,12 +2,13 @@ package by.latashinsky.repositories;
 
 import by.latashinsky.entities.Bank;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface MyRepository<T> {
     T findById(int id);
 
-    List<T> findAll();
+    Collection<T> findAll();
 
     void save(T t);
 

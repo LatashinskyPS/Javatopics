@@ -2,9 +2,11 @@ package by.latashinsky.entities;
 
 import by.latashinsky.models.Constants;
 import by.latashinsky.models.MyListConverter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
@@ -23,6 +25,8 @@ public class User {
 
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_user")
+    @JsonIgnore
+    //@todo
     private List<Account> accounts;
 
     @Override
@@ -96,5 +100,18 @@ public class User {
             }
             System.out.println("Invalid input!");
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id == user.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

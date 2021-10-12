@@ -1,6 +1,7 @@
 package by.latashinsky.entities;
 
 import by.latashinsky.models.Constants;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -26,6 +27,8 @@ public class Bank {
 
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_bank")
+    @JsonIgnore
+    //@todo
     private List<Account> accounts;
 
     @Override
@@ -110,6 +113,7 @@ public class Bank {
             }
         }
     }
+
     public void editLegalCommission() {
         Scanner in = new Scanner(System.in).useDelimiter("\n");
         while (true) {
@@ -123,5 +127,13 @@ public class Bank {
             }
         }
 
+    }
+
+    public List<Account> getAccounts() {
+        return accounts;
+    }
+
+    public void setAccounts(List<Account> accounts) {
+        this.accounts = accounts;
     }
 }

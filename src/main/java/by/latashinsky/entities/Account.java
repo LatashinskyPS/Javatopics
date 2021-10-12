@@ -2,11 +2,14 @@ package by.latashinsky.entities;
 
 import by.latashinsky.models.Constants;
 import by.latashinsky.utils.SelectHelpUtil;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jdk.jfr.Name;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
@@ -16,6 +19,9 @@ public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    public Account() {
+    }
 
     public User getUser() {
         return user;
@@ -27,7 +33,19 @@ public class Account {
 
     @ManyToOne
     @JoinColumn(name = "id_bank")
+    @JsonIgnore
+    //@todo
     private Bank bank;
+
+    @Column(name = "id_bank", insertable = false, updatable = false)
+    @JsonIgnore
+    //@todo
+    private int idBank;
+
+    @Column(name = "id_user", insertable = false, updatable = false)
+    @JsonIgnore
+    //@todo
+    private int idUser;
 
     public boolean editBank() {
         Bank bank = SelectHelpUtil.selectBank();
@@ -44,10 +62,12 @@ public class Account {
 
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_account_from")
+    @JsonIgnore
     private List<Transaction> transactionsFrom;
 
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_account_to")
+    @JsonIgnore
     private List<Transaction> transactionsTo;
 
     public List<Transaction> getTransactionsFrom() {
@@ -122,6 +142,19 @@ public class Account {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Account account = (Account) o;
+        return id == account.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
     public String toString() {
         return String.format("Account id:%s\nBank:%s\nBalance:%s\nCurrency:%s",
                 id, bank.getName().toUpperCase(Locale.ROOT), balance, currency);
@@ -150,5 +183,21 @@ public class Account {
 
     public void setBank(Bank bank) {
         this.bank = bank;
+    }
+
+    public int getIdBank() {
+        return idBank;
+    }
+
+    public void setIdBank(int idBank) {
+        this.idBank = idBank;
+    }
+
+    public int getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(int idUser) {
+        this.idUser = idUser;
     }
 }
