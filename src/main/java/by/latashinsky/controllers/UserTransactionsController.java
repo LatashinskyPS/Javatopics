@@ -5,7 +5,7 @@ import by.latashinsky.entities.User;
 import by.latashinsky.factory.RepositoryFactory;
 import by.latashinsky.models.Constants;
 import by.latashinsky.models.MyListConverter;
-import by.latashinsky.repositories.TransactionRepository;
+import by.latashinsky.repositories.DataBaseTransactionRepository;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -25,7 +25,7 @@ public class UserTransactionsController implements Controller {
         return userTransactionsController;
     }
 
-    private final TransactionRepository transactionRepository = TransactionRepository.getInstance();
+    private final DataBaseTransactionRepository transactionRepository = DataBaseTransactionRepository.getInstance();
     private final RepositoryFactory repositoryFactory = new RepositoryFactory();
 
     public boolean attemptToExecuteTheCommand(String s, User user) {

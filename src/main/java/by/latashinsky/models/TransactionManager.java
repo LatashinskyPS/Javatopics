@@ -5,7 +5,7 @@ import by.latashinsky.entities.Transaction;
 import by.latashinsky.entities.UserTypes;
 import by.latashinsky.factory.RepositoryFactory;
 import by.latashinsky.repositories.MyRepository;
-import by.latashinsky.repositories.TransactionRepository;
+import by.latashinsky.repositories.DataBaseTransactionRepository;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -15,7 +15,7 @@ import java.util.concurrent.locks.ReentrantLock;
 public class TransactionManager {
     private static TransactionManager transactionManager;
     private final ReentrantLock reentrantLock = new ReentrantLock();
-    private final TransactionRepository transactionRepository = TransactionRepository.getInstance();
+    private final DataBaseTransactionRepository transactionRepository = DataBaseTransactionRepository.getInstance();
 
     private TransactionManager() {
     }
