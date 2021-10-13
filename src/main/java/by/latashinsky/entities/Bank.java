@@ -28,7 +28,6 @@ public class Bank {
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_bank")
     @JsonIgnore
-    //@todo
     private List<Account> accounts;
 
     @Override

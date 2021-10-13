@@ -17,21 +17,17 @@ public class Transaction {
     @ManyToOne
     @JoinColumn(name = "id_account_from")
     @JsonIgnore
-    //@todo
     private Account accountFrom;
 
     @ManyToOne
     @JoinColumn(name = "id_account_to")
     @JsonIgnore
-    //@todo
     private Account accountTo;
 
     @Column(name = "id_account_from", insertable = false, updatable = false)
-    //@todo
     private int idAccountFrom;
 
     @Column(name = "id_account_to", insertable = false, updatable = false)
-    //@todo
     private int idAccountTo;
 
     @Override

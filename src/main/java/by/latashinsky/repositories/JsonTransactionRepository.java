@@ -59,15 +59,15 @@ public class JsonTransactionRepository implements MyRepository<Transaction> {
         transaction.setIdAccountFrom(transaction.getAccountFrom().getId());
         String str = "empty";
         int idMax = findAll().stream().map(Transaction::getId).max(Integer::compare).orElse(0);
-        if (transaction.getId() == 0) transaction.setId(idMax + 1);
         HashSet<Transaction> hashSet = findAll();
-        hashSet.add(transaction);
-        try {
-            str = new ObjectMapper().writeValueAsString(hashSet);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
+        if (transaction.getId() == 0) {
+            transaction.setId(1 + idMax);
+        } else {
+            hashSet.remove(transaction);
         }
+        hashSet.add(transaction);
         try (FileWriter fileWriter = new FileWriter("transactions.json")) {
+            str = new ObjectMapper().writeValueAsString(hashSet);
             fileWriter.write(str);
         } catch (IOException e) {
             e.printStackTrace();

@@ -26,7 +26,6 @@ public class User {
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_user")
     @JsonIgnore
-    //@todo
     private List<Account> accounts;
 
     @Override

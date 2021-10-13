@@ -57,7 +57,11 @@ public class JsonUserRepository implements MyRepository<User> {
     public void save(User user) {
         HashSet<User> hashSet = findAll();
         int idMax = findAll().stream().map(User::getId).max(Integer::compare).orElse(0);
-        if (user.getId() == 0) user.setId(idMax + 1);
+        if (user.getId() == 0) {
+            user.setId(idMax + 1);
+        } else {
+            hashSet.remove(user);
+        }
         String str = "[]";
         hashSet.add(user);
         try {

@@ -34,7 +34,6 @@ public class Account {
     @ManyToOne
     @JoinColumn(name = "id_bank")
     @JsonIgnore
-    //@todo
     private Bank bank;
 
     @Column(name = "id_bank", insertable = false, updatable = false)
@@ -55,19 +54,16 @@ public class Account {
     @ManyToOne
     @JoinColumn(name = "id_user")
     @JsonIgnore
-    //@todo
     private User user;
 
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_account_from")
     @JsonIgnore
-    //@todo
     private List<Transaction> transactionsFrom;
 
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_account_to")
     @JsonIgnore
-    //@todo
     private List<Transaction> transactionsTo;
 
     public List<Transaction> getTransactionsFrom() {

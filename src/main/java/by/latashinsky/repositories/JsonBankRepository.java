@@ -56,9 +56,13 @@ public class JsonBankRepository implements MyRepository<Bank> {
 
     @Override
     public void save(Bank bank) {
-        HashSet<Bank> hashSet = findAll();
         int idMax = findAll().stream().map(Bank::getId).max(Integer::compare).orElse(0);
-        if (bank.getId() == 0) bank.setId(idMax + 1);
+        HashSet<Bank> hashSet = findAll();
+        if (bank.getId() == 0) {
+            bank.setId(idMax + 1);
+        } else {
+            hashSet.remove(bank);
+        }
         hashSet.add(bank);
         String str = "empty";
         try {
