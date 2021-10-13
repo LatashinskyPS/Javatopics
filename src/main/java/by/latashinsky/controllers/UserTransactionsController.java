@@ -1,14 +1,18 @@
 package by.latashinsky.controllers;
 
+import by.latashinsky.entities.Account;
 import by.latashinsky.entities.Transaction;
 import by.latashinsky.entities.User;
+import by.latashinsky.factory.Factory;
 import by.latashinsky.models.Constants;
 import by.latashinsky.models.MyListConverter;
+import by.latashinsky.repositories.MyRepository;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class UserTransactionsController implements Controller {
     private static UserTransactionsController userTransactionsController;
@@ -50,10 +54,12 @@ public class UserTransactionsController implements Controller {
 
     private List<Transaction> findTransactions(User user) {
         List<Transaction> transactionList = new LinkedList<Transaction>();
-        user.getAccounts().forEach(r -> {
-            transactionList.addAll(r.getTransactionsFrom());
-            transactionList.addAll(r.getTransactionsTo());
-        });
+        MyRepository<Transaction> repository = (MyRepository<Transaction>) Factory.getInstance().getRepository(Transaction.class);
+        MyRepository<Account> repositoryAccount = (MyRepository<Account>) Factory.getInstance().getRepository(Account.class);
+        repositoryAccount.findAll().stream().filter(r -> r.getIdUser() == user.getId()).
+                forEach(r -> transactionList.addAll(
+                        repository.findAll().stream().filter(a -> a.getIdAccountTo() == user.getId()
+                                || a.getIdAccountFrom() == user.getId()).collect(Collectors.toList())));
         return transactionList;
     }
 

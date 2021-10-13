@@ -1,6 +1,9 @@
 package by.latashinsky.factory;
 
 import by.latashinsky.exceptions.FactoryConfigurationException;
+import by.latashinsky.models.CurrencyExchangeRateHelper;
+import by.latashinsky.models.DataBaseCurrencyExchangeRateHelper;
+import by.latashinsky.models.JsonCurrencyExchangeRateHelper;
 import by.latashinsky.repositories.MyRepository;
 
 import java.io.FileInputStream;
@@ -14,12 +17,15 @@ public class Factory {
     }
 
     private RepositoryFactory repositoryFactory;
-    private static Factory instance ;
+    private static Factory instance;
+    private CurrencyExchangeRateHelper currencyExchangeRateHelper;
 
-    public <T> MyRepository<?> getRepository(Class<T> clazz){
+    public <T> MyRepository<?> getRepository(Class<T> clazz) {
         return repositoryFactory.getRepository(clazz);
     }
-
+    public CurrencyExchangeRateHelper getCurrencyExchangeRateHelper(){
+        return currencyExchangeRateHelper;
+    }
     public static Factory getInstance() {
         if (instance == null) {
             instance = new Factory();
@@ -41,9 +47,11 @@ public class Factory {
         switch (profile) {
             case "DB" -> {
                 repositoryFactory = new DataBaseRepositoryFactory();
+                currencyExchangeRateHelper = new DataBaseCurrencyExchangeRateHelper();
             }
             case "JSON" -> {
                 repositoryFactory = new JsonRepositoryFactory();
+                currencyExchangeRateHelper = new JsonCurrencyExchangeRateHelper();
             }
             default -> throw new FactoryConfigurationException();
         }

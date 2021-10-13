@@ -27,12 +27,10 @@ public class Transaction {
     private Account accountTo;
 
     @Column(name = "id_account_from", insertable = false, updatable = false)
-    @JsonIgnore
     //@todo
     private int idAccountFrom;
 
     @Column(name = "id_account_to", insertable = false, updatable = false)
-    @JsonIgnore
     //@todo
     private int idAccountTo;
 

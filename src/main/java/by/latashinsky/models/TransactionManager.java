@@ -8,6 +8,7 @@ import by.latashinsky.factory.Factory;
 import by.latashinsky.repositories.MyRepository;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.concurrent.locks.ReentrantLock;
@@ -32,7 +33,7 @@ public class TransactionManager {
         try {
             if (accountFrom.getBalance().compareTo(value) >= 0) {
                 HashMap<String, BigDecimal> currencyExchangeRate
-                        = CurrencyExchangeRateHelper.getCurrencyExchangeRate();
+                        = Factory.getInstance().getCurrencyExchangeRateHelper().getCurrencyExchangeRate();
                 if (!currencyExchangeRate.containsKey(accountFrom.getCurrency())
                         || !currencyExchangeRate.containsKey(accountTo.getCurrency())) {
                     System.out.println("We don't this currency!");
@@ -50,12 +51,12 @@ public class TransactionManager {
                                         .divide(BigDecimal.valueOf(100)));
                     }
                 }
-                ratio = ratio.divide(currencyExchangeRate.get(accountFrom.getCurrency()))
+                ratio = ratio.divide(currencyExchangeRate.get(accountFrom.getCurrency()),2, RoundingMode.HALF_UP)
                         .multiply(currencyExchangeRate.get(accountTo.getCurrency()));
                 accountFrom.setBalance(accountFrom.getBalance().subtract(value));
                 BigDecimal resultTransactionMoney = value.multiply(ratio);
                 accountTo.setBalance(accountTo.getBalance().add(resultTransactionMoney));
-                MyRepository<Account> myRepository = (MyRepository<Account>) new DataBaseRepositoryFactory().getRepository(Account.class);
+                MyRepository<Account> myRepository = (MyRepository<Account>) Factory.getInstance().getRepository(Account.class);
                 myRepository.save(accountFrom);
                 myRepository.save(accountTo);
                 Transaction transaction = new Transaction();

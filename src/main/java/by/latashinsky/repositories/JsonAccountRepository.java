@@ -27,22 +27,8 @@ public class JsonAccountRepository implements MyRepository<Account> {
         if (account == null) return null;
         account.setTransactionsFrom(new ArrayList<>());
         List<Transaction> arrayListFrom = account.getTransactionsFrom();
-        JsonTransactionRepository.getInstance().findAll().forEach(
-                r -> {
-                    if (r.getIdAccountFrom() == account.getId()) {
-                        arrayListFrom.add(r);
-                    }
-                }
-        );
         account.setTransactionsTo(new ArrayList<>());
         List<Transaction> arrayListTo = account.getTransactionsTo();
-        JsonTransactionRepository.getInstance().findAll().forEach(
-                r -> {
-                    if (r.getIdAccountTo() == account.getId()) {
-                        arrayListTo.add(r);
-                    }
-                }
-        );
         account.setBank(JsonBankRepository.getInstance().findById(account.getIdBank()));
         account.setUser(JsonUserRepository.getInstance().findById(account.getIdUser()));
         return account;
