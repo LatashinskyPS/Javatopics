@@ -62,7 +62,7 @@ public class JsonUserRepository implements MyRepository<User> {
         } else {
             hashSet.remove(user);
         }
-        String str = "[]";
+        String str = "[]" ;
         hashSet.add(user);
         try {
             str = new ObjectMapper().writeValueAsString(hashSet);
@@ -78,7 +78,10 @@ public class JsonUserRepository implements MyRepository<User> {
 
     @Override
     public void delete(User user) {
-        String str = "[]";
+        if (user == null) {
+            return;
+        }
+        String str = "[]" ;
         try {
             HashSet<User> hashSet = findAll();
             hashSet.removeIf(r -> user.getId() == r.getId());

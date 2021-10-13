@@ -92,6 +92,9 @@ public class JsonAccountRepository implements MyRepository<Account> {
 
     @Override
     public void delete(Account account) {
+        if (account == null) {
+            return;
+        }
         String str = "[]";
         try {
             HashSet<Account> hashSet = findAll();

@@ -2,6 +2,7 @@ package by.latashinsky.repositories;
 
 import by.latashinsky.entities.Account;
 import by.latashinsky.entities.Bank;
+import by.latashinsky.models.Constants;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -37,7 +38,7 @@ public class JsonBankRepository implements MyRepository<Bank> {
     public HashSet<Bank> findAll() {
         HashSet<Bank> hashSet = null;
         String json = null;
-        try (BufferedReader fileReader = new BufferedReader(new FileReader("banks.json"))) {
+        try (BufferedReader fileReader = new BufferedReader(new FileReader(Constants.PATH + "banks.json"))) {
             json = fileReader.readLine();
         } catch (IOException e) {
             e.printStackTrace();
@@ -64,13 +65,13 @@ public class JsonBankRepository implements MyRepository<Bank> {
             hashSet.remove(bank);
         }
         hashSet.add(bank);
-        String str = "empty";
+        String str = "empty" ;
         try {
             str = new ObjectMapper().writeValueAsString(hashSet);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        try (FileWriter fileWriter = new FileWriter("banks.json")) {
+        try (FileWriter fileWriter = new FileWriter(Constants.PATH + "banks.json")) {
             fileWriter.write(str);
         } catch (IOException e) {
             e.printStackTrace();
@@ -79,7 +80,10 @@ public class JsonBankRepository implements MyRepository<Bank> {
 
     @Override
     public void delete(Bank bank) {
-        String str = "[]";
+        if (bank == null) {
+            return;
+        }
+        String str = "[]" ;
         try {
             HashSet<Bank> hashSet = findAll();
             hashSet.removeIf(r -> bank.getId() == r.getId());
@@ -87,7 +91,7 @@ public class JsonBankRepository implements MyRepository<Bank> {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        try (FileWriter fileWriter = new FileWriter("banks.json")) {
+        try (FileWriter fileWriter = new FileWriter(Constants.PATH + "banks.json")) {
             fileWriter.write(str);
         } catch (IOException e) {
             e.printStackTrace();
