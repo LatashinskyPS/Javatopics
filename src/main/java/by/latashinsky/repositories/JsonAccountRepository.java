@@ -1,7 +1,10 @@
 package by.latashinsky.repositories;
 
 import by.latashinsky.entities.Account;
+import by.latashinsky.entities.Bank;
 import by.latashinsky.entities.Transaction;
+import by.latashinsky.entities.User;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -53,18 +56,26 @@ public class JsonAccountRepository implements MyRepository<Account> {
 
     @Override
     public HashSet<Account> findAll() {
+        String str = null;
         try (BufferedReader fileReader = new BufferedReader(new FileReader("accounts.json"))) {
-            String str = fileReader.readLine();
-            HashSet<Account> hashSet = new ObjectMapper().readValue(str, new TypeReference<HashSet<Account>>() {
-            });
-            hashSet.forEach(this::update);
+            str = fileReader.readLine();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
-        return new HashSet<>();
+        if (str == null) return new HashSet<>();
+        HashSet<Account> hashSet = null;
+        try {
+            hashSet = new ObjectMapper().readValue(str, new TypeReference<HashSet<Account>>() {
+            });
+            hashSet.forEach(this::update);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        if (hashSet == null) return new HashSet<>();
+        return hashSet;
     }
 
     @Override
@@ -72,10 +83,18 @@ public class JsonAccountRepository implements MyRepository<Account> {
         if (account.getBank() == null || account.getUser() == null) return;
         account.setIdBank(account.getBank().getId());
         account.setIdUser(account.getUser().getId());
-        JsonUserRepository.getInstance().save(account.getUser());
-        JsonBankRepository.getInstance().save(account.getBank());
+        String str = "[]";
+        HashSet<Account> hashSet = findAll();
+        int idMax = findAll().stream().map(Account::getId).max(Integer::compare).orElse(0);
+        if (account.getId() == 0) account.setId(idMax + 1);
+        hashSet.add(account);
+        try {
+            str = new ObjectMapper().writeValueAsString(hashSet);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
         try (FileWriter fileWriter = new FileWriter("accounts.json")) {
-            fileWriter.write(new ObjectMapper().writeValueAsString(findAll().add(account)));
+            fileWriter.write(str);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -83,8 +102,16 @@ public class JsonAccountRepository implements MyRepository<Account> {
 
     @Override
     public void delete(Account account) {
+        String str = "[]";
+        try {
+            HashSet<Account> hashSet = findAll();
+            hashSet.removeIf(r -> account.getId() == r.getId());
+            str = new ObjectMapper().writeValueAsString(hashSet);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
         try (FileWriter fileWriter = new FileWriter("accounts.json")) {
-            fileWriter.write(new ObjectMapper().writeValueAsString(findAll().removeIf(r -> account.getId() == r.getId())));
+            fileWriter.write(str);
         } catch (IOException e) {
             e.printStackTrace();
         }

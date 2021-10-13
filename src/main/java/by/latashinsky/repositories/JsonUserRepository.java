@@ -1,7 +1,10 @@
 package by.latashinsky.repositories;
 
 import by.latashinsky.entities.Account;
+import by.latashinsky.entities.Bank;
+import by.latashinsky.entities.Transaction;
 import by.latashinsky.entities.User;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -20,13 +23,6 @@ public class JsonUserRepository implements MyRepository<User> {
         if (user == null) return null;
         List<Account> accounts = user.getAccounts();
         user.setAccounts(new ArrayList<>());
-        JsonAccountRepository.getInstance().findAll().forEach(
-                r -> {
-                    if (r.getIdBank() == user.getId()) {
-                        accounts.add(r);
-                    }
-                }
-        );
         return user;
     }
 
@@ -43,6 +39,7 @@ public class JsonUserRepository implements MyRepository<User> {
     public HashSet<User> findAll() {
         try (BufferedReader fileReader = new BufferedReader(new FileReader("users.json"))) {
             String str = fileReader.readLine();
+            if (str == null) return new HashSet<>();
             HashSet<User> hashSet = new ObjectMapper().readValue(str, new TypeReference<HashSet<User>>() {
             });
             hashSet.forEach(this::update);
@@ -58,8 +55,18 @@ public class JsonUserRepository implements MyRepository<User> {
 
     @Override
     public void save(User user) {
+        HashSet<User> hashSet = findAll();
+        int idMax = findAll().stream().map(User::getId).max(Integer::compare).orElse(0);
+        if (user.getId() == 0) user.setId(idMax + 1);
+        String str = "[]";
+        hashSet.add(user);
+        try {
+            str = new ObjectMapper().writeValueAsString(hashSet);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
         try (FileWriter fileWriter = new FileWriter("users.json")) {
-            fileWriter.write(new ObjectMapper().writeValueAsString(findAll().add(user)));
+            fileWriter.write(str);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -67,8 +74,16 @@ public class JsonUserRepository implements MyRepository<User> {
 
     @Override
     public void delete(User user) {
+        String str = "[]";
+        try {
+            HashSet<User> hashSet = findAll();
+            hashSet.removeIf(r -> user.getId() == r.getId());
+            str = new ObjectMapper().writeValueAsString(hashSet);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
         try (FileWriter fileWriter = new FileWriter("users.json")) {
-            fileWriter.write(new ObjectMapper().writeValueAsString(findAll().removeIf(r -> user.getId() == r.getId())));
+            fileWriter.write(str);
         } catch (IOException e) {
             e.printStackTrace();
         }

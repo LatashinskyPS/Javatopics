@@ -3,9 +3,9 @@ package by.latashinsky.models;
 import by.latashinsky.entities.Account;
 import by.latashinsky.entities.Transaction;
 import by.latashinsky.entities.UserTypes;
-import by.latashinsky.factory.RepositoryFactory;
+import by.latashinsky.factory.DataBaseRepositoryFactory;
+import by.latashinsky.factory.Factory;
 import by.latashinsky.repositories.MyRepository;
-import by.latashinsky.repositories.DataBaseTransactionRepository;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -15,7 +15,7 @@ import java.util.concurrent.locks.ReentrantLock;
 public class TransactionManager {
     private static TransactionManager transactionManager;
     private final ReentrantLock reentrantLock = new ReentrantLock();
-    private final DataBaseTransactionRepository transactionRepository = DataBaseTransactionRepository.getInstance();
+    private final MyRepository<Transaction> transactionRepository = (MyRepository<Transaction>) Factory.getInstance().getRepository(Transaction.class);
 
     private TransactionManager() {
     }
@@ -55,7 +55,7 @@ public class TransactionManager {
                 accountFrom.setBalance(accountFrom.getBalance().subtract(value));
                 BigDecimal resultTransactionMoney = value.multiply(ratio);
                 accountTo.setBalance(accountTo.getBalance().add(resultTransactionMoney));
-                MyRepository<Account> myRepository = (MyRepository<Account>) new RepositoryFactory().getRepository(Account.class);
+                MyRepository<Account> myRepository = (MyRepository<Account>) new DataBaseRepositoryFactory().getRepository(Account.class);
                 myRepository.save(accountFrom);
                 myRepository.save(accountTo);
                 Transaction transaction = new Transaction();

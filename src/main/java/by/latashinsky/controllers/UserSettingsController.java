@@ -1,15 +1,20 @@
 package by.latashinsky.controllers;
 
+import by.latashinsky.entities.Account;
 import by.latashinsky.entities.User;
-import by.latashinsky.factory.RepositoryFactory;
+import by.latashinsky.factory.DataBaseRepositoryFactory;
+import by.latashinsky.factory.Factory;
 import by.latashinsky.repositories.MyRepository;
 import by.latashinsky.utils.Confirms;
 
+import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class UserSettingsController extends BaseSettingsController<User> {
     private static UserSettingsController userSettingsController;
-    protected MyRepository<User> myRepository = (MyRepository<User>) new RepositoryFactory().getRepository(User.class);
+    protected MyRepository<User> myRepository = (MyRepository<User>) Factory.getInstance().getRepository(User.class);
+    private final MyRepository<Account> myAccountRepository = (MyRepository<Account>) Factory.getInstance().getRepository(Account.class);
 
     private UserSettingsController() {
     }
@@ -19,6 +24,14 @@ public class UserSettingsController extends BaseSettingsController<User> {
             userSettingsController = new UserSettingsController();
         }
         return userSettingsController;
+    }
+
+    @Override
+    public void show(User user) {
+        ArrayList<Account> list = myAccountRepository.findAll()
+                .stream().filter(r -> r.getIdUser() == user.getId()).collect(Collectors.toCollection(ArrayList::new));
+        user.setAccounts(list);
+        System.out.println(user);
     }
 
     @Override

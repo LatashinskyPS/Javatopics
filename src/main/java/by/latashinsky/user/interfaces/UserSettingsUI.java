@@ -11,7 +11,7 @@ public class UserSettingsUI {
 
     public static void run(User user) {
         while (true) {
-            System.out.print("/banks/" + user.getId() + ">>");
+            System.out.print("/users/" + user.getId() + ">>");
             String command = in.next();
             if (userSettingsController.attemptToExecuteTheCommand(command, user)) {
                 break;

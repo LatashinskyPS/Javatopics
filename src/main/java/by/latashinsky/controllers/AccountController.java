@@ -1,14 +1,15 @@
 package by.latashinsky.controllers;
 
 import by.latashinsky.entities.Account;
-import by.latashinsky.factory.RepositoryFactory;
+import by.latashinsky.factory.DataBaseRepositoryFactory;
+import by.latashinsky.factory.Factory;
 import by.latashinsky.models.MyListConverter;
 import by.latashinsky.repositories.MyRepository;
 import by.latashinsky.user.interfaces.AccountSettingsUI;
 import by.latashinsky.utils.SelectHelpUtil;
 
 public class AccountController extends BaseShowAndCreateController<Account> {
-    protected MyRepository<Account> myRepository = (MyRepository<Account>) new RepositoryFactory().getRepository(Account.class);
+    protected MyRepository<Account> myRepository = (MyRepository<Account>) Factory.getInstance().getRepository(Account.class);
     private static AccountController accountController;
 
     private AccountController() {

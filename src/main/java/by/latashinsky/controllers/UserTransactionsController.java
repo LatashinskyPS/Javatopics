@@ -2,10 +2,8 @@ package by.latashinsky.controllers;
 
 import by.latashinsky.entities.Transaction;
 import by.latashinsky.entities.User;
-import by.latashinsky.factory.RepositoryFactory;
 import by.latashinsky.models.Constants;
 import by.latashinsky.models.MyListConverter;
-import by.latashinsky.repositories.DataBaseTransactionRepository;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

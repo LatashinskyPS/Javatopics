@@ -1,7 +1,8 @@
 package by.latashinsky.controllers;
 
 import by.latashinsky.entities.Bank;
-import by.latashinsky.factory.RepositoryFactory;
+import by.latashinsky.factory.DataBaseRepositoryFactory;
+import by.latashinsky.factory.Factory;
 import by.latashinsky.models.MyListConverter;
 import by.latashinsky.repositories.MyRepository;
 import by.latashinsky.user.interfaces.BankSettingsUI;
@@ -11,7 +12,7 @@ import java.util.Scanner;
 
 public class BankController extends BaseShowAndCreateController<Bank> {
     private static BankController bankController;
-    protected MyRepository<Bank> myRepository = (MyRepository<Bank>) new RepositoryFactory().getRepository(Bank.class);
+    protected MyRepository<Bank> myRepository = (MyRepository<Bank>) Factory.getInstance().getRepository(Bank.class);
 
     private BankController() {
     }

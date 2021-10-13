@@ -1,11 +1,14 @@
 package by.latashinsky.controllers;
 
 import by.latashinsky.entities.Account;
+import by.latashinsky.entities.Transaction;
 import by.latashinsky.entities.User;
+import by.latashinsky.factory.DataBaseRepositoryFactory;
+import by.latashinsky.factory.Factory;
 import by.latashinsky.models.Constants;
 import by.latashinsky.models.MyListConverter;
 import by.latashinsky.models.TransactionManager;
-import by.latashinsky.repositories.DataBaseTransactionRepository;
+import by.latashinsky.repositories.MyRepository;
 import by.latashinsky.user.interfaces.UserTransactionUI;
 import by.latashinsky.utils.SelectHelpUtil;
 
@@ -17,7 +20,7 @@ import java.util.regex.Pattern;
 public class TransactionController implements Controller {
     private final TransactionManager transactionManager = TransactionManager.getInstance();
     private static TransactionController transactionController;
-    private final DataBaseTransactionRepository transactionRepository = DataBaseTransactionRepository.getInstance();
+    private final MyRepository<Transaction> transactionRepository = (MyRepository<Transaction>) Factory.getInstance().getRepository(Transaction.class);
 
     private TransactionController() {
     }

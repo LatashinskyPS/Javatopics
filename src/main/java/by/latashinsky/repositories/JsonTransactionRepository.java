@@ -1,6 +1,8 @@
 package by.latashinsky.repositories;
 
+import by.latashinsky.entities.Bank;
 import by.latashinsky.entities.Transaction;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -36,6 +38,7 @@ public class JsonTransactionRepository implements MyRepository<Transaction> {
     public HashSet<Transaction> findAll() {
         try (BufferedReader fileReader = new BufferedReader(new FileReader("transactions.json"))) {
             String str = fileReader.readLine();
+            if (str == null) return new HashSet<>();
             HashSet<Transaction> hashSet = new ObjectMapper().readValue(str, new TypeReference<HashSet<Transaction>>() {
             });
             hashSet.forEach(this::update);
@@ -54,8 +57,18 @@ public class JsonTransactionRepository implements MyRepository<Transaction> {
         if (transaction.getAccountFrom() == null || transaction.getAccountTo() == null) return;
         transaction.setIdAccountTo(transaction.getAccountTo().getId());
         transaction.setIdAccountFrom(transaction.getAccountFrom().getId());
+        String str = "empty";
+        int idMax = findAll().stream().map(Transaction::getId).max(Integer::compare).orElse(0);
+        if (transaction.getId() == 0) transaction.setId(idMax + 1);
+        HashSet<Transaction> hashSet = findAll();
+        hashSet.add(transaction);
+        try {
+            str = new ObjectMapper().writeValueAsString(hashSet);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
         try (FileWriter fileWriter = new FileWriter("transactions.json")) {
-            fileWriter.write(new ObjectMapper().writeValueAsString(findAll().add(transaction)));
+            fileWriter.write(str);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -63,10 +76,19 @@ public class JsonTransactionRepository implements MyRepository<Transaction> {
 
     @Override
     public void delete(Transaction transaction) {
+        String str = "[]";
+        try {
+            HashSet<Transaction> hashSet = findAll();
+            hashSet.removeIf(r -> transaction.getId() == r.getId());
+            str = new ObjectMapper().writeValueAsString(hashSet);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
         try (FileWriter fileWriter = new FileWriter("transactions.json")) {
-            fileWriter.write(new ObjectMapper().writeValueAsString(findAll().removeIf(r -> transaction.getId() == r.getId())));
+            fileWriter.write(str);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 }
+

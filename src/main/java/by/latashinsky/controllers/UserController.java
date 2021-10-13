@@ -1,7 +1,8 @@
 package by.latashinsky.controllers;
 
 import by.latashinsky.entities.User;
-import by.latashinsky.factory.RepositoryFactory;
+import by.latashinsky.factory.DataBaseRepositoryFactory;
+import by.latashinsky.factory.Factory;
 import by.latashinsky.models.MyListConverter;
 import by.latashinsky.repositories.MyRepository;
 import by.latashinsky.user.interfaces.UserSettingsUI;
@@ -11,7 +12,7 @@ import java.util.Scanner;
 
 public class UserController extends BaseShowAndCreateController<User> {
     private static UserController userController;
-    MyRepository<User> userRepository = (MyRepository<User>) new RepositoryFactory().getRepository(User.class);
+    MyRepository<User> userRepository = (MyRepository<User>) Factory.getInstance().getRepository(User.class);
 
     private UserController() {
     }

@@ -10,7 +10,7 @@ public abstract class BaseSettingsController<T> implements Controller {
                 return true;
             }
             case "show" -> {
-                System.out.println(t);
+                show(t);
                 return false;
             }
             case "update" -> {
@@ -30,6 +30,8 @@ public abstract class BaseSettingsController<T> implements Controller {
             }
         }
     }
+
+    public abstract void show(T t);
 
     public abstract void update(T t);
 

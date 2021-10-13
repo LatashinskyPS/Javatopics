@@ -1,15 +1,20 @@
 package by.latashinsky.controllers;
 
+import by.latashinsky.entities.Account;
 import by.latashinsky.entities.Bank;
-import by.latashinsky.factory.RepositoryFactory;
+import by.latashinsky.factory.DataBaseRepositoryFactory;
+import by.latashinsky.factory.Factory;
 import by.latashinsky.repositories.MyRepository;
 import by.latashinsky.utils.Confirms;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class BankSettingsController extends BaseSettingsController<Bank> {
     private static BankSettingsController bankSettingsController;
-    protected MyRepository<Bank> myRepository = (MyRepository<Bank>) new RepositoryFactory().getRepository(Bank.class);
+    protected MyRepository<Bank> myRepository = (MyRepository<Bank>) Factory.getInstance().getRepository(Bank.class);
 
     private BankSettingsController() {
     }
@@ -19,6 +24,15 @@ public class BankSettingsController extends BaseSettingsController<Bank> {
             bankSettingsController = new BankSettingsController();
         }
         return bankSettingsController;
+    }
+
+    @Override
+    public void show(Bank bank) {
+        MyRepository<Account> myRepository = (MyRepository<Account>) Factory.getInstance().getRepository(Account.class);
+        ArrayList<Account> list = myRepository.findAll()
+                .stream().filter(r -> r.getIdBank() == bank.getId()).collect(Collectors.toCollection(ArrayList::new));
+        bank.setAccounts(list);
+        System.out.println(list);
     }
 
     public void update(Bank bank) {

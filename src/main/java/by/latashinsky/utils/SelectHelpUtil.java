@@ -3,7 +3,8 @@ package by.latashinsky.utils;
 import by.latashinsky.entities.Account;
 import by.latashinsky.entities.Bank;
 import by.latashinsky.entities.User;
-import by.latashinsky.factory.RepositoryFactory;
+import by.latashinsky.factory.DataBaseRepositoryFactory;
+import by.latashinsky.factory.Factory;
 import by.latashinsky.models.Constants;
 import by.latashinsky.repositories.MyRepository;
 
@@ -13,7 +14,7 @@ import java.util.regex.Pattern;
 
 public class SelectHelpUtil {
     public static Bank selectBank() {
-        MyRepository<Bank> myRepository = (MyRepository<Bank>) new RepositoryFactory().getRepository(Bank.class);
+        MyRepository<Bank> myRepository = (MyRepository<Bank>) Factory.getInstance().getRepository(Bank.class);
         myRepository.findAll().forEach(r -> System.out.println(r.getId() + ") " + r.getName().toUpperCase(Locale.ROOT)));
         Scanner in = new Scanner(System.in).useDelimiter("\n");
         while (true) {
@@ -33,7 +34,7 @@ public class SelectHelpUtil {
     }
 
     public static User selectUser() {
-        MyRepository<User> myRepository = (MyRepository<User>) new RepositoryFactory().getRepository(User.class);
+        MyRepository<User> myRepository = (MyRepository<User>) Factory.getInstance().getRepository(User.class);
         myRepository.findAll().forEach(r -> System.out.println(r.getId() + ") " + r.getName().toUpperCase(Locale.ROOT)));
         Scanner in = new Scanner(System.in).useDelimiter("\n");
         while (true) {
@@ -53,7 +54,7 @@ public class SelectHelpUtil {
     }
 
     public static Account selectAccount() {
-        MyRepository<Account> myRepository = (MyRepository<Account>) new RepositoryFactory().getRepository(Account.class);
+        MyRepository<Account> myRepository = (MyRepository<Account>) Factory.getInstance().getRepository(Account.class);
         myRepository.findAll().forEach(r -> System.out.println(
                 r.getId() + ")" +
                         r.getBank().getName() + "->"

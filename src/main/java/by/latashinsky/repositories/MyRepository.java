@@ -1,6 +1,7 @@
 package by.latashinsky.repositories;
 
 import by.latashinsky.entities.Bank;
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 import java.util.Collection;
 import java.util.List;

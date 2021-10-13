@@ -128,7 +128,7 @@ public class Account {
         Scanner in = new Scanner(System.in).useDelimiter("\n");
         String str;
         while (true) {
-            System.out.print("Enter value of balance(exit to return to menu):");
+            System.out.print("Enter name of currency:");
             str = in.next();
             if (str.length() < 4) {
                 this.currency = str;
