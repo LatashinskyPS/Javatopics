@@ -1,14 +1,12 @@
 package by.latashinsky.repositories;
 
 import by.latashinsky.entities.Account;
-import by.latashinsky.entities.Bank;
 import by.latashinsky.entities.Transaction;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
@@ -71,7 +69,12 @@ public class JsonAccountRepository implements MyRepository<Account> {
 
     @Override
     public void save(Account account) {
-        try (FileWriter fileWriter = new FileWriter("banks.json")) {
+        if (account.getBank() == null || account.getUser() == null) return;
+        account.setIdBank(account.getBank().getId());
+        account.setIdUser(account.getUser().getId());
+        JsonUserRepository.getInstance().save(account.getUser());
+        JsonBankRepository.getInstance().save(account.getBank());
+        try (FileWriter fileWriter = new FileWriter("accounts.json")) {
             fileWriter.write(new ObjectMapper().writeValueAsString(findAll().add(account)));
         } catch (IOException e) {
             e.printStackTrace();
@@ -80,7 +83,7 @@ public class JsonAccountRepository implements MyRepository<Account> {
 
     @Override
     public void delete(Account account) {
-        try (FileWriter fileWriter = new FileWriter("banks.json")) {
+        try (FileWriter fileWriter = new FileWriter("accounts.json")) {
             fileWriter.write(new ObjectMapper().writeValueAsString(findAll().removeIf(r -> account.getId() == r.getId())));
         } catch (IOException e) {
             e.printStackTrace();

@@ -25,8 +25,6 @@ public class UserTransactionsController implements Controller {
         return userTransactionsController;
     }
 
-    private final DataBaseTransactionRepository transactionRepository = DataBaseTransactionRepository.getInstance();
-    private final RepositoryFactory repositoryFactory = new RepositoryFactory();
 
     public boolean attemptToExecuteTheCommand(String s, User user) {
         switch (s.toLowerCase(Locale.ROOT)) {
@@ -70,7 +68,7 @@ public class UserTransactionsController implements Controller {
             System.out.println("Enter max date(exit to cancel):");
             str = in.next();
             if (Pattern.matches(Constants.PATTERN_DATE, str)) {
-                Date date = null;
+                Date date;
                 try {
                     date = formatter.parse(str);
                     Date finalDate = date;
@@ -87,7 +85,7 @@ public class UserTransactionsController implements Controller {
             System.out.println("Enter mid date(exit to cancel):");
             str = in.next();
             if (Pattern.matches(Constants.PATTERN_DATE, str)) {
-                Date date = null;
+                Date date;
                 try {
                     date = formatter.parse(str);
                     Date finalDate = date;
@@ -100,7 +98,7 @@ public class UserTransactionsController implements Controller {
             if ("exit".equals(str)) return;
             System.out.println("Invalid input!");
         }
-        if(transactions.isEmpty()){
+        if (transactions.isEmpty()) {
             System.out.println("Can't to find.");
         }
         System.out.println(MyListConverter.convert(transactions));

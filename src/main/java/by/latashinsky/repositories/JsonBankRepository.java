@@ -22,7 +22,7 @@ public class JsonBankRepository implements MyRepository<Bank> {
         if (bank == null) return null;
         bank.setAccounts(new ArrayList<>());
         List<Account> accounts = bank.getAccounts();
-        JsonAccountRepository.getInstance().findAll().stream().forEach(
+        JsonAccountRepository.getInstance().findAll().forEach(
                 r -> {
                     if (r.getIdBank() == bank.getId()) {
                         accounts.add(r);
