@@ -42,16 +42,16 @@ public class TransactionManager {
                 BigDecimal ratio = new BigDecimal("1");
                 if (!accountFrom.getBank().equals(accountTo.getBank())) {
                     if (accountFrom.getUser().getUserType().equals(UserTypes.USUAL)) {
-                        ratio = ratio.multiply(
+                        ratio = ratio.multiply(BigDecimal.valueOf(1).subtract(
                                 accountFrom.getBank().getUsualCommission()
-                                        .divide(BigDecimal.valueOf(100)));
+                                        .divide(BigDecimal.valueOf(100))));
                     } else {
-                        ratio = ratio.multiply(
+                        ratio = ratio.multiply(BigDecimal.valueOf(1).subtract(
                                 accountFrom.getBank().getLegalCommission()
-                                        .divide(BigDecimal.valueOf(100)));
+                                        .divide(BigDecimal.valueOf(100))));
                     }
                 }
-                ratio = ratio.divide(currencyExchangeRate.get(accountFrom.getCurrency()),2, RoundingMode.HALF_UP)
+                ratio = ratio.divide(currencyExchangeRate.get(accountFrom.getCurrency()), 2, RoundingMode.HALF_UP)
                         .multiply(currencyExchangeRate.get(accountTo.getCurrency()));
                 accountFrom.setBalance(accountFrom.getBalance().subtract(value));
                 BigDecimal resultTransactionMoney = value.multiply(ratio);
