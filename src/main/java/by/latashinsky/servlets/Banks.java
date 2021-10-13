@@ -30,6 +30,7 @@ public class Banks extends HttpServlet {
         switch (path.length) {
             case 2 -> getAllBanksWithFilter(request, response);
             case 3 -> getBankById(request, response, path[2]);
+            default -> response.setStatus(404);
         }
     }
 
