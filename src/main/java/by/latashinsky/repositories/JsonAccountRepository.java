@@ -56,19 +56,19 @@ public class JsonAccountRepository implements MyRepository<Account> {
 
     @Override
     public HashSet<Account> findAll() {
-        String str = null;
+        String json = null;
         try (BufferedReader fileReader = new BufferedReader(new FileReader("accounts.json"))) {
-            str = fileReader.readLine();
+            json = fileReader.readLine();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
-        if (str == null) return new HashSet<>();
+        if (json == null) return new HashSet<>();
         HashSet<Account> hashSet = null;
         try {
-            hashSet = new ObjectMapper().readValue(str, new TypeReference<HashSet<Account>>() {
+            hashSet = new ObjectMapper().readValue(json, new TypeReference<HashSet<Account>>() {
             });
             hashSet.forEach(this::update);
         } catch (JsonProcessingException e) {

@@ -37,9 +37,9 @@ public class JsonTransactionRepository implements MyRepository<Transaction> {
     @Override
     public HashSet<Transaction> findAll() {
         try (BufferedReader fileReader = new BufferedReader(new FileReader("transactions.json"))) {
-            String str = fileReader.readLine();
-            if (str == null) return new HashSet<>();
-            HashSet<Transaction> hashSet = new ObjectMapper().readValue(str, new TypeReference<HashSet<Transaction>>() {
+            String json = fileReader.readLine();
+            if (json == null) return new HashSet<>();
+            HashSet<Transaction> hashSet = new ObjectMapper().readValue(json, new TypeReference<HashSet<Transaction>>() {
             });
             hashSet.forEach(this::update);
             return hashSet;

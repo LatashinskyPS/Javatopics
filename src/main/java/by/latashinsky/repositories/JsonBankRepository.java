@@ -36,15 +36,15 @@ public class JsonBankRepository implements MyRepository<Bank> {
     @Override
     public HashSet<Bank> findAll() {
         HashSet<Bank> hashSet = null;
-        String str = null;
+        String json = null;
         try (BufferedReader fileReader = new BufferedReader(new FileReader("banks.json"))) {
-            str = fileReader.readLine();
+            json = fileReader.readLine();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if (str == null) return new HashSet<>();
+        if (json == null) return new HashSet<>();
         try {
-            hashSet = new ObjectMapper().readValue(str, new TypeReference<HashSet<Bank>>() {
+            hashSet = new ObjectMapper().readValue(json, new TypeReference<HashSet<Bank>>() {
             });
             hashSet.forEach(this::update);
         } catch (JsonProcessingException e) {
