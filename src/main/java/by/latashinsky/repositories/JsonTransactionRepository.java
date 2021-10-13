@@ -76,6 +76,9 @@ public class JsonTransactionRepository implements MyRepository<Transaction> {
 
     @Override
     public void delete(Transaction transaction) {
+        if (transaction == null) {
+            return;
+        }
         String str = "[]";
         try {
             HashSet<Transaction> hashSet = findAll();
