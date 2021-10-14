@@ -1,6 +1,5 @@
 package by.latashinsky.java.topics.controllers;
 
-import by.latashinsky.java.topics.MainClass;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -1,6 +1,5 @@
 package by.latashinsky.java.topics.controllers;
 
-import by.latashinsky.java.topics.MainClass;
 import by.latashinsky.java.topics.interfaces.AccountUI;
 import by.latashinsky.java.topics.interfaces.BankUI;
 import by.latashinsky.java.topics.interfaces.TransactionUI;

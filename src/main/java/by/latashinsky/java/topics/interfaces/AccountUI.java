@@ -1,6 +1,5 @@
 package by.latashinsky.java.topics.interfaces;
 
-import by.latashinsky.java.topics.MainClass;
 import by.latashinsky.java.topics.controllers.AccountController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

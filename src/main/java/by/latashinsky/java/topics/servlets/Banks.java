@@ -6,7 +6,6 @@ import by.latashinsky.java.topics.models.Constants;
 import by.latashinsky.java.topics.repositories.MyRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -16,36 +15,36 @@ import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.regex.Pattern;
 
-@WebServlet(name = "Banks",urlPatterns = "/banks/*")
+@WebServlet(name = "Banks", urlPatterns = "/banks/*")
 public class Banks extends HttpServlet {
     MyRepository<Bank> myBankRepository;
 
     @Override
-    public void init() throws ServletException {
+    public void init() {
         myBankRepository = (MyRepository<Bank>) Factory.getInstance().getRepository(Bank.class);
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String url = request.getRequestURI();
         String[] path = url.split("/");
         switch (path.length) {
-            case 2 :{
+            case 2: {
                 getAllBanksWithFilter(request, response);
                 break;
             }
-            case 3 :{
-                getBankById(request, response, path[2]);
+            case 3: {
+                getBankById(response, path[2]);
                 break;
             }
-            default :{
+            default: {
                 response.setStatus(404);
                 break;
             }
         }
     }
 
-    private void getBankById(HttpServletRequest request, HttpServletResponse response, String id) throws IOException {
+    private void getBankById(HttpServletResponse response, String id) throws IOException {
         if (Pattern.matches("[0-9]+", id)) {
             Bank bank = myBankRepository.findById(
                     Integer.parseInt(id));
@@ -70,7 +69,7 @@ public class Banks extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String name = request.getParameter("name");
         String legalCommission = request.getParameter("legalCommission");
         String usualCommission = request.getParameter("usualCommission");
@@ -92,7 +91,7 @@ public class Banks extends HttpServlet {
     }
 
     @Override
-    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String[] path = request.getRequestURI().split("/");
         if (path.length == 3 && Pattern.matches(Constants.PATTERN_INT, path[2])) {
             Bank bank = myBankRepository.findById(Integer.parseInt(path[2]));
@@ -118,7 +117,7 @@ public class Banks extends HttpServlet {
     }
 
     @Override
-    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String[] path = request.getRequestURI().split("/");
         if (path.length == 3 && Pattern.matches(Constants.PATTERN_INT, path[2])) {
             myBankRepository.delete(myBankRepository.findById(Integer.parseInt(path[2])));

@@ -1,6 +1,5 @@
 package by.latashinsky.java.topics.controllers;
 
-import by.latashinsky.java.topics.MainClass;
 import by.latashinsky.java.topics.entities.Account;
 import by.latashinsky.java.topics.factory.Factory;
 import by.latashinsky.java.topics.models.MyListConverter;
@@ -12,7 +11,7 @@ import org.slf4j.LoggerFactory;
 
 public class AccountController extends BaseShowAndCreateController<Account> {
     private static final Logger logger = LoggerFactory.getLogger(AccountController.class);
-    protected MyRepository<Account> myRepository = (MyRepository<Account>) Factory.getInstance().getRepository(Account.class);
+    private MyRepository<Account> myRepository = (MyRepository<Account>) Factory.getInstance().getRepository(Account.class);
     private static AccountController accountController;
 
     private AccountController() {
@@ -33,8 +32,8 @@ public class AccountController extends BaseShowAndCreateController<Account> {
     @Override
     void create() {
         Account account = new Account();
-        if (account.editBank() && account.editUser() &&
-                account.editBalance() && account.editCurrency()) {
+        if (account.editBank() && account.editUser()
+                && account.editBalance() && account.editCurrency()) {
             myRepository.save(account);
         }
     }
@@ -42,6 +41,8 @@ public class AccountController extends BaseShowAndCreateController<Account> {
     @Override
     void read() {
         Account account = SelectHelpUtil.selectAccount();
-        if(account!=null) AccountSettingsUI.run(account);
+        if (account != null) {
+            AccountSettingsUI.run(account);
+        }
     }
 }

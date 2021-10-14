@@ -1,6 +1,5 @@
 package by.latashinsky.java.topics.entities;
 
-import by.latashinsky.java.topics.MainClass;
 import by.latashinsky.java.topics.models.Constants;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.slf4j.Logger;

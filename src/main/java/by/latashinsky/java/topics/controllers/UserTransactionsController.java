@@ -56,7 +56,7 @@ public class UserTransactionsController implements Controller {
     }
 
     private List<Transaction> findTransactions(User user) {
-        List<Transaction> transactionList = new LinkedList<Transaction>();
+        List<Transaction> transactionList = new LinkedList<>();
         MyRepository<Transaction> repository = (MyRepository<Transaction>) Factory.getInstance().getRepository(Transaction.class);
         MyRepository<Account> repositoryAccount = (MyRepository<Account>) Factory.getInstance().getRepository(Account.class);
         repositoryAccount.findAll().stream().filter(r -> r.getIdUser() == user.getId()).

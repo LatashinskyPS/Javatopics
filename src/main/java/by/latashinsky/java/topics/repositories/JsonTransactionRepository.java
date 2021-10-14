@@ -56,7 +56,7 @@ public class JsonTransactionRepository implements MyRepository<Transaction> {
         if (transaction.getAccountFrom() == null || transaction.getAccountTo() == null) return;
         transaction.setIdAccountTo(transaction.getAccountTo().getId());
         transaction.setIdAccountFrom(transaction.getAccountFrom().getId());
-        String str = "empty";
+        String str;
         int idMax = findAll().stream().map(Transaction::getId).max(Integer::compare).orElse(0);
         HashSet<Transaction> hashSet = findAll();
         if (transaction.getId() == 0) {

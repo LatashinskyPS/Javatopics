@@ -1,6 +1,5 @@
 package by.latashinsky.java.topics.interfaces;
 
-import by.latashinsky.java.topics.MainClass;
 import by.latashinsky.java.topics.controllers.UserSettingsController;
 import by.latashinsky.java.topics.entities.User;
 import org.slf4j.Logger;

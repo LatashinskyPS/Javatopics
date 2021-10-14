@@ -1,6 +1,5 @@
 package by.latashinsky.java.topics.models;
 
-import by.latashinsky.java.topics.controllers.UserSettingsController;
 import by.latashinsky.java.topics.entities.Account;
 import by.latashinsky.java.topics.entities.Transaction;
 import by.latashinsky.java.topics.entities.UserTypes;
@@ -47,11 +46,11 @@ public class TransactionManager {
                     if (accountFrom.getUser().getUserType().equals(UserTypes.USUAL)) {
                         ratio = ratio.multiply(BigDecimal.valueOf(1).subtract(
                                 accountFrom.getBank().getUsualCommission()
-                                        .divide(BigDecimal.valueOf(100))));
+                                        .divide(BigDecimal.valueOf(100),2,RoundingMode.HALF_UP)));
                     } else {
                         ratio = ratio.multiply(BigDecimal.valueOf(1).subtract(
                                 accountFrom.getBank().getLegalCommission()
-                                        .divide(BigDecimal.valueOf(100))));
+                                        .divide(BigDecimal.valueOf(100),2,RoundingMode.HALF_UP)));
                     }
                 }
                 ratio = ratio.divide(currencyExchangeRate.get(accountFrom.getCurrency()), 2, RoundingMode.HALF_UP)

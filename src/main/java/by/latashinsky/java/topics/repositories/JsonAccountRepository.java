@@ -64,15 +64,17 @@ public class JsonAccountRepository implements MyRepository<Account> {
 
     @Override
     public void save(Account account) {
-        if (account.getBank() == null || account.getUser() == null) return;
-        account.setIdBank(account.getBank().getId());
-        account.setIdUser(account.getUser().getId());
+        if (account.getBank() != null && account.getUser() != null) {
+            account.setIdBank(account.getBank().getId());
+            account.setIdUser(account.getUser().getId());
+        }
+        if (account.getIdBank() == 0) return;
         String str = "[]";
         HashSet<Account> hashSet = findAll();
         int idMax = findAll().stream().map(Account::getId).max(Integer::compare).orElse(0);
         if (account.getId() == 0) {
             account.setId(idMax + 1);
-        }else{
+        } else {
             hashSet.remove(account);
         }
         hashSet.add(account);

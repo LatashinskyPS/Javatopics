@@ -37,7 +37,7 @@ public class UsersController {
 
     @PostMapping("")
     public String addNewUser(@RequestParam(value = "name") String name,
-                             @RequestParam(value = "type") String type) throws JsonProcessingException {
+                             @RequestParam(value = "type") String type){
         User user = new User();
         user.setName(name);
         UserTypes userType = UserTypes.getUsertype(type);

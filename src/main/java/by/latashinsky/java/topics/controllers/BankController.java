@@ -1,6 +1,5 @@
 package by.latashinsky.java.topics.controllers;
 
-import by.latashinsky.java.topics.MainClass;
 import by.latashinsky.java.topics.entities.Bank;
 import by.latashinsky.java.topics.factory.Factory;
 import by.latashinsky.java.topics.models.MyListConverter;
