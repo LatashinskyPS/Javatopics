@@ -18,7 +18,7 @@ public class TransactionManager {
     private static final Logger logger = LoggerFactory.getLogger(TransactionManager.class);
     private static TransactionManager transactionManager;
     private final ReentrantLock reentrantLock = new ReentrantLock();
-    private final MyRepository<Transaction> transactionRepository = (MyRepository<Transaction>) Factory.getInstance().getRepository(Transaction.class);
+    private static final MyRepository<Transaction> transactionRepository = (MyRepository<Transaction>) Factory.getInstance().getRepository(Transaction.class);
 
     private TransactionManager() {
     }
@@ -30,6 +30,36 @@ public class TransactionManager {
         return transactionManager;
     }
 
+    public static void doTransactionWithoutCheck(Account accountFrom, Account accountTo,
+                                                 BigDecimal value, HashMap<String, BigDecimal> currencyExchangeRate) {
+        BigDecimal ratio = new BigDecimal("1");
+        if (!accountFrom.getBank().equals(accountTo.getBank())) {
+            if (accountFrom.getUser().getUserType().equals(UserTypes.USUAL)) {
+                ratio = ratio.multiply(BigDecimal.valueOf(1).subtract(
+                        accountFrom.getBank().getUsualCommission()
+                                .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP)));
+            } else {
+                ratio = ratio.multiply(BigDecimal.valueOf(1).subtract(
+                        accountFrom.getBank().getLegalCommission()
+                                .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP)));
+            }
+        }
+        ratio = ratio.divide(currencyExchangeRate.get(accountFrom.getCurrency()), 2, RoundingMode.HALF_UP)
+                .multiply(currencyExchangeRate.get(accountTo.getCurrency()));
+        accountFrom.setBalance(accountFrom.getBalance().subtract(value));
+        BigDecimal resultTransactionMoney = value.multiply(ratio);
+        accountTo.setBalance(accountTo.getBalance().add(resultTransactionMoney));
+        MyRepository<Account> myRepository = (MyRepository<Account>) Factory.getInstance().getRepository(Account.class);
+        myRepository.save(accountFrom);
+        myRepository.save(accountTo);
+        Transaction transaction = new Transaction();
+        transaction.setAccountFrom(accountFrom);
+        transaction.setAccountTo(accountTo);
+        transaction.setDate(new Date());
+        transaction.setValue(value);
+        transactionRepository.save(transaction);
+    }
+
     public void doTransaction(Account accountFrom, Account accountTo, BigDecimal value) {
         reentrantLock.lock();
         try {
@@ -38,35 +68,10 @@ public class TransactionManager {
                         = Factory.getInstance().getCurrencyExchangeRateHelper().getCurrencyExchangeRate();
                 if (!currencyExchangeRate.containsKey(accountFrom.getCurrency())
                         || !currencyExchangeRate.containsKey(accountTo.getCurrency())) {
-                    logger.info("We don't this currency!\n");
+                    logger.info("We don't know this currency!\n");
                     return;
                 }
-                BigDecimal ratio = new BigDecimal("1");
-                if (!accountFrom.getBank().equals(accountTo.getBank())) {
-                    if (accountFrom.getUser().getUserType().equals(UserTypes.USUAL)) {
-                        ratio = ratio.multiply(BigDecimal.valueOf(1).subtract(
-                                accountFrom.getBank().getUsualCommission()
-                                        .divide(BigDecimal.valueOf(100),2,RoundingMode.HALF_UP)));
-                    } else {
-                        ratio = ratio.multiply(BigDecimal.valueOf(1).subtract(
-                                accountFrom.getBank().getLegalCommission()
-                                        .divide(BigDecimal.valueOf(100),2,RoundingMode.HALF_UP)));
-                    }
-                }
-                ratio = ratio.divide(currencyExchangeRate.get(accountFrom.getCurrency()), 2, RoundingMode.HALF_UP)
-                        .multiply(currencyExchangeRate.get(accountTo.getCurrency()));
-                accountFrom.setBalance(accountFrom.getBalance().subtract(value));
-                BigDecimal resultTransactionMoney = value.multiply(ratio);
-                accountTo.setBalance(accountTo.getBalance().add(resultTransactionMoney));
-                MyRepository<Account> myRepository = (MyRepository<Account>) Factory.getInstance().getRepository(Account.class);
-                myRepository.save(accountFrom);
-                myRepository.save(accountTo);
-                Transaction transaction = new Transaction();
-                transaction.setAccountFrom(accountFrom);
-                transaction.setAccountTo(accountTo);
-                transaction.setDate(new Date());
-                transaction.setValue(value);
-                transactionRepository.save(transaction);
+                doTransactionWithoutCheck(accountFrom, accountTo, value, currencyExchangeRate);
             } else {
                 logger.info("Error!Not enough money!\n");
             }
