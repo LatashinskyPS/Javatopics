@@ -4,10 +4,13 @@ import by.latashinsky.java.topics.entities.Account;
 import by.latashinsky.java.topics.factory.Factory;
 import by.latashinsky.java.topics.repositories.MyRepository;
 import by.latashinsky.java.topics.utils.Confirms;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Scanner;
 
 public class AccountSettingsController extends BaseSettingsController<Account> {
+    private static final Logger logger = LoggerFactory.getLogger(AccountSettingsController.class);
     private static AccountSettingsController accountSettingsController;
     protected MyRepository<Account> myRepository = (MyRepository<Account>) Factory.getInstance().getRepository(Account.class);
 
@@ -23,13 +26,13 @@ public class AccountSettingsController extends BaseSettingsController<Account> {
 
     @Override
     public void show(Account account) {
-        System.out.println(account);
+        logger.info(account + "\n");
     }
 
     @Override
     public void update(Account account) {
-        System.out.println(account);
-        System.out.println("Are you want to edit bank(y/n)?");
+        logger.info(account + "\n");
+        logger.info("Are you want to edit bank(y/n)?\n");
         Scanner in = new Scanner(System.in).useDelimiter("\n");
         String str;
         while (true) {
@@ -43,7 +46,7 @@ public class AccountSettingsController extends BaseSettingsController<Account> {
             }
         }
         while (true) {
-            System.out.println("Are you want to user(y/n)?");
+            logger.info("Are you want to user(y/n)?\n");
             str = in.next();
             if ("n".equals(str)) {
                 break;
@@ -54,7 +57,7 @@ public class AccountSettingsController extends BaseSettingsController<Account> {
             }
         }
         while (true) {
-            System.out.println("Are you want to balance(y/n)?");
+            logger.info("Are you want to balance(y/n)?\n");
             str = in.next();
             if ("n".equals(str)) {
                 break;
@@ -65,7 +68,7 @@ public class AccountSettingsController extends BaseSettingsController<Account> {
             }
         }
         while (true) {
-            System.out.println("Are you want to currency(y/n)?");
+            logger.info("Are you want to currency(y/n)?\n");
             str = in.next();
             if ("n".equals(str)) {
                 break;
@@ -81,7 +84,7 @@ public class AccountSettingsController extends BaseSettingsController<Account> {
     @Override
     public boolean delete(Account account) {
 
-        System.out.println(account);
+        logger.info(account + "\n");
         if (Confirms.confirm()) {
             myRepository.delete(account);
             return true;

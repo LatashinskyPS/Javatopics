@@ -10,6 +10,8 @@ import by.latashinsky.java.topics.models.TransactionManager;
 import by.latashinsky.java.topics.repositories.MyRepository;
 import by.latashinsky.java.topics.interfaces.UserTransactionUI;
 import by.latashinsky.java.topics.utils.SelectHelpUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
 import java.util.Locale;
@@ -17,6 +19,7 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public class TransactionController implements Controller {
+    private static final Logger logger = LoggerFactory.getLogger(Controller.class);
     private final TransactionManager transactionManager = TransactionManager.getInstance();
     private static TransactionController transactionController;
     private final MyRepository<Transaction> transactionRepository = (MyRepository<Transaction>) Factory.getInstance().getRepository(Transaction.class);
@@ -53,7 +56,7 @@ public class TransactionController implements Controller {
                 return false;
             }
             default: {
-                System.out.println("Unknown command! Try help.");
+                logger.info("Unknown command! Try help.\n");
                 return false;
             }
         }
@@ -65,29 +68,29 @@ public class TransactionController implements Controller {
     }
 
     public void show() {
-        System.out.print(MyListConverter.convert(transactionRepository.findAll()));
+        logger.info(MyListConverter.convert(transactionRepository.findAll()));
     }
 
     public void createTransaction() {
-        System.out.println("Select account from:");
+        logger.info("Select account from:\n");
         Account accountFrom = SelectHelpUtil.selectAccount();
         if (accountFrom == null) {
             return;
         }
-        System.out.println("Select account to:");
+        logger.info("Select account to:\n");
         Account accountTo = SelectHelpUtil.selectAccount();
         if (accountTo == null) {
             return;
         }
         if (accountFrom == accountTo) {
-            System.out.println("Error! Accounts equal!");
+            logger.info("Error! Accounts equal!\n");
             return;
         }
         BigDecimal bigDecimal = BigDecimal.valueOf(0);
         String str;
         Scanner in = new Scanner(System.in).useDelimiter("\n");
         do {
-            System.out.println("Enter sum(exit to cancel)");
+            logger.info("Enter sum(exit to cancel)\n");
             str = in.next();
             if (Pattern.matches(Constants.PATTERN_DOUBLE, str)) {
                 bigDecimal = new BigDecimal(str);
@@ -99,12 +102,12 @@ public class TransactionController implements Controller {
 
     @Override
     public void help() {
-        System.out.println(
+        logger.info(
                 "user - перейти к меню для получения более подробной информации по транзакциям пользователя\n" +
                         "show - вывести список всех транзкций\n" +
                         "new - провести новую транзакцию\n" +
                         "exit - перейти к предыдущему меню\n" +
-                        "help - вывести данное меню"
+                        "help - вывести данное меню\n"
         );
     }
 }

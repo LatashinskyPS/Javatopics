@@ -1,8 +1,11 @@
 package by.latashinsky.java.topics.entities;
 
+import by.latashinsky.java.topics.MainClass;
 import by.latashinsky.java.topics.models.Constants;
 import by.latashinsky.java.topics.models.MyListConverter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.persistence.*;
 import java.util.List;
@@ -13,6 +16,7 @@ import java.util.regex.Pattern;
 @Entity
 @Table(name = "users")
 public class User {
+    private static final Logger logger = LoggerFactory.getLogger(User.class);
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -69,22 +73,22 @@ public class User {
     public void editName() {
         Scanner in = new Scanner(System.in).useDelimiter("\n");
         while (true) {
-            System.out.print("Enter user name:");
+            logger.info("Enter user name:");
             String str = in.next();
             if (str.length() <= 45 && str.length() >= 3) {
                 this.setName(str);
                 break;
             } else {
-                System.out.println("Invalid input.");
+                logger.info("Invalid input.\n");
             }
         }
     }
 
     public void editUserType() {
-        System.out.println("Types:\n1)Legal\n2)Usual");
+        logger.info("Types:\n1)Legal\n2)Usual\n");
         Scanner in = new Scanner(System.in).useDelimiter("\n");
         while (true) {
-            System.out.println("Enter number of type:");
+            logger.info("Enter number of type:\n");
             String str = in.next();
             if (Pattern.matches(Constants.PATTERN_INT, str)) {
                 int index = Integer.parseInt(str);
@@ -97,7 +101,7 @@ public class User {
                     return;
                 }
             }
-            System.out.println("Invalid input!");
+            logger.info("Invalid input!\n");
         }
     }
 

@@ -19,7 +19,6 @@ public class JsonUserRepository implements MyRepository<User> {
 
     public User update(User user) {
         if (user == null) return null;
-        List<Account> accounts = user.getAccounts();
         user.setAccounts(new ArrayList<>());
         return user;
     }

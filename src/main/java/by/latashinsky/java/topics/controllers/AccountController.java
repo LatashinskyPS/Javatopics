@@ -6,9 +6,12 @@ import by.latashinsky.java.topics.models.MyListConverter;
 import by.latashinsky.java.topics.repositories.MyRepository;
 import by.latashinsky.java.topics.interfaces.AccountSettingsUI;
 import by.latashinsky.java.topics.utils.SelectHelpUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AccountController extends BaseShowAndCreateController<Account> {
-    protected MyRepository<Account> myRepository = (MyRepository<Account>) Factory.getInstance().getRepository(Account.class);
+    private static final Logger logger = LoggerFactory.getLogger(AccountController.class);
+    private MyRepository<Account> myRepository = (MyRepository<Account>) Factory.getInstance().getRepository(Account.class);
     private static AccountController accountController;
 
     private AccountController() {
@@ -23,14 +26,14 @@ public class AccountController extends BaseShowAndCreateController<Account> {
 
     @Override
     void show() {
-        System.out.print(MyListConverter.convert(myRepository.findAll()));
+        logger.info(MyListConverter.convert(myRepository.findAll()));
     }
 
     @Override
     void create() {
         Account account = new Account();
-        if (account.editBank() && account.editUser() &&
-                account.editBalance() && account.editCurrency()) {
+        if (account.editBank() && account.editUser()
+                && account.editBalance() && account.editCurrency()) {
             myRepository.save(account);
         }
     }
@@ -38,6 +41,8 @@ public class AccountController extends BaseShowAndCreateController<Account> {
     @Override
     void read() {
         Account account = SelectHelpUtil.selectAccount();
-        if(account!=null) AccountSettingsUI.run(account);
+        if (account != null) {
+            AccountSettingsUI.run(account);
+        }
     }
 }

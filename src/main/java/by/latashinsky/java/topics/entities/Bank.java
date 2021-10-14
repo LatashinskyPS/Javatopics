@@ -2,6 +2,8 @@ package by.latashinsky.java.topics.entities;
 
 import by.latashinsky.java.topics.models.Constants;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -14,6 +16,7 @@ import java.util.regex.Pattern;
 @Entity
 @Table(name = "banks")
 public class Bank {
+    private static final Logger logger = LoggerFactory.getLogger(Bank.class);
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -80,7 +83,7 @@ public class Bank {
                 this.setName(str);
                 break;
             } else {
-                System.out.println("Invalid input.");
+                logger.info("Invalid input.\n");
             }
         }
     }
@@ -101,14 +104,14 @@ public class Bank {
     public void editUsualCommission() {
         Scanner in = new Scanner(System.in).useDelimiter("\n");
         while (true) {
-            System.out.print("Enter usual commission:");
+            logger.info("Enter usual commission:");
             String str = in.next();
             if (Pattern.matches(Constants.PATTERN_DOUBLE, str) && Double.parseDouble(str) < 100) {
-                System.out.println(str);
+                logger.info(str + "\n");
                 this.setUsualCommission(new BigDecimal(str));
                 break;
             } else {
-                System.out.println("Invalid input.");
+                logger.info("Invalid input.\n");
             }
         }
     }
@@ -116,13 +119,13 @@ public class Bank {
     public void editLegalCommission() {
         Scanner in = new Scanner(System.in).useDelimiter("\n");
         while (true) {
-            System.out.print("Enter legal commission:");
+            logger.info("Enter legal commission:\n");
             String str = in.next();
             if (Pattern.matches(Constants.PATTERN_DOUBLE, str) && Double.parseDouble(str) < 100) {
                 this.setLegalCommission(new BigDecimal(str));
                 break;
             } else {
-                System.out.println("Invalid input.");
+                logger.info("Invalid input.\n");
             }
         }
 

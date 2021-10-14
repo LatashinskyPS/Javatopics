@@ -1,9 +1,12 @@
 package by.latashinsky.java.topics.controllers;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Locale;
 
 public abstract class BaseSettingsController<T> implements Controller {
-
+    private static final Logger logger = LoggerFactory.getLogger(BaseSettingsController.class);
     public boolean attemptToExecuteTheCommand(String s, T t) {
         switch (s.toLowerCase(Locale.ROOT)) {
             case "exit" : {
@@ -25,7 +28,7 @@ public abstract class BaseSettingsController<T> implements Controller {
                 return false;
             }
             default : {
-                System.out.println("Unknown command! Try help.");
+                logger.info("Unknown command! Try help.\n");
                 return false;
             }
         }
@@ -39,12 +42,12 @@ public abstract class BaseSettingsController<T> implements Controller {
 
     @Override
     public void help() {
-        System.out.println(
+        logger.info(
                 "show - вывести информацию о сущности" +
                         "exit - перейти к предыдущему меню \n" +
                         "delete - удалить данную сущность \n" +
                         "update - редактирование данной сущности \n" +
-                        "help - вывести данное меню"
+                        "help - вывести данное меню\n"
         );
     }
 }

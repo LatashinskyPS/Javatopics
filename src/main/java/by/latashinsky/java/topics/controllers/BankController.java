@@ -6,10 +6,13 @@ import by.latashinsky.java.topics.models.MyListConverter;
 import by.latashinsky.java.topics.repositories.MyRepository;
 import by.latashinsky.java.topics.interfaces.BankSettingsUI;
 import by.latashinsky.java.topics.utils.SelectHelpUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Scanner;
 
 public class BankController extends BaseShowAndCreateController<Bank> {
+    private static final Logger logger = LoggerFactory.getLogger(BankController.class);
     private static BankController bankController;
     protected MyRepository<Bank> myRepository = (MyRepository<Bank>) Factory.getInstance().getRepository(Bank.class);
 
@@ -38,6 +41,6 @@ public class BankController extends BaseShowAndCreateController<Bank> {
     }
 
     public void show() {
-        System.out.print(MyListConverter.convert(myRepository.findAll()));
+        logger.info(MyListConverter.convert(myRepository.findAll()));
     }
 }
