@@ -28,18 +28,9 @@ public class Banks extends HttpServlet {
         String url = request.getRequestURI();
         String[] path = url.split("/");
         switch (path.length) {
-            case 2 :{
-                getAllBanksWithFilter(request, response);
-                break;
-            }
-            case 3 :{
-                getBankById(request, response, path[2]);
-                break;
-            }
-            default :{
-                response.setStatus(404);
-                break;
-            }
+            case 2 -> getAllBanksWithFilter(request, response);
+            case 3 -> getBankById(request, response, path[2]);
+            default -> response.setStatus(404);
         }
     }
 

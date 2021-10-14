@@ -22,30 +22,30 @@ public class CommandController implements Controller {
 
     public boolean attemptToExecuteTheCommand(String s) {
         switch (s.toLowerCase(Locale.ROOT)) {
-            case "exit": {
+            case "exit" -> {
                 return true;
             }
-            case "banks": {
+            case "banks" -> {
                 BankUI.run();
                 return false;
             }
-            case "users": {
+            case "users" -> {
                 UserUI.run();
                 return false;
             }
-            case "help": {
+            case "help" -> {
                 help();
                 return false;
             }
-            case "accounts": {
+            case "accounts" -> {
                 AccountUI.run();
                 return false;
             }
-            case "transactions": {
+            case "transactions"->{
                 TransactionUI.run();
                 return false;
             }
-            default: {
+            default -> {
                 System.out.println("Unknown command! Try help.");
                 return false;
             }
@@ -55,12 +55,13 @@ public class CommandController implements Controller {
     @Override
     public void help() {
         System.out.println(
-                "banks - перейти к меню управлению банков\n" +
-                        "exit - закончить работу\n" +
-                        "users - перейти к управлению пользователями\n" +
-                        "accounts - перейти к управлению счетам\n" +
-                        "transactions - перейти к управлению тразакциями\n" +
-                        "help - вывести данное меню"
+                """
+                        banks - перейти к меню управлению банков
+                        exit - закончить работу
+                        users - перейти к управлению пользователями
+                        accounts - перейти к управлению счетам
+                        transactions - перейти к управлению тразакциями
+                        help - вывести данное меню"""
         );
     }
 }
