@@ -33,26 +33,26 @@ public class TransactionController implements Controller {
 
     public boolean attemptToExecuteTheCommand(String s) {
         switch (s.toLowerCase(Locale.ROOT)) {
-            case "exit" -> {
+            case "exit": {
                 return true;
             }
-            case "help" -> {
+            case "help": {
                 help();
                 return false;
             }
-            case "new" -> {
+            case "new": {
                 createTransaction();
                 return false;
             }
-            case "show" -> {
+            case "show": {
                 show();
                 return false;
             }
-            case "user" -> {
+            case "user": {
                 read();
                 return false;
             }
-            default -> {
+            default: {
                 System.out.println("Unknown command! Try help.");
                 return false;
             }
@@ -100,12 +100,11 @@ public class TransactionController implements Controller {
     @Override
     public void help() {
         System.out.println(
-                """
-                        user - перейти к меню для получения более подробной информации по транзакциям пользователя
-                        show - вывести список всех транзкций
-                        new - провести новую транзакцию
-                        exit - перейти к предыдущему меню
-                        help - вывести данное меню"""
+                "user - перейти к меню для получения более подробной информации по транзакциям пользователя\n" +
+                        "show - вывести список всех транзкций\n" +
+                        "new - провести новую транзакцию\n" +
+                        "exit - перейти к предыдущему меню\n" +
+                        "help - вывести данное меню"
         );
     }
 }

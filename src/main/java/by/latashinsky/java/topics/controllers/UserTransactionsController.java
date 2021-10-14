@@ -30,22 +30,22 @@ public class UserTransactionsController implements Controller {
 
     public boolean attemptToExecuteTheCommand(String s, User user) {
         switch (s.toLowerCase(Locale.ROOT)) {
-            case "exit" -> {
+            case "exit": {
                 return true;
             }
-            case "show" -> {
+            case "show": {
                 System.out.println(MyListConverter.convert(findTransactions(user)));
                 return false;
             }
-            case "filter" -> {
+            case "filter": {
                 filter(user);
                 return false;
             }
-            case "help" -> {
+            case "help": {
                 help();
                 return false;
             }
-            default -> {
+            default: {
                 System.out.println("Unknown command! Try help.");
                 return false;
             }
@@ -111,11 +111,10 @@ public class UserTransactionsController implements Controller {
     @Override
     public void help() {
         System.out.println(
-                """
-                        filer -вывести транзакции пользователя за указанный период
-                        show - вывести список всех транзкций пользователя
-                        exit - перейти к предыдущему меню
-                        help - вывести данное меню"""
+                "filer -вывести транзакции пользователя за указанный период\n" +
+                        "show - вывести список всех транзкций пользователя\n" +
+                        "exit - перейти к предыдущему меню\n" +
+                        "help - вывести данное меню"
         );
     }
 }
