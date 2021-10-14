@@ -1,6 +1,5 @@
 package by.latashinsky.repositories;
 
-import by.latashinsky.entities.Account;
 import by.latashinsky.entities.Bank;
 import by.latashinsky.models.Constants;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -10,7 +9,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 
 public class JsonBankRepository implements MyRepository<Bank> {
     private static final JsonBankRepository jsonBankRepository = new JsonBankRepository();
@@ -38,7 +36,7 @@ public class JsonBankRepository implements MyRepository<Bank> {
     public HashSet<Bank> findAll() {
         HashSet<Bank> hashSet = null;
         String json = null;
-        try (BufferedReader fileReader = new BufferedReader(new FileReader(Constants.PATH + "banks.json"))) {
+        try (BufferedReader fileReader = new BufferedReader(new FileReader(Constants.PATH + "data/banks.json"))) {
             json = fileReader.readLine();
         } catch (IOException e) {
             e.printStackTrace();
@@ -71,7 +69,7 @@ public class JsonBankRepository implements MyRepository<Bank> {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        try (FileWriter fileWriter = new FileWriter(Constants.PATH + "banks.json")) {
+        try (FileWriter fileWriter = new FileWriter(Constants.PATH + "data/banks.json")) {
             fileWriter.write(str);
         } catch (IOException e) {
             e.printStackTrace();
@@ -91,7 +89,7 @@ public class JsonBankRepository implements MyRepository<Bank> {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        try (FileWriter fileWriter = new FileWriter(Constants.PATH + "banks.json")) {
+        try (FileWriter fileWriter = new FileWriter(Constants.PATH + "data/banks.json")) {
             fileWriter.write(str);
         } catch (IOException e) {
             e.printStackTrace();

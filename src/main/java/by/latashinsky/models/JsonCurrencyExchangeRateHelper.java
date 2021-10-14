@@ -1,7 +1,6 @@
 package by.latashinsky.models;
 
 import by.latashinsky.entities.Currency;
-import by.latashinsky.entities.Transaction;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -17,7 +16,7 @@ public class JsonCurrencyExchangeRateHelper implements CurrencyExchangeRateHelpe
     @Override
     public HashMap<String, BigDecimal> getCurrencyExchangeRate() {
         HashMap<String, BigDecimal> hashMap = new HashMap<>();
-        try (BufferedReader fileReader = new BufferedReader(new FileReader("currencies.json"))) {
+        try (BufferedReader fileReader = new BufferedReader(new FileReader("data/currencies.json"))) {
             String json = fileReader.readLine();
             if (json == null) return new HashMap<>();
             HashSet<Currency> hashSet = new ObjectMapper().readValue(json, new TypeReference<HashSet<Currency>>() {
