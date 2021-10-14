@@ -8,8 +8,7 @@ public class MainClass {
     private static final SessionFactory sessionFactory = HibernateSessionFactory.getSessionFactory();
 
     public static void main(String... args) throws JsonProcessingException {
-        String workingDir = System.getProperty("user.dir");
-        System.out.println(workingDir);
+        Application.run();
     }
 }
 

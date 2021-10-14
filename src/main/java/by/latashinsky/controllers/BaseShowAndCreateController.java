@@ -9,26 +9,26 @@ public abstract class BaseShowAndCreateController<T> implements Controller {
             return false;
         }
         switch (s.toLowerCase(Locale.ROOT)) {
-            case "show" -> {
+            case "show": {
                 show();
                 return false;
             }
-            case "exit" -> {
+            case "exit": {
                 return true;
             }
-            case "create" -> {
+            case "create": {
                 create();
                 return false;
             }
-            case "read" -> {
+            case "read": {
                 read();
                 return false;
             }
-            case "help" -> {
+            case "help": {
                 help();
                 return false;
             }
-            default -> {
+            default: {
                 System.out.println("Unknown command! Try help.");
                 return false;
             }
@@ -38,13 +38,12 @@ public abstract class BaseShowAndCreateController<T> implements Controller {
     @Override
     public void help() {
         System.out.println(
-                """
-                        show - вывести список сущностей
-                        exit - перейти к предыдущему меню
-                        create - создать новую сущность
-                        read - вывести краткий список сущностей,выбрать\s
-                        нужную для изучения и последующей настройки
-                        help - вывести данное меню"""
+                "show - вывести список сущностей\n" +
+                        "exit - перейти к предыдущему меню \n" +
+                        "create - создать новую сущность \n" +
+                        "read - вывести краткий список сущностей,выбрать\n" +
+                        "нужную для изучения и последующей настройки\n" +
+                        "help - вывести данное меню"
         );
     }
 
