@@ -1,0 +1,20 @@
+package by.latashinsky.java.topics.interfaces;
+
+import by.latashinsky.java.topics.controllers.BankController;
+
+import java.util.Scanner;
+
+public class BankUI {
+    static BankController bankController = BankController.getInstance();
+    static Scanner in = new Scanner(System.in).useDelimiter("\n");
+
+    public static void run() {
+        while (true) {
+            System.out.print("/banks>>");
+            String command = in.next();
+            if (bankController.attemptToExecuteTheCommand(command)) {
+                break;
+            }
+        }
+    }
+}
