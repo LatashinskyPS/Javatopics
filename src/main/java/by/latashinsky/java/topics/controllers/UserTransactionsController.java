@@ -7,6 +7,8 @@ import by.latashinsky.java.topics.factory.Factory;
 import by.latashinsky.java.topics.models.Constants;
 import by.latashinsky.java.topics.models.MyListConverter;
 import by.latashinsky.java.topics.repositories.MyRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -15,6 +17,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class UserTransactionsController implements Controller {
+    private static final Logger logger = LoggerFactory.getLogger(UserTransactionsController.class);
     private static UserTransactionsController userTransactionsController;
 
     private UserTransactionsController() {
@@ -34,7 +37,7 @@ public class UserTransactionsController implements Controller {
                 return true;
             }
             case "show": {
-                System.out.println(MyListConverter.convert(findTransactions(user)));
+                logger.info(MyListConverter.convert(findTransactions(user))+"\n");
                 return false;
             }
             case "filter": {
@@ -46,7 +49,7 @@ public class UserTransactionsController implements Controller {
                 return false;
             }
             default: {
-                System.out.println("Unknown command! Try help.");
+                logger.info("Unknown command! Try help.\n");
                 return false;
             }
         }
@@ -69,7 +72,7 @@ public class UserTransactionsController implements Controller {
         Scanner in = new Scanner(System.in).useDelimiter("\n");
         List<Transaction> transactions = findTransactions(user);
         while (true) {
-            System.out.println("Enter max date(exit to cancel):");
+            logger.info("Enter max date(exit to cancel):\n");
             str = in.next();
             if (Pattern.matches(Constants.PATTERN_DATE, str)) {
                 Date date;
@@ -83,10 +86,10 @@ public class UserTransactionsController implements Controller {
                 }
             }
             if ("exit".equals(str)) return;
-            System.out.println("Invalid input!");
+            logger.info("Invalid input!\n");
         }
         while (true) {
-            System.out.println("Enter mid date(exit to cancel):");
+            logger.info("Enter mid date(exit to cancel):\n");
             str = in.next();
             if (Pattern.matches(Constants.PATTERN_DATE, str)) {
                 Date date;
@@ -100,21 +103,21 @@ public class UserTransactionsController implements Controller {
                 }
             }
             if ("exit".equals(str)) return;
-            System.out.println("Invalid input!");
+            logger.info("Invalid input!\n");
         }
         if (transactions.isEmpty()) {
-            System.out.println("Can't to find.");
+            logger.info("Can't to find.\n");
         }
-        System.out.println(MyListConverter.convert(transactions));
+        logger.info(MyListConverter.convert(transactions)+"\n");
     }
 
     @Override
     public void help() {
-        System.out.println(
+        logger.info(
                 "filer -вывести транзакции пользователя за указанный период\n" +
                         "show - вывести список всех транзкций пользователя\n" +
                         "exit - перейти к предыдущему меню\n" +
-                        "help - вывести данное меню"
+                        "help - вывести данное меню\n"
         );
     }
 }

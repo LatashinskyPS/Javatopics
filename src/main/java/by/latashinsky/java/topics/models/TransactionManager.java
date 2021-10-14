@@ -1,10 +1,13 @@
 package by.latashinsky.java.topics.models;
 
+import by.latashinsky.java.topics.controllers.UserSettingsController;
 import by.latashinsky.java.topics.entities.Account;
 import by.latashinsky.java.topics.entities.Transaction;
 import by.latashinsky.java.topics.entities.UserTypes;
 import by.latashinsky.java.topics.factory.Factory;
 import by.latashinsky.java.topics.repositories.MyRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -13,6 +16,7 @@ import java.util.HashMap;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class TransactionManager {
+    private static final Logger logger = LoggerFactory.getLogger(TransactionManager.class);
     private static TransactionManager transactionManager;
     private final ReentrantLock reentrantLock = new ReentrantLock();
     private final MyRepository<Transaction> transactionRepository = (MyRepository<Transaction>) Factory.getInstance().getRepository(Transaction.class);
@@ -35,7 +39,7 @@ public class TransactionManager {
                         = Factory.getInstance().getCurrencyExchangeRateHelper().getCurrencyExchangeRate();
                 if (!currencyExchangeRate.containsKey(accountFrom.getCurrency())
                         || !currencyExchangeRate.containsKey(accountTo.getCurrency())) {
-                    System.out.println("We don't this currency!");
+                    logger.info("We don't this currency!\n");
                     return;
                 }
                 BigDecimal ratio = new BigDecimal("1");
@@ -65,7 +69,7 @@ public class TransactionManager {
                 transaction.setValue(value);
                 transactionRepository.save(transaction);
             } else {
-                System.out.println("Error!Not enough money!");
+                logger.info("Error!Not enough money!\n");
             }
         } finally {
             reentrantLock.unlock();

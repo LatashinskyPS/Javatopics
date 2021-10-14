@@ -1,8 +1,11 @@
 package by.latashinsky.java.topics.entities;
 
+import by.latashinsky.java.topics.MainClass;
 import by.latashinsky.java.topics.models.Constants;
 import by.latashinsky.java.topics.utils.SelectHelpUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -15,6 +18,7 @@ import java.util.regex.Pattern;
 @Entity
 @Table(name = "accounts")
 public class Account {
+    private static final Logger logger = LoggerFactory.getLogger(Account.class);
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -104,7 +108,7 @@ public class Account {
         Scanner in = new Scanner(System.in).useDelimiter("\n");
         String str;
         while (true) {
-            System.out.print("Enter value of balance(exit to return to menu):");
+            logger.info("Enter value of balance(exit to return to menu):");
             str = in.next();
             if (Pattern.matches(Constants.PATTERN_DOUBLE, str)) {
                 this.balance = new BigDecimal(str);
@@ -113,7 +117,7 @@ public class Account {
             if ("exit".equals(str)) {
                 return false;
             }
-            System.out.println("Invalid input!");
+            logger.info("Invalid input!\n");
         }
     }
 
@@ -123,7 +127,7 @@ public class Account {
         Scanner in = new Scanner(System.in).useDelimiter("\n");
         String str;
         while (true) {
-            System.out.print("Enter name of currency:");
+            logger.info("Enter name of currency:");
             str = in.next();
             if (str.length() < 4) {
                 this.currency = str;
@@ -132,7 +136,7 @@ public class Account {
             if ("exit".equals(str)) {
                 return false;
             }
-            System.out.println("Invalid input!");
+            logger.info("Invalid input!\n");
         }
     }
 
