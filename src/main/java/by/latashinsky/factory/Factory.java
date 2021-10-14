@@ -45,15 +45,19 @@ public class Factory {
         }
         String profile = properties.getProperty("profile");
         switch (profile) {
-            case "DB" -> {
+            case "DB" : {
                 repositoryFactory = new DataBaseRepositoryFactory();
                 currencyExchangeRateHelper = new DataBaseCurrencyExchangeRateHelper();
+                break;
             }
-            case "JSON" -> {
+            case "JSON" :{
                 repositoryFactory = new JsonRepositoryFactory();
                 currencyExchangeRateHelper = new JsonCurrencyExchangeRateHelper();
+                break;
             }
-            default -> throw new FactoryConfigurationException();
+            default :{
+                throw new FactoryConfigurationException();
+            }
         }
     }
 }

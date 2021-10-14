@@ -1,9 +1,7 @@
 package by.latashinsky.repositories;
 
 import by.latashinsky.entities.Account;
-import by.latashinsky.entities.Bank;
 import by.latashinsky.entities.Transaction;
-import by.latashinsky.entities.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -43,7 +41,7 @@ public class JsonAccountRepository implements MyRepository<Account> {
     @Override
     public HashSet<Account> findAll() {
         String json = null;
-        try (BufferedReader fileReader = new BufferedReader(new FileReader("accounts.json"))) {
+        try (BufferedReader fileReader = new BufferedReader(new FileReader("data/accounts.json"))) {
             json = fileReader.readLine();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -83,7 +81,7 @@ public class JsonAccountRepository implements MyRepository<Account> {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        try (FileWriter fileWriter = new FileWriter("accounts.json")) {
+        try (FileWriter fileWriter = new FileWriter("data/accounts.json")) {
             fileWriter.write(str);
         } catch (IOException e) {
             e.printStackTrace();
@@ -92,6 +90,9 @@ public class JsonAccountRepository implements MyRepository<Account> {
 
     @Override
     public void delete(Account account) {
+        if (account == null) {
+            return;
+        }
         String str = "[]";
         try {
             HashSet<Account> hashSet = findAll();
@@ -100,7 +101,7 @@ public class JsonAccountRepository implements MyRepository<Account> {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        try (FileWriter fileWriter = new FileWriter("accounts.json")) {
+        try (FileWriter fileWriter = new FileWriter("data/accounts.json")) {
             fileWriter.write(str);
         } catch (IOException e) {
             e.printStackTrace();

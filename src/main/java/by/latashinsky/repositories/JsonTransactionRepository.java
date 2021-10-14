@@ -1,6 +1,5 @@
 package by.latashinsky.repositories;
 
-import by.latashinsky.entities.Bank;
 import by.latashinsky.entities.Transaction;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -36,7 +35,7 @@ public class JsonTransactionRepository implements MyRepository<Transaction> {
 
     @Override
     public HashSet<Transaction> findAll() {
-        try (BufferedReader fileReader = new BufferedReader(new FileReader("transactions.json"))) {
+        try (BufferedReader fileReader = new BufferedReader(new FileReader("data/transactions.json"))) {
             String json = fileReader.readLine();
             if (json == null) return new HashSet<>();
             HashSet<Transaction> hashSet = new ObjectMapper().readValue(json, new TypeReference<HashSet<Transaction>>() {
@@ -66,7 +65,7 @@ public class JsonTransactionRepository implements MyRepository<Transaction> {
             hashSet.remove(transaction);
         }
         hashSet.add(transaction);
-        try (FileWriter fileWriter = new FileWriter("transactions.json")) {
+        try (FileWriter fileWriter = new FileWriter("data/transactions.json")) {
             str = new ObjectMapper().writeValueAsString(hashSet);
             fileWriter.write(str);
         } catch (IOException e) {
@@ -76,6 +75,9 @@ public class JsonTransactionRepository implements MyRepository<Transaction> {
 
     @Override
     public void delete(Transaction transaction) {
+        if (transaction == null) {
+            return;
+        }
         String str = "[]";
         try {
             HashSet<Transaction> hashSet = findAll();
@@ -84,7 +86,7 @@ public class JsonTransactionRepository implements MyRepository<Transaction> {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        try (FileWriter fileWriter = new FileWriter("transactions.json")) {
+        try (FileWriter fileWriter = new FileWriter("data/transactions.json")) {
             fileWriter.write(str);
         } catch (IOException e) {
             e.printStackTrace();

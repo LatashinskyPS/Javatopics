@@ -1,8 +1,6 @@
 package by.latashinsky.repositories;
 
 import by.latashinsky.entities.Account;
-import by.latashinsky.entities.Bank;
-import by.latashinsky.entities.Transaction;
 import by.latashinsky.entities.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -37,7 +35,7 @@ public class JsonUserRepository implements MyRepository<User> {
 
     @Override
     public HashSet<User> findAll() {
-        try (BufferedReader fileReader = new BufferedReader(new FileReader("users.json"))) {
+        try (BufferedReader fileReader = new BufferedReader(new FileReader("data/users.json"))) {
             String json = fileReader.readLine();
             if (json == null) return new HashSet<>();
             HashSet<User> hashSet = new ObjectMapper().readValue(json, new TypeReference<HashSet<User>>() {
@@ -62,14 +60,14 @@ public class JsonUserRepository implements MyRepository<User> {
         } else {
             hashSet.remove(user);
         }
-        String str = "[]";
+        String str = "[]" ;
         hashSet.add(user);
         try {
             str = new ObjectMapper().writeValueAsString(hashSet);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        try (FileWriter fileWriter = new FileWriter("users.json")) {
+        try (FileWriter fileWriter = new FileWriter("data/users.json")) {
             fileWriter.write(str);
         } catch (IOException e) {
             e.printStackTrace();
@@ -78,7 +76,10 @@ public class JsonUserRepository implements MyRepository<User> {
 
     @Override
     public void delete(User user) {
-        String str = "[]";
+        if (user == null) {
+            return;
+        }
+        String str = "[]" ;
         try {
             HashSet<User> hashSet = findAll();
             hashSet.removeIf(r -> user.getId() == r.getId());
@@ -86,7 +87,7 @@ public class JsonUserRepository implements MyRepository<User> {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        try (FileWriter fileWriter = new FileWriter("users.json")) {
+        try (FileWriter fileWriter = new FileWriter("data/users.json")) {
             fileWriter.write(str);
         } catch (IOException e) {
             e.printStackTrace();
