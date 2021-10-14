@@ -7,6 +7,7 @@ import by.latashinsky.java.topics.repositories.MyRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,6 +16,7 @@ import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.regex.Pattern;
 
+@WebServlet(name = "Banks",urlPatterns = "/banks/*")
 public class Banks extends HttpServlet {
     MyRepository<Bank> myBankRepository;
 
