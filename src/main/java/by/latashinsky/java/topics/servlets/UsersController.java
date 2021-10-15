@@ -37,7 +37,10 @@ public class UsersController {
 
     @PostMapping("")
     public String addNewUser(@RequestParam(value = "name") String name,
-                             @RequestParam(value = "type") String type){
+                             @RequestParam(value = "type") String type) {
+        if (name == null || type == null) {
+            throw new BadRequest();
+        }
         User user = new User();
         user.setName(name);
         UserTypes userType = UserTypes.getUsertype(type);

@@ -15,12 +15,12 @@ import java.util.Collection;
 @RestController
 @RequestMapping("/accounts")
 public class AccountsController {
-    MyRepository<Account> accountMyRepository = (MyRepository<Account>) Factory.getInstance().getRepository(Account.class);
+    private final MyRepository<Account> accountMyRepository = (MyRepository<Account>) Factory.getInstance().getRepository(Account.class);
 
     @GetMapping("")
-    public String getAccounts(@RequestParam(value = "id-bank", required = false) Integer idBank,
-                              @RequestParam(value = "id-user", required = false) Integer idUser,
-                              @RequestParam(value = "currency") String str) throws JsonProcessingException {
+    public String getAccounts(@RequestParam(value = "id-bank", required = false) final Integer idBank,
+                              @RequestParam(value = "id-user", required = false) final Integer idUser,
+                              @RequestParam(value = "currency", required = false) final String str) throws JsonProcessingException {
         Collection<Account> users = accountMyRepository.findAll();
         if (idBank != null) {
             users.removeIf(r -> !idBank.equals(r.getIdBank()));
@@ -35,7 +35,7 @@ public class AccountsController {
     }
 
     @GetMapping("/{id}")
-    public String getUser(@PathVariable("id") int id) throws JsonProcessingException {
+    public String getUser(@PathVariable("id") final int id) throws JsonProcessingException {
         Account account = accountMyRepository.findById(id);
         if (account != null) {
             return new ObjectMapper().writeValueAsString(account);
@@ -44,12 +44,17 @@ public class AccountsController {
     }
 
     @PostMapping("")
-    public String addNewAccount(@RequestParam(value = "id-bank") Integer idBank,
-                                @RequestParam(value = "id-user") Integer idUser,
-                                @RequestParam(value = "balance") BigDecimal balance,
-                                @RequestParam(value = "currency") String str) {
+    public String addNewAccount(@RequestParam(value = "id-bank") final Integer idBank,
+                                @RequestParam(value = "id-user") final Integer idUser,
+                                @RequestParam(value = "balance") final BigDecimal balance,
+                                @RequestParam(value = "currency") final String str) {
+        if (idBank == 0 || idUser == 0
+                || balance == null || str == null) {
+            throw new BadRequest();
+        }
         Account account = new Account();
-        if (str.length() == 3) {
+        int currencyLength = 3;
+        if (str.length() == currencyLength) {
             account.setCurrency(str);
         } else {
             throw new BadRequest();
@@ -62,14 +67,15 @@ public class AccountsController {
     }
 
     @PutMapping("/{id}")
-    public String updateAccount(@RequestParam(value = "id-bank", required = false) Integer idBank,
-                                @RequestParam(value = "id-user", required = false) Integer idUser,
-                                @RequestParam(value = "balance", required = false) BigDecimal balance,
-                                @RequestParam(value = "currency", required = false) String str,
+    public String updateAccount(@RequestParam(value = "id-bank", required = false) final Integer idBank,
+                                @RequestParam(value = "id-user", required = false) final Integer idUser,
+                                @RequestParam(value = "balance", required = false) final BigDecimal balance,
+                                @RequestParam(value = "currency", required = false) final String str,
                                 @PathVariable("id") int id) {
         Account account = accountMyRepository.findById(id);
+        int currencyLength = 3;
         if (str != null) {
-            if (str.length() == 3) {
+            if (str.length() == currencyLength) {
                 account.setCurrency(str);
             } else {
                 throw new BadRequest();
@@ -92,7 +98,7 @@ public class AccountsController {
     }
 
     @DeleteMapping("/{id}")
-    public String deleteAccount(@PathVariable("id") int id) {
+    public String deleteAccount(@PathVariable("id") final int id) {
         Account account = accountMyRepository.findById(id);
         if (account == null) {
             throw new ResourceNotFound();
