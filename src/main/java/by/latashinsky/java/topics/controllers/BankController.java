@@ -2,7 +2,7 @@ package by.latashinsky.java.topics.controllers;
 
 import by.latashinsky.java.topics.entities.Bank;
 import by.latashinsky.java.topics.factory.Factory;
-import by.latashinsky.java.topics.models.MyListConverter;
+import by.latashinsky.java.topics.helpers.MyListConverter;
 import by.latashinsky.java.topics.repositories.MyRepository;
 import by.latashinsky.java.topics.interfaces.BankSettingsUI;
 import by.latashinsky.java.topics.utils.SelectHelpUtil;
@@ -11,10 +11,10 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Scanner;
 
-public class BankController extends BaseShowAndCreateController<Bank> {
+public class BankController extends BaseShowAndCreateController {
     private static final Logger logger = LoggerFactory.getLogger(BankController.class);
     private static BankController bankController;
-    protected MyRepository<Bank> myRepository = (MyRepository<Bank>) Factory.getInstance().getRepository(Bank.class);
+    protected MyRepository<Bank> myRepository = Factory.getInstance().getRepository(Bank.class);
 
     private BankController() {
     }
@@ -27,8 +27,7 @@ public class BankController extends BaseShowAndCreateController<Bank> {
     }
 
     public void create() {
-        Scanner in = new Scanner(System.in).useDelimiter("\n");
-        Bank bank = new Bank();
+        Bank bank = Factory.getInstance().getEntity(Bank.class);
         bank.editName();
         bank.editLegalCommission();
         bank.editUsualCommission();

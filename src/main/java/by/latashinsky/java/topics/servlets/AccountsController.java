@@ -15,7 +15,7 @@ import java.util.Collection;
 @RestController
 @RequestMapping("/accounts")
 public class AccountsController {
-    private final MyRepository<Account> accountMyRepository = (MyRepository<Account>) Factory.getInstance().getRepository(Account.class);
+    private final MyRepository<Account> accountMyRepository = Factory.getInstance().getRepository(Account.class);
 
     @GetMapping("")
     public String getAccounts(@RequestParam(value = "id-bank", required = false) final Integer idBank,
@@ -52,7 +52,7 @@ public class AccountsController {
                 || balance == null || str == null) {
             throw new BadRequest();
         }
-        Account account = new Account();
+        Account account = Factory.getInstance().getEntity(Account.class);
         int currencyLength = 3;
         if (str.length() == currencyLength) {
             account.setCurrency(str);

@@ -15,8 +15,8 @@ import java.util.stream.Collectors;
 public class UserSettingsController extends BaseSettingsController<User> {
     private static final Logger logger = LoggerFactory.getLogger(UserSettingsController.class);
     private static UserSettingsController userSettingsController;
-    protected MyRepository<User> myRepository = (MyRepository<User>) Factory.getInstance().getRepository(User.class);
-    private final MyRepository<Account> myAccountRepository = (MyRepository<Account>) Factory.getInstance().getRepository(Account.class);
+    protected MyRepository<User> myRepository = Factory.getInstance().getRepository(User.class);
+    private final MyRepository<Account> myAccountRepository = Factory.getInstance().getRepository(Account.class);
 
     private UserSettingsController() {
     }
@@ -33,12 +33,12 @@ public class UserSettingsController extends BaseSettingsController<User> {
         ArrayList<Account> list = myAccountRepository.findAll()
                 .stream().filter(r -> r.getIdUser() == user.getId()).collect(Collectors.toCollection(ArrayList::new));
         user.setAccounts(list);
-        logger.info(user+"\n");
+        logger.info(user + "\n");
     }
 
     @Override
     public void update(User user) {
-        logger.info(user+"\n");
+        logger.info(user + "\n");
         Scanner in = new Scanner(System.in).useDelimiter("\n");
         logger.info("Are you want to edit user name(y/n)?\n");
         String str;
@@ -69,7 +69,7 @@ public class UserSettingsController extends BaseSettingsController<User> {
     @Override
     public boolean delete(User user) {
 
-        logger.info(user+"\n");
+        logger.info(user + "\n");
         if (Confirms.confirm()) {
             myRepository.delete(user);
             return true;

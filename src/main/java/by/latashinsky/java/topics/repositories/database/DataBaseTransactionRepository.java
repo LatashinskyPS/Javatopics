@@ -1,13 +1,14 @@
-package by.latashinsky.java.topics.repositories;
+package by.latashinsky.java.topics.repositories.database;
 
 import by.latashinsky.java.topics.HibernateSessionFactory;
-import by.latashinsky.java.topics.entities.Transaction;
+import by.latashinsky.java.topics.entities.database.DataBaseTransaction;
+import by.latashinsky.java.topics.repositories.MyRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import java.util.List;
 
-public class DataBaseTransactionRepository implements MyRepository<Transaction>{
+public class DataBaseTransactionRepository implements MyRepository<DataBaseTransaction> {
     private static DataBaseTransactionRepository transactionRepository;
 
     private DataBaseTransactionRepository() {
@@ -23,25 +24,28 @@ public class DataBaseTransactionRepository implements MyRepository<Transaction>{
     SessionFactory sessionFactory = HibernateSessionFactory.getSessionFactory();
 
     @Override
-    public Transaction findById(int id) {
+    public DataBaseTransaction findById(int id) {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
-        Transaction transaction = session.get(Transaction.class,id);
+        DataBaseTransaction transaction = session.get(DataBaseTransaction.class, id);
         session.getTransaction().commit();
         session.close();
         return transaction;
     }
 
-    public List<Transaction> findAll() {
+    @Override
+    public List<DataBaseTransaction> findAll() {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
-        List<Transaction> users = session.createQuery("FROM Transaction ").list();
+        @SuppressWarnings("unchecked")
+        List<DataBaseTransaction> users = session.createQuery("FROM DataBaseTransaction ").list();
         session.getTransaction().commit();
         session.close();
         return users;
     }
 
-    public void save(Transaction transaction) {
+    @Override
+    public void save(DataBaseTransaction transaction) {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
         if (transaction.getId() != 0) {
@@ -54,7 +58,7 @@ public class DataBaseTransactionRepository implements MyRepository<Transaction>{
     }
 
     @Override
-    public void delete(Transaction transaction) {
+    public void delete(DataBaseTransaction transaction) {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
         session.delete(transaction);

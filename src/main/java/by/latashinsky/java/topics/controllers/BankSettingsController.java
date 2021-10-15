@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 public class BankSettingsController extends BaseSettingsController<Bank> {
     private static final Logger logger = LoggerFactory.getLogger(BankSettingsController.class);
     private static BankSettingsController bankSettingsController;
-    protected MyRepository<Bank> myRepository = (MyRepository<Bank>) Factory.getInstance().getRepository(Bank.class);
+    protected MyRepository<Bank> myRepository =Factory.getInstance().getRepository(Bank.class);
 
     private BankSettingsController() {
     }
@@ -29,7 +29,7 @@ public class BankSettingsController extends BaseSettingsController<Bank> {
 
     @Override
     public void show(Bank bank) {
-        MyRepository<Account> myRepository = (MyRepository<Account>) Factory.getInstance().getRepository(Account.class);
+        MyRepository<Account> myRepository = Factory.getInstance().getRepository(Account.class);
         ArrayList<Account> list = myRepository.findAll()
                 .stream().filter(r -> r.getIdBank() == bank.getId()).collect(Collectors.toCollection(ArrayList::new));
         bank.setAccounts(list);

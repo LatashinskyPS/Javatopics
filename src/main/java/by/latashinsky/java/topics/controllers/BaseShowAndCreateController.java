@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Locale;
 
-public abstract class BaseShowAndCreateController<T> implements Controller {
+public abstract class BaseShowAndCreateController implements Controller {
     private static final Logger logger = LoggerFactory.getLogger(BaseShowAndCreateController.class);
 
     public boolean attemptToExecuteTheCommand(String s) {

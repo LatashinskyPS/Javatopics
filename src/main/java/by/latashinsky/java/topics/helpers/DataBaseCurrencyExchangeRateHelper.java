@@ -1,4 +1,4 @@
-package by.latashinsky.java.topics.models;
+package by.latashinsky.java.topics.helpers;
 
 import by.latashinsky.java.topics.HibernateSessionFactory;
 import by.latashinsky.java.topics.entities.Currency;
@@ -10,11 +10,12 @@ import java.util.List;
 
 public class DataBaseCurrencyExchangeRateHelper implements CurrencyExchangeRateHelper {
     @Override
+    @SuppressWarnings("unchecked")
     public HashMap<String, BigDecimal> getCurrencyExchangeRate() {
         HashMap<String, BigDecimal> hashMap = new HashMap<>();
         Session session = HibernateSessionFactory.getSessionFactory().getCurrentSession();
         session.beginTransaction();
-        ((List<Currency>) session.createQuery("from Currency").list()).
+        ((List<Currency>) session.createQuery("from DataBaseCurrency ").list()).
                 forEach(r -> hashMap.put(r.getName(), r.getValue()));
         session.getTransaction().commit();
         session.close();

@@ -5,7 +5,7 @@ import java.util.Locale;
 public enum UserTypes {
     USUAL("Usual"), LEGAL("Legal");
 
-    public static UserTypes getUsertype(String type) {
+    public static UserTypes getUserType(String type) {
         switch (type.toUpperCase(Locale.ROOT)){
             case "USUAL" :{
                 return USUAL;

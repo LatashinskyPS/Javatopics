@@ -1,117 +1,34 @@
 package by.latashinsky.java.topics.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.Objects;
 
-@Entity
-@Table(name = "transactions")
-public class Transaction {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+public interface Transaction {
+    BigDecimal getValue();
 
-    @ManyToOne
-    @JoinColumn(name = "id_account_from")
-    @JsonIgnore
-    private Account accountFrom;
+    void setValue(BigDecimal value);
 
-    @ManyToOne
-    @JoinColumn(name = "id_account_to")
-    @JsonIgnore
-    private Account accountTo;
+    int getId();
 
-    @Column(name = "id_account_from", insertable = false, updatable = false)
-    private int idAccountFrom;
+    void setId(int id);
 
-    @Column(name = "id_account_to", insertable = false, updatable = false)
-    private int idAccountTo;
+    Account getAccountFrom();
 
-    @Override
-    public String toString() {
-        return
-                "id=" + id +
-                        ", accountFrom=" + accountFrom.getId() +
-                        ", accountTo=" + accountTo.getId() +
-                        ", date=" + date +
-                        ", value=" + value;
-    }
+    <T extends Account> void setAccountFrom(T accountFrom);
 
-    @Column(name = "transaction_time")
-    @Temporal(TemporalType.DATE)
-    private Date date;
+    Account getAccountTo();
 
-    private BigDecimal value;
+    <T extends Account> void setAccountTo(T accountTo);
 
-    public BigDecimal getValue() {
-        return value;
-    }
+    Date getDate();
 
-    public void setValue(BigDecimal value) {
-        this.value = value;
-    }
+    void setDate(Date date);
 
-    public int getId() {
-        return id;
-    }
+    int getIdAccountFrom();
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    void setIdAccountFrom(int idAccountFrom);
 
-    public Account getAccountFrom() {
-        return accountFrom;
-    }
+    int getIdAccountTo();
 
-    public void setAccountFrom(Account accountFrom) {
-        this.accountFrom = accountFrom;
-    }
-
-    public Account getAccountTo() {
-        return accountTo;
-    }
-
-    public void setAccountTo(Account accountTo) {
-        this.accountTo = accountTo;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public int getIdAccountFrom() {
-        return idAccountFrom;
-    }
-
-    public void setIdAccountFrom(int idAccountFrom) {
-        this.idAccountFrom = idAccountFrom;
-    }
-
-    public int getIdAccountTo() {
-        return idAccountTo;
-    }
-
-    public void setIdAccountTo(int idAccountTo) {
-        this.idAccountTo = idAccountTo;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Transaction that = (Transaction) o;
-        return id == that.id;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
+    void setIdAccountTo(int idAccountTo);
 }

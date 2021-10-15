@@ -1,6 +1,6 @@
 package by.latashinsky.java.topics;
 
-import by.latashinsky.java.topics.entities.*;
+import by.latashinsky.java.topics.entities.database.*;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
@@ -36,9 +36,9 @@ public class HibernateSessionFactory {
                         properties.getProperty("database_password"))
                 .setProperty("hibernate.connection.url",
                         properties.getProperty("database_url"))
-                .addAnnotatedClass(Bank.class).addAnnotatedClass(Account.class)
-                .addAnnotatedClass(User.class).addAnnotatedClass(Currency.class)
-                .addAnnotatedClass(Transaction.class)
+                .addAnnotatedClass(DataBaseBank.class).addAnnotatedClass(DataBaseAccount.class)
+                .addAnnotatedClass(DataBaseUser.class).addAnnotatedClass(DataBaseCurrency.class)
+                .addAnnotatedClass(DataBaseTransaction.class)
                 .buildSessionFactory();
     }
 }

@@ -1,21 +1,22 @@
-package by.latashinsky.java.topics.repositories;
+package by.latashinsky.java.topics.repositories.database;
 
 import by.latashinsky.java.topics.HibernateSessionFactory;
-import by.latashinsky.java.topics.entities.Bank;
+import by.latashinsky.java.topics.entities.database.DataBaseBank;
+import by.latashinsky.java.topics.repositories.MyRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import java.util.List;
 
-public class DataBaseBankRepository implements MyRepository<Bank> {
+public class DataBaseBankRepository implements MyRepository<DataBaseBank> {
     private final SessionFactory sessionFactory = HibernateSessionFactory.getSessionFactory();
-    private static MyRepository<Bank> instance;
+    private static MyRepository<DataBaseBank> instance;
 
     private DataBaseBankRepository() {
 
     }
 
-    public static MyRepository<Bank> getInstance() {
+    public static MyRepository<DataBaseBank> getInstance() {
         if (instance == null) {
             instance = new DataBaseBankRepository();
         }
@@ -23,27 +24,28 @@ public class DataBaseBankRepository implements MyRepository<Bank> {
     }
 
     @Override
-    public Bank findById(int id) {
+    public DataBaseBank findById(int id) {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
-        Bank bank = session.get(Bank.class, id);
+        DataBaseBank bank = session.get(DataBaseBank.class, id);
         session.getTransaction().commit();
         session.close();
         return bank;
     }
 
     @Override
-    public List<Bank> findAll() {
+    public List<DataBaseBank> findAll() {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
-        List<Bank> banks = session.createQuery("FROM Bank ").list();
+        @SuppressWarnings("unchecked")
+        List<DataBaseBank> banks = session.createQuery("FROM DataBaseBank ").list();
         session.getTransaction().commit();
         session.close();
         return banks;
     }
 
     @Override
-    public void save(Bank bank) {
+    public void save(DataBaseBank bank) {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
         if (bank.getId() != 0) {
@@ -56,7 +58,7 @@ public class DataBaseBankRepository implements MyRepository<Bank> {
     }
 
     @Override
-    public void delete(Bank bank) {
+    public void delete(DataBaseBank bank) {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
         session.delete(bank);

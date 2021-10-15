@@ -4,8 +4,8 @@ import by.latashinsky.java.topics.entities.Account;
 import by.latashinsky.java.topics.entities.Transaction;
 import by.latashinsky.java.topics.entities.User;
 import by.latashinsky.java.topics.factory.Factory;
-import by.latashinsky.java.topics.models.Constants;
-import by.latashinsky.java.topics.models.MyListConverter;
+import by.latashinsky.java.topics.helpers.Constants;
+import by.latashinsky.java.topics.helpers.MyListConverter;
 import by.latashinsky.java.topics.repositories.MyRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,8 +57,8 @@ public class UserTransactionsController implements Controller {
 
     private List<Transaction> findTransactions(User user) {
         List<Transaction> transactionList = new LinkedList<>();
-        MyRepository<Transaction> repository = (MyRepository<Transaction>) Factory.getInstance().getRepository(Transaction.class);
-        MyRepository<Account> repositoryAccount = (MyRepository<Account>) Factory.getInstance().getRepository(Account.class);
+        MyRepository<Transaction> repository =Factory.getInstance().getRepository(Transaction.class);
+        MyRepository<Account> repositoryAccount = Factory.getInstance().getRepository(Account.class);
         repositoryAccount.findAll().stream().filter(r -> r.getIdUser() == user.getId()).
                 forEach(r -> transactionList.addAll(
                         repository.findAll().stream().filter(a -> a.getIdAccountTo() == user.getId()

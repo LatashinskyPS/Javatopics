@@ -1,67 +1,67 @@
-package by.latashinsky.java.topics.repositories;
+package by.latashinsky.java.topics.repositories.database;
 
 import by.latashinsky.java.topics.HibernateSessionFactory;
-import by.latashinsky.java.topics.entities.Account;
+import by.latashinsky.java.topics.entities.User;
+import by.latashinsky.java.topics.repositories.MyRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import java.util.List;
 
-public class DataBaseAccountRepository implements MyRepository<Account> {
-
+public class DataBaseUserRepository implements MyRepository<User> {
     private final SessionFactory sessionFactory = HibernateSessionFactory.getSessionFactory();
 
-    private static DataBaseAccountRepository accountRepository;
+    private static DataBaseUserRepository userRepository;
 
-    private DataBaseAccountRepository() {
-
+    private DataBaseUserRepository() {
     }
 
-    public static MyRepository<Account> getInstance() {
-        if (accountRepository == null) {
-            accountRepository = new DataBaseAccountRepository();
+    public static DataBaseUserRepository getInstance() {
+        if (userRepository == null) {
+            userRepository = new DataBaseUserRepository();
         }
-        return accountRepository;
+        return userRepository;
     }
 
     @Override
-    public Account findById(int id) {
+    public User findById(int id) {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
-        Account account = session.get(Account.class, id);
+        User user = session.get(User.class, id);
         session.getTransaction().commit();
         session.close();
-        return account;
+        return user;
     }
 
     @Override
-    public List<Account> findAll() {
+    public List<User> findAll() {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
-        List<Account> accounts = session.createQuery("FROM Account").list();
+        @SuppressWarnings("unchecked")
+        List<User> users = session.createQuery("FROM DataBaseUser").list();
         session.getTransaction().commit();
         session.close();
-        return accounts;
+        return users;
     }
 
     @Override
-    public void save(Account account) {
+    public void save(User user) {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
-        if (account.getId() != 0) {
-            session.update(account);
+        if (user.getId() != 0) {
+            session.update(user);
         } else {
-            session.save(account);
+            session.save(user);
         }
         session.getTransaction().commit();
         session.close();
     }
 
     @Override
-    public void delete(Account account) {
+    public void delete(User user) {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
-        session.delete(account);
+        session.delete(user);
         session.getTransaction().commit();
         session.close();
     }

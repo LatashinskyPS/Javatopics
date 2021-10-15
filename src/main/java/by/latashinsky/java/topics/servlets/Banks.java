@@ -2,7 +2,7 @@ package by.latashinsky.java.topics.servlets;
 
 import by.latashinsky.java.topics.entities.Bank;
 import by.latashinsky.java.topics.factory.Factory;
-import by.latashinsky.java.topics.models.Constants;
+import by.latashinsky.java.topics.helpers.Constants;
 import by.latashinsky.java.topics.repositories.MyRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -21,7 +21,7 @@ public class Banks extends HttpServlet {
 
     @Override
     public void init() {
-        myBankRepository = (MyRepository<Bank>) Factory.getInstance().getRepository(Bank.class);
+        myBankRepository = Factory.getInstance().getRepository(Bank.class);
     }
 
     @Override
@@ -74,7 +74,7 @@ public class Banks extends HttpServlet {
         String legalCommission = request.getParameter("legalCommission");
         String usualCommission = request.getParameter("usualCommission");
         if (request.getRequestURI().split("/").length == 2 && name != null && legalCommission != null && usualCommission != null) {
-            Bank bank = new Bank();
+            Bank bank = Factory.getInstance().getEntity(Bank.class);
             bank.setName(name);
             if (Pattern.matches(Constants.PATTERN_DOUBLE, legalCommission) &&
                     Pattern.matches(Constants.PATTERN_DOUBLE, usualCommission)) {
