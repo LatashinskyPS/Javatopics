@@ -37,6 +37,10 @@ public class TransactionsController {
     public String createTransaction(@RequestParam(value = "id-account-to") Integer idAccountTo,
                                     @RequestParam(value = "id-account-from") Integer idAccountFrom,
                                     @RequestParam(value = "value") BigDecimal value) {
+        if (idAccountTo == null || idAccountFrom == null
+                || value == null) {
+            throw new BadRequest();
+        }
         Account accountFrom = accountMyRepository.findById(idAccountFrom);
         Account accountTo = accountMyRepository.findById(idAccountTo);
         if (accountFrom.getBalance().compareTo(value) >= 0) {
