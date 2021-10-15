@@ -1,80 +1,34 @@
 package by.latashinsky.java.topics.entities;
 
-import by.latashinsky.java.topics.models.Constants;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import by.latashinsky.java.topics.helpers.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Locale;
-import java.util.Objects;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
-@Entity
-@Table(name = "banks")
-public class Bank {
-    private static final Logger logger = LoggerFactory.getLogger(Bank.class);
+public interface Bank {
+    Logger logger = LoggerFactory.getLogger(Bank.class);
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    String getName();
 
-    @Column
-    private String name;
+    void setName(String name);
 
-    @Column(name = "usual_commission")
-    private BigDecimal usualCommission;
+    BigDecimal getUsualCommission();
 
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_bank")
-    @JsonIgnore
-    private List<Account> accounts;
+    void setUsualCommission(BigDecimal usualCommission);
 
-    @Override
-    public String toString() {
-        return String.format("%s)Bank name:%s\nUsual commission:%s%%\nLegal Commission:%s%%\n",
-                id, name.toUpperCase(Locale.ROOT), usualCommission, legalCommission);
-    }
+    BigDecimal getLegalCommission();
 
-    @Column(name = "legal_commission")
-    private BigDecimal legalCommission;
+    void setLegalCommission(BigDecimal legalCommission);
 
-    public String getName() {
-        return name;
-    }
+    int getId();
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    void setId(int id);
 
-    public BigDecimal getUsualCommission() {
-        return usualCommission;
-    }
-
-    public void setUsualCommission(BigDecimal usualCommission) {
-        this.usualCommission = usualCommission;
-    }
-
-    public BigDecimal getLegalCommission() {
-        return legalCommission;
-    }
-
-    public void setLegalCommission(BigDecimal legalCommission) {
-        this.legalCommission = legalCommission;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void editName() {
+    default void editName() {
         Scanner in = new Scanner(System.in).useDelimiter("\n");
         while (true) {
             System.out.print("Enter name:");
@@ -88,20 +42,7 @@ public class Bank {
         }
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Bank bank = (Bank) o;
-        return id == bank.id;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
-
-    public void editUsualCommission() {
+    default void editUsualCommission() {
         Scanner in = new Scanner(System.in).useDelimiter("\n");
         while (true) {
             logger.info("Enter usual commission:");
@@ -116,7 +57,7 @@ public class Bank {
         }
     }
 
-    public void editLegalCommission() {
+    default void editLegalCommission() {
         Scanner in = new Scanner(System.in).useDelimiter("\n");
         while (true) {
             logger.info("Enter legal commission:\n");
@@ -131,11 +72,7 @@ public class Bank {
 
     }
 
-    public List<Account> getAccounts() {
-        return accounts;
-    }
+    List<? extends Account> getAccounts();
 
-    public void setAccounts(List<Account> accounts) {
-        this.accounts = accounts;
-    }
+    void setAccounts(List<? extends Account> accounts);
 }

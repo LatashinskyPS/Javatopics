@@ -1,7 +1,9 @@
-package by.latashinsky.java.topics.repositories;
+package by.latashinsky.java.topics.repositories.json;
 
 import by.latashinsky.java.topics.entities.Bank;
-import by.latashinsky.java.topics.models.Constants;
+import by.latashinsky.java.topics.entities.json.JsonBank;
+import by.latashinsky.java.topics.helpers.Constants;
+import by.latashinsky.java.topics.repositories.MyRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -10,13 +12,13 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-public class JsonBankRepository implements MyRepository<Bank> {
+public class JsonBankRepository implements MyRepository<JsonBank> {
     private static final JsonBankRepository jsonBankRepository = new JsonBankRepository();
 
     private JsonBankRepository() {
     }
 
-    private Bank update(Bank bank) {
+    private JsonBank update(JsonBank bank) {
         if (bank == null) return null;
         bank.setAccounts(new ArrayList<>());
         return bank;
@@ -27,14 +29,14 @@ public class JsonBankRepository implements MyRepository<Bank> {
     }
 
     @Override
-    public Bank findById(int id) {
-        Bank bank = findAll().stream().filter(r -> r.getId() == id).findAny().orElse(null);
+    public JsonBank findById(int id) {
+        JsonBank bank = findAll().stream().filter(r -> r.getId() == id).findAny().orElse(null);
         return update(bank);
     }
 
     @Override
-    public HashSet<Bank> findAll() {
-        HashSet<Bank> hashSet = null;
+    public HashSet<JsonBank> findAll() {
+        HashSet<JsonBank> hashSet = null;
         String json = null;
         try (BufferedReader fileReader = new BufferedReader(new FileReader(Constants.PATH + "data/banks.json"))) {
             json = fileReader.readLine();
@@ -43,7 +45,7 @@ public class JsonBankRepository implements MyRepository<Bank> {
         }
         if (json == null) return new HashSet<>();
         try {
-            hashSet = new ObjectMapper().readValue(json, new TypeReference<HashSet<Bank>>() {
+            hashSet = new ObjectMapper().readValue(json, new TypeReference<HashSet<JsonBank>>() {
             });
             hashSet.forEach(this::update);
         } catch (JsonProcessingException e) {
@@ -54,9 +56,9 @@ public class JsonBankRepository implements MyRepository<Bank> {
     }
 
     @Override
-    public void save(Bank bank) {
+    public void save(JsonBank bank) {
         int idMax = findAll().stream().map(Bank::getId).max(Integer::compare).orElse(0);
-        HashSet<Bank> hashSet = findAll();
+        HashSet<JsonBank> hashSet = findAll();
         if (bank.getId() == 0) {
             bank.setId(idMax + 1);
         } else {
@@ -77,13 +79,13 @@ public class JsonBankRepository implements MyRepository<Bank> {
     }
 
     @Override
-    public void delete(Bank bank) {
+    public void delete(JsonBank bank) {
         if (bank == null) {
             return;
         }
         String str = "[]" ;
         try {
-            HashSet<Bank> hashSet = findAll();
+            HashSet<JsonBank> hashSet = findAll();
             hashSet.removeIf(r -> bank.getId() == r.getId());
             str = new ObjectMapper().writeValueAsString(hashSet);
         } catch (JsonProcessingException e) {

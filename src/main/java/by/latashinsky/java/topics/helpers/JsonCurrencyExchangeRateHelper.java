@@ -1,4 +1,4 @@
-package by.latashinsky.java.topics.models;
+package by.latashinsky.java.topics.helpers;
 
 import by.latashinsky.java.topics.entities.Currency;
 import com.fasterxml.jackson.core.type.TypeReference;

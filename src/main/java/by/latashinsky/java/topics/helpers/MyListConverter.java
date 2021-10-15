@@ -1,4 +1,4 @@
-package by.latashinsky.java.topics.models;
+package by.latashinsky.java.topics.helpers;
 
 import java.util.Collection;
 

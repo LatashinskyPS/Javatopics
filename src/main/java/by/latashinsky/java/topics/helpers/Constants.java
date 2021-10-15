@@ -1,4 +1,4 @@
-package by.latashinsky.java.topics.models;
+package by.latashinsky.java.topics.helpers;
 
 public final class Constants {
     public final static String PATTERN_DOUBLE = "^[0-9]*[.]?[0-9]+$" ;

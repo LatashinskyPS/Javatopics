@@ -1,10 +1,16 @@
 package by.latashinsky.java.topics.factory;
 
+import by.latashinsky.java.topics.entities.factories.DataBaseEntitiesFactory;
+import by.latashinsky.java.topics.entities.factories.EntitiesFactory;
+import by.latashinsky.java.topics.entities.factories.JsonEntitiesFactory;
 import by.latashinsky.java.topics.exceptions.FactoryConfigurationException;
-import by.latashinsky.java.topics.models.CurrencyExchangeRateHelper;
-import by.latashinsky.java.topics.models.DataBaseCurrencyExchangeRateHelper;
-import by.latashinsky.java.topics.models.JsonCurrencyExchangeRateHelper;
+import by.latashinsky.java.topics.helpers.CurrencyExchangeRateHelper;
+import by.latashinsky.java.topics.helpers.DataBaseCurrencyExchangeRateHelper;
+import by.latashinsky.java.topics.helpers.JsonCurrencyExchangeRateHelper;
+import by.latashinsky.java.topics.repositories.factories.DataBaseRepositoryFactory;
+import by.latashinsky.java.topics.repositories.factories.JsonRepositoryFactory;
 import by.latashinsky.java.topics.repositories.MyRepository;
+import by.latashinsky.java.topics.repositories.factories.RepositoryFactory;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -19,13 +25,20 @@ public class Factory {
     private RepositoryFactory repositoryFactory;
     private static Factory instance;
     private CurrencyExchangeRateHelper currencyExchangeRateHelper;
+    private EntitiesFactory entitiesFactory;
 
-    public <T> MyRepository<?> getRepository(Class<T> clazz) {
+    public <T> MyRepository<T> getRepository(Class<T> clazz) {
         return repositoryFactory.getRepository(clazz);
     }
-    public CurrencyExchangeRateHelper getCurrencyExchangeRateHelper(){
+
+    public <T>T getEntity(Class<T>clazz){
+        return entitiesFactory.getEntity(clazz);
+    }
+
+    public CurrencyExchangeRateHelper getCurrencyExchangeRateHelper() {
         return currencyExchangeRateHelper;
     }
+
     public static Factory getInstance() {
         if (instance == null) {
             instance = new Factory();
@@ -45,17 +58,19 @@ public class Factory {
         }
         String profile = properties.getProperty("profile");
         switch (profile) {
-            case "DB" : {
+            case "DB": {
                 repositoryFactory = new DataBaseRepositoryFactory();
                 currencyExchangeRateHelper = new DataBaseCurrencyExchangeRateHelper();
+                entitiesFactory = new DataBaseEntitiesFactory();
                 break;
             }
-            case "JSON" :{
+            case "JSON": {
                 repositoryFactory = new JsonRepositoryFactory();
                 currencyExchangeRateHelper = new JsonCurrencyExchangeRateHelper();
+                entitiesFactory = new JsonEntitiesFactory();
                 break;
             }
-            default :{
+            default: {
                 throw new FactoryConfigurationException();
             }
         }

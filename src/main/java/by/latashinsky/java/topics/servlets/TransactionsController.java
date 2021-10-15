@@ -4,7 +4,7 @@ import by.latashinsky.java.topics.entities.Account;
 import by.latashinsky.java.topics.entities.Transaction;
 import by.latashinsky.java.topics.exceptions.BadRequest;
 import by.latashinsky.java.topics.factory.Factory;
-import by.latashinsky.java.topics.models.TransactionManager;
+import by.latashinsky.java.topics.helpers.TransactionManager;
 import by.latashinsky.java.topics.repositories.MyRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,8 +17,8 @@ import java.util.HashMap;
 @RestController
 @RequestMapping("/transactions")
 public class TransactionsController {
-    private final MyRepository<Account> accountMyRepository = (MyRepository<Account>) Factory.getInstance().getRepository(Account.class);
-    private final MyRepository<Transaction> myRepository = (MyRepository<Transaction>) Factory.getInstance().getRepository(Transaction.class);
+    private final MyRepository<Account> accountMyRepository = Factory.getInstance().getRepository(Account.class);
+    private final MyRepository<Transaction> myRepository =  Factory.getInstance().getRepository(Transaction.class);
 
     @GetMapping("")
     public String getTransactions(@RequestParam(value = "id-account-to", required = false) Integer idAccountTo,

@@ -1,4 +1,4 @@
-package by.latashinsky.java.topics.models;
+package by.latashinsky.java.topics.helpers;
 
 import by.latashinsky.java.topics.entities.Account;
 import by.latashinsky.java.topics.entities.Transaction;
@@ -18,7 +18,7 @@ public class TransactionManager {
     private static final Logger logger = LoggerFactory.getLogger(TransactionManager.class);
     private static TransactionManager transactionManager;
     private final ReentrantLock reentrantLock = new ReentrantLock();
-    private static final MyRepository<Transaction> transactionRepository = (MyRepository<Transaction>) Factory.getInstance().getRepository(Transaction.class);
+    private static final MyRepository<Transaction> transactionRepository = Factory.getInstance().getRepository(Transaction.class);
 
     private TransactionManager() {
     }
@@ -49,10 +49,10 @@ public class TransactionManager {
         accountFrom.setBalance(accountFrom.getBalance().subtract(value));
         BigDecimal resultTransactionMoney = value.multiply(ratio);
         accountTo.setBalance(accountTo.getBalance().add(resultTransactionMoney));
-        MyRepository<Account> myRepository = (MyRepository<Account>) Factory.getInstance().getRepository(Account.class);
+        MyRepository<Account> myRepository = Factory.getInstance().getRepository(Account.class);
         myRepository.save(accountFrom);
         myRepository.save(accountTo);
-        Transaction transaction = new Transaction();
+        Transaction transaction = Factory.getInstance().getEntity(Transaction.class);
         transaction.setAccountFrom(accountFrom);
         transaction.setAccountTo(accountTo);
         transaction.setDate(new Date());

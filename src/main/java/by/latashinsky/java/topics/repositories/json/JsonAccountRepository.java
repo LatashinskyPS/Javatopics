@@ -1,7 +1,8 @@
-package by.latashinsky.java.topics.repositories;
+package by.latashinsky.java.topics.repositories.json;
 
 import by.latashinsky.java.topics.entities.Account;
-import by.latashinsky.java.topics.entities.Transaction;
+import by.latashinsky.java.topics.entities.json.JsonAccount;
+import by.latashinsky.java.topics.repositories.MyRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -9,9 +10,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 
-public class JsonAccountRepository implements MyRepository<Account> {
+public class JsonAccountRepository implements MyRepository<JsonAccount> {
     private static final JsonAccountRepository jsonAccountRepository = new JsonAccountRepository();
 
     private JsonAccountRepository() {
@@ -21,25 +21,23 @@ public class JsonAccountRepository implements MyRepository<Account> {
         return jsonAccountRepository;
     }
 
-    private Account update(Account account) {
+    private JsonAccount update(JsonAccount account) {
         if (account == null) return null;
         account.setTransactionsFrom(new ArrayList<>());
-        List<Transaction> arrayListFrom = account.getTransactionsFrom();
         account.setTransactionsTo(new ArrayList<>());
-        List<Transaction> arrayListTo = account.getTransactionsTo();
         account.setBank(JsonBankRepository.getInstance().findById(account.getIdBank()));
         account.setUser(JsonUserRepository.getInstance().findById(account.getIdUser()));
         return account;
     }
 
     @Override
-    public Account findById(int id) {
-        Account account = findAll().stream().filter(r -> r.getId() == id).findAny().orElse(null);
+    public JsonAccount findById(int id) {
+        JsonAccount account = findAll().stream().filter(r -> r.getId() == id).findAny().orElse(null);
         return update(account);
     }
 
     @Override
-    public HashSet<Account> findAll() {
+    public HashSet<JsonAccount> findAll() {
         String json = null;
         try (BufferedReader fileReader = new BufferedReader(new FileReader("data/accounts.json"))) {
             json = fileReader.readLine();
@@ -50,9 +48,9 @@ public class JsonAccountRepository implements MyRepository<Account> {
             return null;
         }
         if (json == null) return new HashSet<>();
-        HashSet<Account> hashSet = null;
+        HashSet<JsonAccount> hashSet = null;
         try {
-            hashSet = new ObjectMapper().readValue(json, new TypeReference<HashSet<Account>>() {
+            hashSet = new ObjectMapper().readValue(json, new TypeReference<HashSet<JsonAccount>>() {
             });
             hashSet.forEach(this::update);
         } catch (JsonProcessingException e) {
@@ -63,14 +61,14 @@ public class JsonAccountRepository implements MyRepository<Account> {
     }
 
     @Override
-    public void save(Account account) {
+    public void save(JsonAccount account) {
         if (account.getBank() != null && account.getUser() != null) {
             account.setIdBank(account.getBank().getId());
             account.setIdUser(account.getUser().getId());
         }
         if (account.getIdBank() == 0) return;
         String str = "[]";
-        HashSet<Account> hashSet = findAll();
+        HashSet<JsonAccount> hashSet = findAll();
         int idMax = findAll().stream().map(Account::getId).max(Integer::compare).orElse(0);
         if (account.getId() == 0) {
             account.setId(idMax + 1);
@@ -91,13 +89,13 @@ public class JsonAccountRepository implements MyRepository<Account> {
     }
 
     @Override
-    public void delete(Account account) {
+    public void delete(JsonAccount account) {
         if (account == null) {
             return;
         }
         String str = "[]";
         try {
-            HashSet<Account> hashSet = findAll();
+            HashSet<JsonAccount> hashSet = findAll();
             hashSet.removeIf(r -> account.getId() == r.getId());
             str = new ObjectMapper().writeValueAsString(hashSet);
         } catch (JsonProcessingException e) {

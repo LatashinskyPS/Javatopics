@@ -1,39 +1,20 @@
 package by.latashinsky.java.topics.entities;
 
-import javax.persistence.*;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.math.BigDecimal;
 
-@Entity
-@Table(name = "currencies")
-public class Currency {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+public interface Currency {
+    String getName();
 
-    private String name;
-    private BigDecimal value;
+    void setName(String name);
 
-    public String getName() {
-        return name;
-    }
+    BigDecimal getValue();
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    void setValue(BigDecimal value);
 
-    public BigDecimal getValue() {
-        return value;
-    }
+    int getId();
 
-    public void setValue(BigDecimal value) {
-        this.value = value;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
+    void setId(int id);
 }

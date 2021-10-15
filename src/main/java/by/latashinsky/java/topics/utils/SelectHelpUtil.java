@@ -4,7 +4,7 @@ import by.latashinsky.java.topics.entities.Account;
 import by.latashinsky.java.topics.entities.Bank;
 import by.latashinsky.java.topics.entities.User;
 import by.latashinsky.java.topics.factory.Factory;
-import by.latashinsky.java.topics.models.Constants;
+import by.latashinsky.java.topics.helpers.Constants;
 import by.latashinsky.java.topics.repositories.MyRepository;
 
 import java.util.Locale;
@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 
 public class SelectHelpUtil {
     public static Bank selectBank() {
-        MyRepository<Bank> myRepository = (MyRepository<Bank>) Factory.getInstance().getRepository(Bank.class);
+        MyRepository<Bank> myRepository = Factory.getInstance().getRepository(Bank.class);
         myRepository.findAll().forEach(r -> System.out.println(r.getId() + ") " + r.getName().toUpperCase(Locale.ROOT)));
         Scanner in = new Scanner(System.in).useDelimiter("\n");
         while (true) {
@@ -33,7 +33,7 @@ public class SelectHelpUtil {
     }
 
     public static User selectUser() {
-        MyRepository<User> myRepository = (MyRepository<User>) Factory.getInstance().getRepository(User.class);
+        MyRepository<User> myRepository = Factory.getInstance().getRepository(User.class);
         myRepository.findAll().forEach(r -> System.out.println(r.getId() + ") " + r.getName().toUpperCase(Locale.ROOT)));
         Scanner in = new Scanner(System.in).useDelimiter("\n");
         while (true) {
@@ -53,7 +53,7 @@ public class SelectHelpUtil {
     }
 
     public static Account selectAccount() {
-        MyRepository<Account> myRepository = (MyRepository<Account>) Factory.getInstance().getRepository(Account.class);
+        MyRepository<Account> myRepository = Factory.getInstance().getRepository(Account.class);
         myRepository.findAll().forEach(r -> System.out.println(
                 r.getId() + ")" +
                         r.getBank().getName() + "->"

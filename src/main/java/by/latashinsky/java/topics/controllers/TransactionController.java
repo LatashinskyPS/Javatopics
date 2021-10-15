@@ -4,9 +4,9 @@ import by.latashinsky.java.topics.entities.Account;
 import by.latashinsky.java.topics.entities.Transaction;
 import by.latashinsky.java.topics.entities.User;
 import by.latashinsky.java.topics.factory.Factory;
-import by.latashinsky.java.topics.models.Constants;
-import by.latashinsky.java.topics.models.MyListConverter;
-import by.latashinsky.java.topics.models.TransactionManager;
+import by.latashinsky.java.topics.helpers.Constants;
+import by.latashinsky.java.topics.helpers.MyListConverter;
+import by.latashinsky.java.topics.helpers.TransactionManager;
 import by.latashinsky.java.topics.repositories.MyRepository;
 import by.latashinsky.java.topics.interfaces.UserTransactionUI;
 import by.latashinsky.java.topics.utils.SelectHelpUtil;
@@ -22,7 +22,7 @@ public class TransactionController implements Controller {
     private static final Logger logger = LoggerFactory.getLogger(Controller.class);
     private final TransactionManager transactionManager = TransactionManager.getInstance();
     private static TransactionController transactionController;
-    private final MyRepository<Transaction> transactionRepository = (MyRepository<Transaction>) Factory.getInstance().getRepository(Transaction.class);
+    private final MyRepository<Transaction> transactionRepository = Factory.getInstance().getRepository(Transaction.class);
 
     private TransactionController() {
     }

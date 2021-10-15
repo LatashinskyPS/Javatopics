@@ -15,7 +15,7 @@ import java.util.Collection;
 @RestController
 @RequestMapping("/users")
 public class UsersController {
-    MyRepository<User> userMyRepository = (MyRepository<User>) Factory.getInstance().getRepository(User.class);
+    MyRepository<User> userMyRepository = Factory.getInstance().getRepository(User.class);
 
     @GetMapping("")
     public String getUsers(@RequestParam(value = "name", required = false) String name) throws JsonProcessingException {
@@ -41,9 +41,9 @@ public class UsersController {
         if (name == null || type == null) {
             throw new BadRequest();
         }
-        User user = new User();
+        User user = Factory.getInstance().getEntity(User.class);
         user.setName(name);
-        UserTypes userType = UserTypes.getUsertype(type);
+        UserTypes userType = UserTypes.getUserType(type);
         if (userType != null) {
             user.setUserType(userType);
             userMyRepository.save(user);
@@ -64,7 +64,7 @@ public class UsersController {
             user.setName(name);
         }
         if (type != null) {
-            UserTypes userType = UserTypes.getUsertype(type);
+            UserTypes userType = UserTypes.getUserType(type);
             if (userType == null) {
                 throw new BadRequest();
             }

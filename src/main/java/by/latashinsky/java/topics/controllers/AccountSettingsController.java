@@ -12,7 +12,7 @@ import java.util.Scanner;
 public class AccountSettingsController extends BaseSettingsController<Account> {
     private static final Logger logger = LoggerFactory.getLogger(AccountSettingsController.class);
     private static AccountSettingsController accountSettingsController;
-    protected MyRepository<Account> myRepository = (MyRepository<Account>) Factory.getInstance().getRepository(Account.class);
+    protected MyRepository<Account> myRepository = Factory.getInstance().getRepository(Account.class);
 
     private AccountSettingsController() {
     }
