@@ -38,7 +38,7 @@ public class JsonBankRepository implements MyRepository<JsonBank> {
     public HashSet<JsonBank> findAll() {
         HashSet<JsonBank> hashSet = null;
         String json = null;
-        try (BufferedReader fileReader = new BufferedReader(new FileReader(Constants.PATH + "data/banks.json"))) {
+        try (BufferedReader fileReader = new BufferedReader(new FileReader(Constants.PATH + "banks.json"))) {
             json = fileReader.readLine();
         } catch (IOException e) {
             e.printStackTrace();
@@ -71,7 +71,7 @@ public class JsonBankRepository implements MyRepository<JsonBank> {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        try (FileWriter fileWriter = new FileWriter(Constants.PATH + "data/banks.json")) {
+        try (FileWriter fileWriter = new FileWriter(Constants.PATH + "banks.json")) {
             fileWriter.write(str);
         } catch (IOException e) {
             e.printStackTrace();
@@ -91,7 +91,7 @@ public class JsonBankRepository implements MyRepository<JsonBank> {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        try (FileWriter fileWriter = new FileWriter(Constants.PATH + "data/banks.json")) {
+        try (FileWriter fileWriter = new FileWriter(Constants.PATH + "banks.json")) {
             fileWriter.write(str);
         } catch (IOException e) {
             e.printStackTrace();

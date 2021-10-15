@@ -39,7 +39,7 @@ public class JsonAccountRepository implements MyRepository<JsonAccount> {
     @Override
     public HashSet<JsonAccount> findAll() {
         String json = null;
-        try (BufferedReader fileReader = new BufferedReader(new FileReader("data/accounts.json"))) {
+        try (BufferedReader fileReader = new BufferedReader(new FileReader("accounts.json"))) {
             json = fileReader.readLine();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -81,7 +81,7 @@ public class JsonAccountRepository implements MyRepository<JsonAccount> {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        try (FileWriter fileWriter = new FileWriter("data/accounts.json")) {
+        try (FileWriter fileWriter = new FileWriter("accounts.json")) {
             fileWriter.write(str);
         } catch (IOException e) {
             e.printStackTrace();
@@ -101,7 +101,7 @@ public class JsonAccountRepository implements MyRepository<JsonAccount> {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        try (FileWriter fileWriter = new FileWriter("data/accounts.json")) {
+        try (FileWriter fileWriter = new FileWriter("accounts.json")) {
             fileWriter.write(str);
         } catch (IOException e) {
             e.printStackTrace();

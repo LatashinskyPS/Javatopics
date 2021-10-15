@@ -1,6 +1,7 @@
 package by.latashinsky.java.topics;
 
 import by.latashinsky.java.topics.entities.database.*;
+import by.latashinsky.java.topics.helpers.Constants;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
@@ -20,15 +21,7 @@ public class HibernateSessionFactory {
     }
 
     private static SessionFactory getNewSessionFactory() {
-        String rootPath = Objects.requireNonNull(
-                Thread.currentThread().getContextClassLoader().getResource("")).getPath();
-        String appConfigPath = rootPath + "MyProperties.properties";
-        Properties properties = new Properties();
-        try {
-            properties.load(new FileInputStream(appConfigPath));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Properties properties = Constants.properties;
         return new Configuration()
                 .setProperty("hibernate.connection.username",
                         properties.getProperty("database_username"))

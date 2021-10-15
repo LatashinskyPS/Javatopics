@@ -34,7 +34,7 @@ public class JsonUserRepository implements MyRepository<JsonUser> {
 
     @Override
     public HashSet<JsonUser> findAll() {
-        try (BufferedReader fileReader = new BufferedReader(new FileReader("data/users.json"))) {
+        try (BufferedReader fileReader = new BufferedReader(new FileReader("users.json"))) {
             String json = fileReader.readLine();
             if (json == null) return new HashSet<>();
             HashSet<JsonUser> hashSet = new ObjectMapper().readValue(json, new TypeReference<HashSet<JsonUser>>() {
@@ -66,7 +66,7 @@ public class JsonUserRepository implements MyRepository<JsonUser> {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        try (FileWriter fileWriter = new FileWriter("data/users.json")) {
+        try (FileWriter fileWriter = new FileWriter("users.json")) {
             fileWriter.write(str);
         } catch (IOException e) {
             e.printStackTrace();
@@ -86,7 +86,7 @@ public class JsonUserRepository implements MyRepository<JsonUser> {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        try (FileWriter fileWriter = new FileWriter("data/users.json")) {
+        try (FileWriter fileWriter = new FileWriter("users.json")) {
             fileWriter.write(str);
         } catch (IOException e) {
             e.printStackTrace();

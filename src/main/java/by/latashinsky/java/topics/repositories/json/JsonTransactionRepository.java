@@ -37,7 +37,7 @@ public class JsonTransactionRepository implements MyRepository<JsonTransaction> 
 
     @Override
     public HashSet<JsonTransaction> findAll() {
-        try (BufferedReader fileReader = new BufferedReader(new FileReader("data/transactions.json"))) {
+        try (BufferedReader fileReader = new BufferedReader(new FileReader("transactions.json"))) {
             String json = fileReader.readLine();
             if (json == null) return new HashSet<>();
             HashSet<JsonTransaction> hashSet = new ObjectMapper().readValue(json, new TypeReference<HashSet<JsonTransaction>>() {
@@ -67,7 +67,7 @@ public class JsonTransactionRepository implements MyRepository<JsonTransaction> 
             hashSet.remove(transaction);
         }
         hashSet.add(transaction);
-        try (FileWriter fileWriter = new FileWriter("data/transactions.json")) {
+        try (FileWriter fileWriter = new FileWriter("transactions.json")) {
             str = new ObjectMapper().writeValueAsString(hashSet);
             fileWriter.write(str);
         } catch (IOException e) {
@@ -88,7 +88,7 @@ public class JsonTransactionRepository implements MyRepository<JsonTransaction> 
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        try (FileWriter fileWriter = new FileWriter("data/transactions.json")) {
+        try (FileWriter fileWriter = new FileWriter("transactions.json")) {
             fileWriter.write(str);
         } catch (IOException e) {
             e.printStackTrace();
