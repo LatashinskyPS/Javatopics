@@ -15,9 +15,9 @@ public class JsonAccount implements Account {
 
     private int id;
 
-    private int idBank;
+    private int bankId;
 
-    private int idUser;
+    private int userId;
 
     private String currency;
 
@@ -114,19 +114,19 @@ public class JsonAccount implements Account {
         this.bank = bank;
     }
 
-    public int getIdBank() {
-        return idBank;
+    public int getBankId() {
+        return bankId;
     }
 
-    public void setIdBank(int idBank) {
-        this.idBank = idBank;
+    public void setBankId(int bankId) {
+        this.bankId = bankId;
     }
 
-    public int getIdUser() {
-        return idUser;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setIdUser(int idUser) {
-        this.idUser = idUser;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 }

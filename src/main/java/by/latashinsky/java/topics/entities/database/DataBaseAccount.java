@@ -18,30 +18,30 @@ public class DataBaseAccount implements Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected int id;
 
-    @Column(name = "id_bank", insertable = false, updatable = false)
-    private int idBank;
+    @Column(name = "bank_id", insertable = false, updatable = false)
+    private int bankId;
 
-    @Column(name = "id_user", insertable = false, updatable = false)
-    private int idUser;
+    @Column(name = "user_id", insertable = false, updatable = false)
+    private int userId;
 
     private String currency;
 
     private BigDecimal balance;
 
     @ManyToOne
-    @JoinColumn(name = "id_bank")
+    @JoinColumn(name = "bank_id")
     protected DataBaseBank bank;
 
     @ManyToOne
-    @JoinColumn(name = "id_user")
+    @JoinColumn(name = "user_id")
     private DataBaseUser user;
 
     @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_account_from")
+    @JoinColumn(name = "account_from_id")
     private List<DataBaseTransaction> transactionsFrom;
 
     @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_account_to")
+    @JoinColumn(name = "account_to_id")
     private List<DataBaseTransaction> transactionsTo;
 
     public DataBaseAccount() {
@@ -124,19 +124,19 @@ public class DataBaseAccount implements Account {
         this.bank = (DataBaseBank) bank;
     }
 
-    public int getIdBank() {
-        return idBank;
+    public int getBankId() {
+        return bankId;
     }
 
-    public void setIdBank(int idBank) {
-        this.idBank = idBank;
+    public void setBankId(int idBank) {
+        this.bankId = idBank;
     }
 
-    public int getIdUser() {
-        return idUser;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setIdUser(int idUser) {
-        this.idUser = idUser;
+    public void setUserId(int idUser) {
+        this.userId = idUser;
     }
 }

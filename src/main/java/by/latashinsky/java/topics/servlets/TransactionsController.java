@@ -25,10 +25,10 @@ public class TransactionsController {
                                   @RequestParam(value = "id-account-from", required = false) Integer idAccountFrom) throws JsonProcessingException {
         Collection<Transaction> transactions = myRepository.findAll();
         if (idAccountFrom != null) {
-            transactions.removeIf(r -> !idAccountFrom.equals(r.getIdAccountFrom()));
+            transactions.removeIf(r -> !idAccountFrom.equals(r.getAccountFromId()));
         }
         if (idAccountTo != null) {
-            transactions.removeIf(r -> !idAccountTo.equals(r.getIdAccountTo()));
+            transactions.removeIf(r -> !idAccountTo.equals(r.getAccountToId()));
         }
         return new ObjectMapper().writeValueAsString(transactions);
     }

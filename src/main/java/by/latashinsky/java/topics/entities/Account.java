@@ -2,13 +2,13 @@ package by.latashinsky.java.topics.entities;
 
 import by.latashinsky.java.topics.helpers.Constants;
 import by.latashinsky.java.topics.utils.SelectHelpUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 public interface Account {
     Logger logger = LoggerFactory.getLogger(Account.class);
@@ -51,13 +51,13 @@ public interface Account {
 
     void setBank(Bank bank);
 
-    int getIdBank();
+    int getBankId();
 
-    void setIdBank(int idBank);
+    void setBankId(int bankId);
 
-    int getIdUser();
+    int getUserId();
 
-    void setIdUser(int idUser);
+    void setUserId(int userId);
 
     default boolean editBank() {
         Bank bank = SelectHelpUtil.selectBank();

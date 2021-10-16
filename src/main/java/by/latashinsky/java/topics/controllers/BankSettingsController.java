@@ -31,7 +31,7 @@ public class BankSettingsController extends BaseSettingsController<Bank> {
     public void show(Bank bank) {
         MyRepository<Account> myRepository = Factory.getInstance().getRepository(Account.class);
         ArrayList<Account> list = myRepository.findAll()
-                .stream().filter(r -> r.getIdBank() == bank.getId()).collect(Collectors.toCollection(ArrayList::new));
+                .stream().filter(r -> r.getBankId() == bank.getId()).collect(Collectors.toCollection(ArrayList::new));
         bank.setAccounts(list);
         logger.info(list + "\n");
     }

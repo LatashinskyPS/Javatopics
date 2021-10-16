@@ -19,8 +19,8 @@ public class JsonTransactionRepository implements MyRepository<JsonTransaction> 
     private JsonTransaction update(JsonTransaction transaction) {
         if (transaction == null) return null;
         JsonAccountRepository jsonAccountRepository = JsonAccountRepository.getInstance();
-        transaction.setAccountFrom(jsonAccountRepository.findById(transaction.getIdAccountFrom()));
-        transaction.setAccountTo(jsonAccountRepository.findById(transaction.getIdAccountTo()));
+        transaction.setAccountFrom(jsonAccountRepository.findById(transaction.getAccountFromId()));
+        transaction.setAccountTo(jsonAccountRepository.findById(transaction.getAccountToId()));
         return transaction;
     }
 
@@ -56,8 +56,8 @@ public class JsonTransactionRepository implements MyRepository<JsonTransaction> 
     @Override
     public void save(JsonTransaction transaction) {
         if (transaction.getAccountFrom() == null || transaction.getAccountTo() == null) return;
-        transaction.setIdAccountTo(transaction.getAccountTo().getId());
-        transaction.setIdAccountFrom(transaction.getAccountFrom().getId());
+        transaction.setAccountToId(transaction.getAccountTo().getId());
+        transaction.setAccountFromId(transaction.getAccountFrom().getId());
         String str;
         int idMax = findAll().stream().map(Transaction::getId).max(Integer::compare).orElse(0);
         HashSet<JsonTransaction> hashSet = findAll();

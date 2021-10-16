@@ -23,10 +23,10 @@ public class AccountsController {
                               @RequestParam(value = "currency", required = false) final String str) throws JsonProcessingException {
         Collection<Account> users = accountMyRepository.findAll();
         if (idBank != null) {
-            users.removeIf(r -> !idBank.equals(r.getIdBank()));
+            users.removeIf(r -> !idBank.equals(r.getBankId()));
         }
         if (idUser != null) {
-            users.removeIf(r -> !idUser.equals(r.getIdUser()));
+            users.removeIf(r -> !idUser.equals(r.getUserId()));
         }
         if (str != null) {
             users.removeIf(r -> !str.equalsIgnoreCase(r.getCurrency()));
@@ -59,8 +59,8 @@ public class AccountsController {
         } else {
             throw new BadRequest();
         }
-        account.setIdBank(idBank);
-        account.setIdUser(idUser);
+        account.setBankId(idBank);
+        account.setUserId(idUser);
         account.setBalance(balance);
         accountMyRepository.save(account);
         return "success";
@@ -85,10 +85,10 @@ public class AccountsController {
             throw new ResourceNotFound();
         }
         if (idBank != null) {
-            account.setIdBank(idBank);
+            account.setBankId(idBank);
         }
         if (idUser != null) {
-            account.setIdUser(idUser);
+            account.setUserId(idUser);
         }
         if (balance != null) {
             account.setBalance(balance);

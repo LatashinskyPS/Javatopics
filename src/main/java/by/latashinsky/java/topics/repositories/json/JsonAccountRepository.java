@@ -25,8 +25,8 @@ public class JsonAccountRepository implements MyRepository<JsonAccount> {
         if (account == null) return null;
         account.setTransactionsFrom(new ArrayList<>());
         account.setTransactionsTo(new ArrayList<>());
-        account.setBank(JsonBankRepository.getInstance().findById(account.getIdBank()));
-        account.setUser(JsonUserRepository.getInstance().findById(account.getIdUser()));
+        account.setBank(JsonBankRepository.getInstance().findById(account.getBankId()));
+        account.setUser(JsonUserRepository.getInstance().findById(account.getUserId()));
         return account;
     }
 
@@ -63,10 +63,10 @@ public class JsonAccountRepository implements MyRepository<JsonAccount> {
     @Override
     public void save(JsonAccount account) {
         if (account.getBank() != null && account.getUser() != null) {
-            account.setIdBank(account.getBank().getId());
-            account.setIdUser(account.getUser().getId());
+            account.setBankId(account.getBank().getId());
+            account.setUserId(account.getUser().getId());
         }
-        if (account.getIdBank() == 0) return;
+        if (account.getBankId() == 0) return;
         String str = "[]";
         HashSet<JsonAccount> hashSet = findAll();
         int idMax = findAll().stream().map(Account::getId).max(Integer::compare).orElse(0);

@@ -31,7 +31,7 @@ public class UserSettingsController extends BaseSettingsController<User> {
     @Override
     public void show(User user) {
         ArrayList<Account> list = myAccountRepository.findAll()
-                .stream().filter(r -> r.getIdUser() == user.getId()).collect(Collectors.toCollection(ArrayList::new));
+                .stream().filter(r -> r.getUserId() == user.getId()).collect(Collectors.toCollection(ArrayList::new));
         user.setAccounts(list);
         logger.info(user + "\n");
     }

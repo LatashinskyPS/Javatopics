@@ -11,9 +11,9 @@ import java.util.Objects;
 public class JsonTransaction implements Transaction {
     private int id;
 
-    private int idAccountFrom;
+    private int accountFromId;
 
-    private int idAccountTo;
+    private int accountToId;
 
     private Date date;
 
@@ -88,19 +88,19 @@ public class JsonTransaction implements Transaction {
         this.date = date;
     }
 
-    public int getIdAccountFrom() {
-        return idAccountFrom;
+    public int getAccountFromId() {
+        return accountFromId;
     }
 
-    public void setIdAccountFrom(int idAccountFrom) {
-        this.idAccountFrom = idAccountFrom;
+    public void setAccountFromId(int accountFromId) {
+        this.accountFromId = accountFromId;
     }
 
-    public int getIdAccountTo() {
-        return idAccountTo;
+    public int getAccountToId() {
+        return accountToId;
     }
 
-    public void setIdAccountTo(int idAccountTo) {
-        this.idAccountTo = idAccountTo;
+    public void setAccountToId(int accountToId) {
+        this.accountToId = accountToId;
     }
 }

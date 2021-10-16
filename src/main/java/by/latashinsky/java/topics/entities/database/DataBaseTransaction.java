@@ -15,11 +15,11 @@ public class DataBaseTransaction implements Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "id_account_from", insertable = false, updatable = false)
-    private int idAccountFrom;
+    @Column(name = "account_from_id", insertable = false, updatable = false)
+    private int accountFromId;
 
-    @Column(name = "id_account_to", insertable = false, updatable = false)
-    private int idAccountTo;
+    @Column(name = "account_to_id", insertable = false, updatable = false)
+    private int accountToId;
 
     @Column(name = "transaction_time")
     @Temporal(TemporalType.DATE)
@@ -28,11 +28,11 @@ public class DataBaseTransaction implements Transaction {
     private BigDecimal value;
 
     @ManyToOne
-    @JoinColumn(name = "id_account_from")
+    @JoinColumn(name = "account_from_id")
     private DataBaseAccount accountFrom;
 
     @ManyToOne
-    @JoinColumn(name = "id_account_to")
+    @JoinColumn(name = "account_to_id")
     private DataBaseAccount accountTo;
 
     @Override
@@ -98,19 +98,19 @@ public class DataBaseTransaction implements Transaction {
         this.date = date;
     }
 
-    public int getIdAccountFrom() {
-        return idAccountFrom;
+    public int getAccountFromId() {
+        return accountFromId;
     }
 
-    public void setIdAccountFrom(int idAccountFrom) {
-        this.idAccountFrom = idAccountFrom;
+    public void setAccountFromId(int idAccountFrom) {
+        this.accountFromId = idAccountFrom;
     }
 
-    public int getIdAccountTo() {
-        return idAccountTo;
+    public int getAccountToId() {
+        return accountToId;
     }
 
-    public void setIdAccountTo(int idAccountTo) {
-        this.idAccountTo = idAccountTo;
+    public void setAccountToId(int idAccountTo) {
+        this.accountToId = idAccountTo;
     }
 }

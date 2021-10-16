@@ -24,11 +24,11 @@ public interface Transaction {
 
     void setDate(Date date);
 
-    int getIdAccountFrom();
+    int getAccountFromId();
 
-    void setIdAccountFrom(int idAccountFrom);
+    void setAccountFromId(int accountFromId);
 
-    int getIdAccountTo();
+    int getAccountToId();
 
-    void setIdAccountTo(int idAccountTo);
+    void setAccountToId(int accountToId);
 }

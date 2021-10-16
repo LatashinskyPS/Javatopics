@@ -59,10 +59,10 @@ public class UserTransactionsController implements Controller {
         List<Transaction> transactionList = new LinkedList<>();
         MyRepository<Transaction> repository =Factory.getInstance().getRepository(Transaction.class);
         MyRepository<Account> repositoryAccount = Factory.getInstance().getRepository(Account.class);
-        repositoryAccount.findAll().stream().filter(r -> r.getIdUser() == user.getId()).
+        repositoryAccount.findAll().stream().filter(r -> r.getUserId() == user.getId()).
                 forEach(r -> transactionList.addAll(
-                        repository.findAll().stream().filter(a -> a.getIdAccountTo() == user.getId()
-                                || a.getIdAccountFrom() == user.getId()).collect(Collectors.toList())));
+                        repository.findAll().stream().filter(a -> a.getAccountToId() == user.getId()
+                                || a.getAccountFromId() == user.getId()).collect(Collectors.toList())));
         return transactionList;
     }
 

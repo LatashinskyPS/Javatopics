@@ -23,7 +23,7 @@ public class DataBaseUser implements User {
     private UserTypes userType;
 
     @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_user")
+    @JoinColumn(name = "user_id")
     private List<DataBaseAccount> accounts;
 
     @Override

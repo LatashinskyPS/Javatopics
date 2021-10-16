@@ -25,7 +25,7 @@ public class DataBaseBank implements Bank {
     private BigDecimal legalCommission;
 
     @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_bank")
+    @JoinColumn(name = "bank_id")
     private List<DataBaseAccount> accounts;
 
     @Override

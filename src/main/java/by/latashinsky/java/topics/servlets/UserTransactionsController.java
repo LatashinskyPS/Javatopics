@@ -25,10 +25,10 @@ public class UserTransactionsController {
                                       @RequestParam(value = "date-to", required = false) Long dateTo) throws JsonProcessingException {
         User user = userMyRepository.findById(id);
         Set<Transaction> transactionHashSet = new HashSet<>();
-        accountMyRepository.findAll().stream().filter(r -> r.getIdUser() == user.getId()).
+        accountMyRepository.findAll().stream().filter(r -> r.getUserId() == user.getId()).
                 forEach(r -> transactionHashSet.addAll(
-                        transactionMyRepository.findAll().stream().filter(a -> a.getIdAccountTo() == user.getId()
-                                || a.getIdAccountFrom() == user.getId()).collect(Collectors.toSet())));
+                        transactionMyRepository.findAll().stream().filter(a -> a.getAccountToId() == user.getId()
+                                || a.getAccountFromId() == user.getId()).collect(Collectors.toSet())));
         if (dateFrom != null) {
             transactionHashSet.removeIf(r -> r.getDate().before(new Date(dateFrom)));
         }
