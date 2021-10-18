@@ -5,6 +5,8 @@ import com.latashinsky.java.topics.entities.Transaction;
 import com.latashinsky.java.topics.entities.User;
 import com.latashinsky.java.topics.entities.json.JsonTransaction;
 import com.latashinsky.java.topics.factory.Factory;
+import com.latashinsky.java.topics.helpers.Constants;
+import com.latashinsky.java.topics.helpers.DirectoryHelper;
 import com.latashinsky.java.topics.repositories.MyRepository;
 import com.latashinsky.java.topics.repositories.TransactionRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -47,7 +49,10 @@ public class JsonTransactionRepository implements TransactionRepository<JsonTran
 
     @Override
     public HashSet<JsonTransaction> findAll() {
-        try (BufferedReader fileReader = new BufferedReader(new FileReader("transactions.json"))) {
+        if (DirectoryHelper.mkdirIfNotExist(Constants.PATH)) {
+            return new HashSet<>();
+        }
+        try (BufferedReader fileReader = new BufferedReader(new FileReader(Constants.PATH + "transactions.json"))) {
             String json = fileReader.readLine();
             if (json == null) {
                 return new HashSet<>();
@@ -81,7 +86,7 @@ public class JsonTransactionRepository implements TransactionRepository<JsonTran
             hashSet.remove(transaction);
         }
         hashSet.add(transaction);
-        try (FileWriter fileWriter = new FileWriter("transactions.json")) {
+        try (FileWriter fileWriter = new FileWriter(Constants.PATH + "transactions.json")) {
             str = new ObjectMapper().writeValueAsString(hashSet);
             fileWriter.write(str);
         } catch (IOException e) {
@@ -102,7 +107,7 @@ public class JsonTransactionRepository implements TransactionRepository<JsonTran
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        try (FileWriter fileWriter = new FileWriter("transactions.json")) {
+        try (FileWriter fileWriter = new FileWriter(Constants.PATH + "transactions.json")) {
             fileWriter.write(str);
         } catch (IOException e) {
             e.printStackTrace();

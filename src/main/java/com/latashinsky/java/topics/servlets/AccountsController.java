@@ -1,9 +1,11 @@
 package com.latashinsky.java.topics.servlets;
 
 import com.latashinsky.java.topics.entities.Account;
+import com.latashinsky.java.topics.entities.Currency;
 import com.latashinsky.java.topics.exceptions.BadRequest;
 import com.latashinsky.java.topics.exceptions.ResourceNotFound;
 import com.latashinsky.java.topics.factory.Factory;
+import com.latashinsky.java.topics.repositories.CurrencyRepository;
 import com.latashinsky.java.topics.repositories.MyRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -16,6 +18,8 @@ import java.util.Collection;
 @RequestMapping("/accounts")
 public class AccountsController {
     private final MyRepository<Account> accountMyRepository = Factory.getInstance().getRepository(Account.class);
+    private final CurrencyRepository<Currency> currencyRepository =
+            (CurrencyRepository<Currency>) Factory.getInstance().getRepository(Currency.class);
 
     @GetMapping("")
     public String getAccounts(@RequestParam(value = "id-bank", required = false) final Integer idBank,
@@ -29,7 +33,7 @@ public class AccountsController {
             users.removeIf(r -> !idUser.equals(r.getUserId()));
         }
         if (str != null) {
-            users.removeIf(r -> !str.equalsIgnoreCase(r.getCurrency()));
+            users.removeIf(r -> !str.equalsIgnoreCase(r.getCurrency().getName()));
         }
         return new ObjectMapper().writeValueAsString(users);
     }
@@ -53,9 +57,9 @@ public class AccountsController {
             throw new BadRequest();
         }
         Account account = Factory.getInstance().getEntity(Account.class);
-        int currencyLength = 3;
-        if (str.length() == currencyLength) {
-            account.setCurrency(str);
+        Currency currency = currencyRepository.findByName(str);
+        if (currency != null) {
+            account.setCurrency(currency);
         } else {
             throw new BadRequest();
         }
@@ -73,10 +77,10 @@ public class AccountsController {
                                 @RequestParam(value = "currency", required = false) final String str,
                                 @PathVariable("id") int id) {
         Account account = accountMyRepository.findById(id);
-        int currencyLength = 3;
         if (str != null) {
-            if (str.length() == currencyLength) {
-                account.setCurrency(str);
+            Currency currency = currencyRepository.findByName(str);
+            if (currency != null) {
+                account.setCurrency(currency);
             } else {
                 throw new BadRequest();
             }

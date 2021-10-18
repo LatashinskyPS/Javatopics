@@ -20,7 +20,6 @@ import java.util.regex.Pattern;
 
 public class TransactionController implements Controller {
     private static final Logger logger = LoggerFactory.getLogger(Controller.class);
-    private final TransactionManager transactionManager = TransactionManager.getInstance();
     private static TransactionController transactionController;
     private final MyRepository<Transaction> transactionRepository = Factory.getInstance().getRepository(Transaction.class);
 
@@ -99,7 +98,7 @@ public class TransactionController implements Controller {
                 break;
             }
         } while (!"exit".equals(str));
-        transactionManager.doTransaction(accountFrom, accountTo, bigDecimal);
+        TransactionManager.doTransaction(accountFrom, accountTo, bigDecimal);
     }
 
     @Override

@@ -2,6 +2,8 @@ package com.latashinsky.java.topics.repositories.json;
 
 import com.latashinsky.java.topics.entities.User;
 import com.latashinsky.java.topics.entities.json.JsonUser;
+import com.latashinsky.java.topics.helpers.Constants;
+import com.latashinsky.java.topics.helpers.DirectoryHelper;
 import com.latashinsky.java.topics.repositories.UserRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -36,7 +38,10 @@ public class JsonUserRepository implements UserRepository<JsonUser> {
 
     @Override
     public HashSet<JsonUser> findAll() {
-        try (BufferedReader fileReader = new BufferedReader(new FileReader("users.json"))) {
+        if (DirectoryHelper.mkdirIfNotExist(Constants.PATH)) {
+            return new HashSet<>();
+        }
+        try (BufferedReader fileReader = new BufferedReader(new FileReader(Constants.PATH + "users.json"))) {
             String json = fileReader.readLine();
             if (json == null) {
                 return new HashSet<>();
@@ -70,7 +75,7 @@ public class JsonUserRepository implements UserRepository<JsonUser> {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        try (FileWriter fileWriter = new FileWriter("users.json")) {
+        try (FileWriter fileWriter = new FileWriter(Constants.PATH + "users.json")) {
             fileWriter.write(str);
         } catch (IOException e) {
             e.printStackTrace();
@@ -90,7 +95,7 @@ public class JsonUserRepository implements UserRepository<JsonUser> {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        try (FileWriter fileWriter = new FileWriter("users.json")) {
+        try (FileWriter fileWriter = new FileWriter(Constants.PATH + "users.json")) {
             fileWriter.write(str);
         } catch (IOException e) {
             e.printStackTrace();

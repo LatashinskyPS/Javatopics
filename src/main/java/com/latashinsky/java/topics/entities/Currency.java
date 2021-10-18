@@ -1,20 +1,17 @@
 package com.latashinsky.java.topics.entities;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import java.math.BigDecimal;
+import java.util.List;
 
 public interface Currency {
-    String getName();
+    List<? extends CurrencyExchange> getCurrencyExchanges();
 
-    void setName(String name);
-
-    BigDecimal getValue();
-
-    void setValue(BigDecimal value);
+    void setCurrencyExchanges(List<? extends CurrencyExchange> currencyExchanges);
 
     int getId();
 
     void setId(int id);
+
+    String getName();
+
+    void setName(String name);
 }

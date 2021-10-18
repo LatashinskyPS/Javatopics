@@ -1,15 +1,9 @@
 package com.latashinsky.java.topics.repositories.factories;
 
-import com.latashinsky.java.topics.entities.Account;
-import com.latashinsky.java.topics.entities.Bank;
-import com.latashinsky.java.topics.entities.Transaction;
-import com.latashinsky.java.topics.entities.User;
-import com.latashinsky.java.topics.repositories.*;
+import com.latashinsky.java.topics.entities.*;
 import com.latashinsky.java.topics.repositories.MyRepository;
-import com.latashinsky.java.topics.repositories.json.JsonAccountRepository;
-import com.latashinsky.java.topics.repositories.json.JsonBankRepository;
-import com.latashinsky.java.topics.repositories.json.JsonTransactionRepository;
-import com.latashinsky.java.topics.repositories.json.JsonUserRepository;
+import com.latashinsky.java.topics.repositories.database.DataBaseCurrencyExchangeRepository;
+import com.latashinsky.java.topics.repositories.json.*;
 
 public class JsonRepositoryFactory implements RepositoryFactory {
     @Override
@@ -26,6 +20,12 @@ public class JsonRepositoryFactory implements RepositoryFactory {
         }
         if (clazz.equals(Transaction.class)) {
             return (MyRepository<T>) JsonTransactionRepository.getInstance();
+        }
+        if (clazz.equals(Currency.class)) {
+            return (MyRepository<T>) JsonCurrencyRepository.getInstance();
+        }
+        if (clazz.equals(CurrencyExchange.class)) {
+            return (MyRepository<T>) JsonCurrencyExchangeRepository.getInstance();
         }
         return null;
     }

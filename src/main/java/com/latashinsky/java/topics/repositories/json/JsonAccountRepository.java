@@ -4,6 +4,8 @@ import com.latashinsky.java.topics.entities.Account;
 import com.latashinsky.java.topics.entities.Bank;
 import com.latashinsky.java.topics.entities.User;
 import com.latashinsky.java.topics.entities.json.JsonAccount;
+import com.latashinsky.java.topics.helpers.Constants;
+import com.latashinsky.java.topics.helpers.DirectoryHelper;
 import com.latashinsky.java.topics.repositories.AccountRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -44,8 +46,11 @@ public class JsonAccountRepository implements AccountRepository<JsonAccount> {
 
     @Override
     public HashSet<JsonAccount> findAll() {
+        if (DirectoryHelper.mkdirIfNotExist(Constants.PATH)) {
+            return new HashSet<>();
+        }
         String json = null;
-        try (BufferedReader fileReader = new BufferedReader(new FileReader("accounts.json"))) {
+        try (BufferedReader fileReader = new BufferedReader(new FileReader(Constants.PATH + "accounts.json"))) {
             json = fileReader.readLine();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -73,11 +78,16 @@ public class JsonAccountRepository implements AccountRepository<JsonAccount> {
 
     @Override
     public void save(JsonAccount account) {
-        if (account.getBank() != null && account.getUser() != null) {
+        if (account.getBank() != null && account.getUser() != null
+                && account.getCurrency() != null) {
+            account.setCurrencyId(account.getCurrency().getId());
             account.setBankId(account.getBank().getId());
             account.setUserId(account.getUser().getId());
+        } else {
+            return;
         }
-        if (account.getBankId() == 0) {
+        if (account.getBankId() == 0 || account.getUserId() == 0
+                || account.getCurrencyId() == 0) {
             return;
         }
         String str = "[]";
@@ -94,7 +104,7 @@ public class JsonAccountRepository implements AccountRepository<JsonAccount> {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        try (FileWriter fileWriter = new FileWriter("accounts.json")) {
+        try (FileWriter fileWriter = new FileWriter(Constants.PATH + "accounts.json")) {
             fileWriter.write(str);
         } catch (IOException e) {
             e.printStackTrace();
@@ -114,7 +124,7 @@ public class JsonAccountRepository implements AccountRepository<JsonAccount> {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        try (FileWriter fileWriter = new FileWriter("accounts.json")) {
+        try (FileWriter fileWriter = new FileWriter(Constants.PATH + "accounts.json")) {
             fileWriter.write(str);
         } catch (IOException e) {
             e.printStackTrace();

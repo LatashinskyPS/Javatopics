@@ -4,9 +4,6 @@ import com.latashinsky.java.topics.entities.factories.DataBaseEntitiesFactory;
 import com.latashinsky.java.topics.entities.factories.EntitiesFactory;
 import com.latashinsky.java.topics.entities.factories.JsonEntitiesFactory;
 import com.latashinsky.java.topics.exceptions.FactoryConfigurationException;
-import com.latashinsky.java.topics.helpers.CurrencyExchangeRateHelper;
-import com.latashinsky.java.topics.helpers.DataBaseCurrencyExchangeRateHelper;
-import com.latashinsky.java.topics.helpers.JsonCurrencyExchangeRateHelper;
 import com.latashinsky.java.topics.repositories.factories.DataBaseRepositoryFactory;
 import com.latashinsky.java.topics.repositories.factories.JsonRepositoryFactory;
 import com.latashinsky.java.topics.repositories.MyRepository;
@@ -24,7 +21,6 @@ public class Factory {
 
     private RepositoryFactory repositoryFactory;
     private static Factory instance;
-    private CurrencyExchangeRateHelper currencyExchangeRateHelper;
     private EntitiesFactory entitiesFactory;
 
     public <T> MyRepository<T> getRepository(Class<T> clazz) {
@@ -33,10 +29,6 @@ public class Factory {
 
     public <T> T getEntity(Class<T> clazz) {
         return entitiesFactory.getEntity(clazz);
-    }
-
-    public CurrencyExchangeRateHelper getCurrencyExchangeRateHelper() {
-        return currencyExchangeRateHelper;
     }
 
     public static Factory getInstance() {
@@ -60,13 +52,11 @@ public class Factory {
         switch (profile) {
             case "DB": {
                 repositoryFactory = new DataBaseRepositoryFactory();
-                currencyExchangeRateHelper = new DataBaseCurrencyExchangeRateHelper();
                 entitiesFactory = new DataBaseEntitiesFactory();
                 break;
             }
             case "JSON": {
                 repositoryFactory = new JsonRepositoryFactory();
-                currencyExchangeRateHelper = new JsonCurrencyExchangeRateHelper();
                 entitiesFactory = new JsonEntitiesFactory();
                 break;
             }

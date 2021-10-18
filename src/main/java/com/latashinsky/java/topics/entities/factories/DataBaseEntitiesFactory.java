@@ -13,14 +13,17 @@ public class DataBaseEntitiesFactory implements EntitiesFactory {
         if (clazz.equals(Bank.class)) {
             return (T) new DataBaseBank();
         }
-        if (clazz.equals(Currency.class)) {
-            return (T) new DataBaseCurrency();
+        if (clazz.equals(CurrencyExchange.class)) {
+            return (T) new DataBaseCurrencyExchange();
         }
         if (clazz.equals(User.class)) {
             return (T) new DataBaseUser();
         }
         if (clazz.equals(Transaction.class)) {
             return (T) new DataBaseTransaction();
+        }
+        if (clazz.equals(Currency.class)) {
+            return (T) new DataBaseCurrency();
         }
         return null;
     }

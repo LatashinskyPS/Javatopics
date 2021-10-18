@@ -1,14 +1,8 @@
 package com.latashinsky.java.topics.repositories.factories;
 
-import com.latashinsky.java.topics.entities.Account;
-import com.latashinsky.java.topics.entities.Bank;
-import com.latashinsky.java.topics.entities.Transaction;
-import com.latashinsky.java.topics.entities.User;
+import com.latashinsky.java.topics.entities.*;
 import com.latashinsky.java.topics.repositories.MyRepository;
-import com.latashinsky.java.topics.repositories.database.DataBaseAccountRepository;
-import com.latashinsky.java.topics.repositories.database.DataBaseBankRepository;
-import com.latashinsky.java.topics.repositories.database.DataBaseTransactionRepository;
-import com.latashinsky.java.topics.repositories.database.DataBaseUserRepository;
+import com.latashinsky.java.topics.repositories.database.*;
 
 public class DataBaseRepositoryFactory implements RepositoryFactory {
     @Override
@@ -25,6 +19,12 @@ public class DataBaseRepositoryFactory implements RepositoryFactory {
         }
         if (clazz.equals(Transaction.class)) {
             return (MyRepository<T>) DataBaseTransactionRepository.getInstance();
+        }
+        if (clazz.equals(Currency.class)) {
+            return (MyRepository<T>) DataBaseCurrencyRepository.getInstance();
+        }
+        if (clazz.equals(CurrencyExchange.class)) {
+            return (MyRepository<T>) DataBaseCurrencyExchangeRepository.getInstance();
         }
         return null;
     }

@@ -2,8 +2,11 @@ package com.latashinsky.java.topics.services;
 
 import com.latashinsky.java.topics.entities.Account;
 import com.latashinsky.java.topics.entities.Bank;
+import com.latashinsky.java.topics.entities.Currency;
 import com.latashinsky.java.topics.entities.User;
+import com.latashinsky.java.topics.factory.Factory;
 import com.latashinsky.java.topics.helpers.Constants;
+import com.latashinsky.java.topics.repositories.CurrencyRepository;
 import com.latashinsky.java.topics.utils.SelectHelpUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,8 +59,11 @@ public class AccountService {
             logger.info("Enter name of currency:");
             str = in.next();
             if (str.length() < 4) {
-                account.setCurrency(str);
-                return true;
+                Currency currency = ((CurrencyRepository<Currency>) Factory.getInstance().getRepository(Currency.class)).findByName(str);
+                if (currency != null) {
+                    account.setCurrency(currency);
+                    return true;
+                }
             }
             if ("exit".equals(str)) {
                 return false;

@@ -1,8 +1,5 @@
 package com.latashinsky.java.topics.entities;
 
-import com.latashinsky.java.topics.helpers.Constants;
-import com.latashinsky.java.topics.utils.SelectHelpUtil;
-
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -29,9 +26,13 @@ public interface Account {
 
     void setBalance(BigDecimal balance);
 
-    String getCurrency();
+    Currency getCurrency();
 
-    void setCurrency(String currency);
+    int getCurrencyId();
+
+    void setCurrencyId(int currencyId);
+
+    void setCurrency(Currency currency);
 
     int getId();
 

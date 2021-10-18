@@ -3,6 +3,7 @@ package com.latashinsky.java.topics.repositories.json;
 import com.latashinsky.java.topics.entities.Bank;
 import com.latashinsky.java.topics.entities.json.JsonBank;
 import com.latashinsky.java.topics.helpers.Constants;
+import com.latashinsky.java.topics.helpers.DirectoryHelper;
 import com.latashinsky.java.topics.repositories.BankRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -38,6 +39,9 @@ public class JsonBankRepository implements BankRepository<JsonBank> {
 
     @Override
     public HashSet<JsonBank> findAll() {
+        if (DirectoryHelper.mkdirIfNotExist(Constants.PATH)) {
+            return new HashSet<>();
+        }
         HashSet<JsonBank> hashSet = null;
         String json = null;
         try (BufferedReader fileReader = new BufferedReader(new FileReader(Constants.PATH + "banks.json"))) {
