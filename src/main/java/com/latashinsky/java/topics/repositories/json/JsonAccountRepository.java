@@ -4,6 +4,8 @@ import com.latashinsky.java.topics.entities.Account;
 import com.latashinsky.java.topics.entities.Bank;
 import com.latashinsky.java.topics.entities.User;
 import com.latashinsky.java.topics.entities.json.JsonAccount;
+import com.latashinsky.java.topics.helpers.Constants;
+import com.latashinsky.java.topics.helpers.DirectoryHelper;
 import com.latashinsky.java.topics.repositories.AccountRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -44,6 +46,9 @@ public class JsonAccountRepository implements AccountRepository<JsonAccount> {
 
     @Override
     public HashSet<JsonAccount> findAll() {
+        if (DirectoryHelper.mkdirIfNotExist(Constants.PATH)) {
+            return new HashSet<>();
+        }
         String json = null;
         try (BufferedReader fileReader = new BufferedReader(new FileReader("accounts.json"))) {
             json = fileReader.readLine();

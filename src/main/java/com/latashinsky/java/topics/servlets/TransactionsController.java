@@ -12,13 +12,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.Collection;
-import java.util.HashMap;
 
 @RestController
 @RequestMapping("/transactions")
 public class TransactionsController {
     private final MyRepository<Account> accountMyRepository = Factory.getInstance().getRepository(Account.class);
-    private final MyRepository<Transaction> myRepository =  Factory.getInstance().getRepository(Transaction.class);
+    private final MyRepository<Transaction> myRepository = Factory.getInstance().getRepository(Transaction.class);
 
     @GetMapping("")
     public String getTransactions(@RequestParam(value = "id-account-to", required = false) Integer idAccountTo,
@@ -44,16 +43,10 @@ public class TransactionsController {
         Account accountFrom = accountMyRepository.findById(idAccountFrom);
         Account accountTo = accountMyRepository.findById(idAccountTo);
         if (accountFrom.getBalance().compareTo(value) >= 0) {
-            HashMap<String, BigDecimal> currencyExchangeRate
-                    = Factory.getInstance().getCurrencyExchangeRateHelper().getCurrencyExchangeRate();
-            if (!currencyExchangeRate.containsKey(accountFrom.getCurrency())
-                    || !currencyExchangeRate.containsKey(accountTo.getCurrency())) {
-                throw new BadRequest();
+            if (TransactionManager.doTransaction(accountFrom, accountTo, value)) {
+                return "success";
             }
-            TransactionManager.doTransactionWithoutCheck(accountFrom, accountTo, value, currencyExchangeRate);
-            return "success";
-        } else {
-            throw new BadRequest();
         }
+        throw new BadRequest();
     }
 }

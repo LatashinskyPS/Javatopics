@@ -1,9 +1,6 @@
 package com.latashinsky.java.topics.entities.database;
 
-import com.latashinsky.java.topics.entities.Account;
-import com.latashinsky.java.topics.entities.Bank;
-import com.latashinsky.java.topics.entities.Transaction;
-import com.latashinsky.java.topics.entities.User;
+import com.latashinsky.java.topics.entities.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -24,7 +21,12 @@ public class DataBaseAccount implements Account {
     @Column(name = "user_id", insertable = false, updatable = false)
     private int userId;
 
-    private String currency;
+    @Column(name = "currency_id", insertable = false, updatable = false)
+    private int currencyId;
+
+    @ManyToOne
+    @JoinColumn(name = "currency_id")
+    private DataBaseCurrency currency;
 
     private BigDecimal balance;
 
@@ -104,14 +106,6 @@ public class DataBaseAccount implements Account {
         this.balance = balance;
     }
 
-    public String getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(String currency) {
-        this.currency = currency;
-    }
-
     public int getId() {
         return id;
     }
@@ -142,5 +136,21 @@ public class DataBaseAccount implements Account {
 
     public void setUserId(int idUser) {
         this.userId = idUser;
+    }
+
+    public DataBaseCurrency getCurrency() {
+        return currency;
+    }
+
+    public int getCurrencyId() {
+        return currencyId;
+    }
+
+    public void setCurrencyId(int currencyId) {
+        this.currencyId = currencyId;
+    }
+
+    public void setCurrency(Currency currency) {
+        this.currency = (DataBaseCurrency) currency;
     }
 }

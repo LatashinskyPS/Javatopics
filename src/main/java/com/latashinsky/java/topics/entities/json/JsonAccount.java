@@ -1,11 +1,7 @@
 package com.latashinsky.java.topics.entities.json;
 
-import com.latashinsky.java.topics.entities.Account;
-import com.latashinsky.java.topics.entities.Bank;
-import com.latashinsky.java.topics.entities.Transaction;
-import com.latashinsky.java.topics.entities.User;
+import com.latashinsky.java.topics.entities.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Locale;
@@ -15,11 +11,13 @@ public class JsonAccount implements Account {
 
     private int id;
 
+    private int currencyId;
+
     private int bankId;
 
     private int userId;
 
-    private String currency;
+    private Currency currency;
 
     private BigDecimal balance;
 
@@ -94,14 +92,6 @@ public class JsonAccount implements Account {
         this.balance = balance;
     }
 
-    public String getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(String currency) {
-        this.currency = currency;
-    }
-
     public int getId() {
         return id;
     }
@@ -132,5 +122,21 @@ public class JsonAccount implements Account {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public int getCurrencyId() {
+        return currencyId;
+    }
+
+    public void setCurrencyId(int currencyId) {
+        this.currencyId = currencyId;
+    }
+
+    public Currency getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(Currency currency) {
+        this.currency = currency;
     }
 }

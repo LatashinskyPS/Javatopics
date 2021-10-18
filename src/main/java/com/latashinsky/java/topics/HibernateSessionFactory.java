@@ -28,7 +28,7 @@ public class HibernateSessionFactory {
                         properties.getProperty("database_url"))
                 .addAnnotatedClass(DataBaseBank.class).addAnnotatedClass(DataBaseAccount.class)
                 .addAnnotatedClass(DataBaseUser.class).addAnnotatedClass(DataBaseCurrency.class)
-                .addAnnotatedClass(DataBaseTransaction.class)
+                .addAnnotatedClass(DataBaseTransaction.class).addAnnotatedClass(DataBaseCurrencyExchange.class)
                 .buildSessionFactory();
     }
 }
