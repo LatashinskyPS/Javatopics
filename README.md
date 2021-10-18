@@ -1,5 +1,11 @@
 # java-topics
 
-java version 11
+requirements:
+JDK 11+
+maven
+DB: postgres
 
-in src/main/java/by/latashinsky/java/topics/models/Constants needed to update PATH to yours Json data dir
+install and run:
+$ mvn install
+$ cd target
+$ mvn exec:java -Dexec.mainClass="com.latashinsky.java.topics.MainClass"
