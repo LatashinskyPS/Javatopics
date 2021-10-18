@@ -4,10 +4,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public interface CurrencyExchange {
-    String getName();
-
-    void setName(String name);
-
     BigDecimal getValueTo();
 
     void setValueTo(BigDecimal valueTo);

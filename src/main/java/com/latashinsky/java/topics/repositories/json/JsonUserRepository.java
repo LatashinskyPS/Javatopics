@@ -41,7 +41,7 @@ public class JsonUserRepository implements UserRepository<JsonUser> {
         if (DirectoryHelper.mkdirIfNotExist(Constants.PATH)) {
             return new HashSet<>();
         }
-        try (BufferedReader fileReader = new BufferedReader(new FileReader("users.json"))) {
+        try (BufferedReader fileReader = new BufferedReader(new FileReader(Constants.PATH + "users.json"))) {
             String json = fileReader.readLine();
             if (json == null) {
                 return new HashSet<>();
@@ -75,7 +75,7 @@ public class JsonUserRepository implements UserRepository<JsonUser> {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        try (FileWriter fileWriter = new FileWriter("users.json")) {
+        try (FileWriter fileWriter = new FileWriter(Constants.PATH + "users.json")) {
             fileWriter.write(str);
         } catch (IOException e) {
             e.printStackTrace();
@@ -95,7 +95,7 @@ public class JsonUserRepository implements UserRepository<JsonUser> {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        try (FileWriter fileWriter = new FileWriter("users.json")) {
+        try (FileWriter fileWriter = new FileWriter(Constants.PATH + "users.json")) {
             fileWriter.write(str);
         } catch (IOException e) {
             e.printStackTrace();

@@ -16,9 +16,6 @@ public class DataBaseCurrencyExchange implements CurrencyExchange {
     @Temporal(TemporalType.DATE)
     private Date date;
 
-    @Column(name = "name", length = 3)
-    private String name;
-
     @Column(name = "value_to")
     private BigDecimal valueTo;
 
@@ -58,14 +55,6 @@ public class DataBaseCurrencyExchange implements CurrencyExchange {
 
     public void setValueIn(BigDecimal valueIn) {
         this.valueIn = valueIn;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public int getId() {

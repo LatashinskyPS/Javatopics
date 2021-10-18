@@ -3,7 +3,6 @@ package com.latashinsky.java.topics.repositories.database;
 import com.latashinsky.java.topics.HibernateSessionFactory;
 import com.latashinsky.java.topics.entities.Currency;
 import com.latashinsky.java.topics.entities.CurrencyExchange;
-import com.latashinsky.java.topics.entities.database.DataBaseCurrency;
 import com.latashinsky.java.topics.entities.database.DataBaseCurrencyExchange;
 import com.latashinsky.java.topics.repositories.CurrencyExchangeRepository;
 import com.latashinsky.java.topics.repositories.MyRepository;

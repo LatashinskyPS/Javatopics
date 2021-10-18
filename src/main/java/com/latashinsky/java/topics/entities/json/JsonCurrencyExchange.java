@@ -10,8 +10,6 @@ import java.util.Date;
 public class JsonCurrencyExchange implements CurrencyExchange {
     private int id;
 
-    private String name;
-
     private Date date;
 
     private BigDecimal valueTo;
@@ -26,14 +24,6 @@ public class JsonCurrencyExchange implements CurrencyExchange {
 
     public void setDate(Date date) {
         this.date = date;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public BigDecimal getValueTo() {

@@ -2,7 +2,6 @@ package com.latashinsky.java.topics.repositories.database;
 
 import com.latashinsky.java.topics.HibernateSessionFactory;
 import com.latashinsky.java.topics.entities.Currency;
-import com.latashinsky.java.topics.entities.database.DataBaseAccount;
 import com.latashinsky.java.topics.entities.database.DataBaseCurrency;
 import com.latashinsky.java.topics.repositories.CurrencyRepository;
 import com.latashinsky.java.topics.repositories.MyRepository;
