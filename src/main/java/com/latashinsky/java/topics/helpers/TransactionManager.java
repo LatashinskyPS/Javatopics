@@ -4,6 +4,7 @@ import com.latashinsky.java.topics.entities.*;
 import com.latashinsky.java.topics.factory.Factory;
 import com.latashinsky.java.topics.repositories.CurrencyExchangeRepository;
 import com.latashinsky.java.topics.repositories.MyRepository;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Date;
@@ -14,7 +15,7 @@ public class TransactionManager {
             (CurrencyExchangeRepository<CurrencyExchange>) Factory.getInstance().getRepository(CurrencyExchange.class);
 
     public static boolean doTransaction(Account accountFrom, Account accountTo,
-                                     BigDecimal value) {
+                                        BigDecimal value) {
         CurrencyExchange currencyExchangeFrom =
                 currencyExchangeRepository.findByCurrencyWhereDateIsNow(accountFrom.getCurrency());
         CurrencyExchange currencyExchangeTo =
@@ -37,8 +38,10 @@ public class TransactionManager {
                                 .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP)));
             }
         }
-        ratio = ratio.divide(currencyExchangeFrom.getValueTo(), 2, RoundingMode.HALF_UP)
-                .multiply(currencyExchangeTo.getValueIn());
+        if (!currencyExchangeFrom.equals(currencyExchangeTo)) {
+            ratio = ratio.divide(currencyExchangeFrom.getRate(), 2, RoundingMode.HALF_UP)
+                    .multiply(currencyExchangeTo.getRate());
+        }
         accountFrom.setBalance(accountFrom.getBalance().subtract(value));
         BigDecimal resultTransactionMoney = value.multiply(ratio);
         accountTo.setBalance(accountTo.getBalance().add(resultTransactionMoney));

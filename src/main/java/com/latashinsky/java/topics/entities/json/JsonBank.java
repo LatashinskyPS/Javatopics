@@ -9,10 +9,11 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.UUID;
 
 public class JsonBank implements Bank {
 
-    private int id;
+    private UUID id = UUID.randomUUID();
 
     private String name;
 
@@ -70,11 +71,11 @@ public class JsonBank implements Bank {
         this.legalCommission = legalCommission;
     }
 
-    public int getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

@@ -12,6 +12,7 @@ import org.hibernate.SessionFactory;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 public class DataBaseCurrencyExchangeRepository implements CurrencyExchangeRepository<DataBaseCurrencyExchange> {
 
@@ -30,7 +31,7 @@ public class DataBaseCurrencyExchangeRepository implements CurrencyExchangeRepos
     }
 
     @Override
-    public DataBaseCurrencyExchange findById(int id) {
+    public DataBaseCurrencyExchange findById(UUID id) {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
         DataBaseCurrencyExchange dataBaseCurrencyExchange = session.get(DataBaseCurrencyExchange.class, id);
@@ -54,7 +55,7 @@ public class DataBaseCurrencyExchangeRepository implements CurrencyExchangeRepos
     public void save(DataBaseCurrencyExchange dataBaseCurrencyExchange) {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
-        if (dataBaseCurrencyExchange.getId() != 0) {
+        if (dataBaseCurrencyExchange.getId() != null) {
             session.update(dataBaseCurrencyExchange);
         } else {
             session.save(dataBaseCurrencyExchange);

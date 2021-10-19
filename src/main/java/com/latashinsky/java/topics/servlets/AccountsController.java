@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.Collection;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/accounts")
@@ -22,8 +23,8 @@ public class AccountsController {
             (CurrencyRepository<Currency>) Factory.getInstance().getRepository(Currency.class);
 
     @GetMapping("")
-    public String getAccounts(@RequestParam(value = "id-bank", required = false) final Integer idBank,
-                              @RequestParam(value = "id-user", required = false) final Integer idUser,
+    public String getAccounts(@RequestParam(value = "id-bank", required = false) final UUID idBank,
+                              @RequestParam(value = "id-user", required = false) final UUID idUser,
                               @RequestParam(value = "currency", required = false) final String str) throws JsonProcessingException {
         Collection<Account> users = accountMyRepository.findAll();
         if (idBank != null) {
@@ -39,7 +40,7 @@ public class AccountsController {
     }
 
     @GetMapping("/{id}")
-    public String getUser(@PathVariable("id") final int id) throws JsonProcessingException {
+    public String getUser(@PathVariable("id") final UUID id) throws JsonProcessingException {
         Account account = accountMyRepository.findById(id);
         if (account != null) {
             return new ObjectMapper().writeValueAsString(account);
@@ -48,11 +49,11 @@ public class AccountsController {
     }
 
     @PostMapping("")
-    public String addNewAccount(@RequestParam(value = "id-bank") final Integer idBank,
-                                @RequestParam(value = "id-user") final Integer idUser,
+    public String addNewAccount(@RequestParam(value = "id-bank") final UUID idBank,
+                                @RequestParam(value = "id-user") final UUID idUser,
                                 @RequestParam(value = "balance") final BigDecimal balance,
                                 @RequestParam(value = "currency") final String str) {
-        if (idBank == 0 || idUser == 0
+        if (idBank == null || idUser == null
                 || balance == null || str == null) {
             throw new BadRequest();
         }
@@ -71,11 +72,11 @@ public class AccountsController {
     }
 
     @PutMapping("/{id}")
-    public String updateAccount(@RequestParam(value = "id-bank", required = false) final Integer idBank,
-                                @RequestParam(value = "id-user", required = false) final Integer idUser,
+    public String updateAccount(@RequestParam(value = "id-bank", required = false) final UUID idBank,
+                                @RequestParam(value = "id-user", required = false) final UUID idUser,
                                 @RequestParam(value = "balance", required = false) final BigDecimal balance,
                                 @RequestParam(value = "currency", required = false) final String str,
-                                @PathVariable("id") int id) {
+                                @PathVariable("id") UUID id) {
         Account account = accountMyRepository.findById(id);
         if (str != null) {
             Currency currency = currencyRepository.findByName(str);
@@ -102,7 +103,7 @@ public class AccountsController {
     }
 
     @DeleteMapping("/{id}")
-    public String deleteAccount(@PathVariable("id") final int id) {
+    public String deleteAccount(@PathVariable("id") final UUID id) {
         Account account = accountMyRepository.findById(id);
         if (account == null) {
             throw new ResourceNotFound();

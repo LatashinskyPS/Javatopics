@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Scanner;
+import java.util.UUID;
 import java.util.regex.Pattern;
 
 public interface User {
@@ -15,9 +16,9 @@ public interface User {
 
     void setAccounts(List<? extends Account> accounts);
 
-    int getId();
+    UUID getId();
 
-    void setId(int id);
+    void setId(UUID id);
 
     String getName();
 

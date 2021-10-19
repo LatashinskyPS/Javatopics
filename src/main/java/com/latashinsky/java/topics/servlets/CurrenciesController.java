@@ -10,6 +10,7 @@ import com.latashinsky.java.topics.repositories.CurrencyRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Locale;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/currencies")
@@ -41,7 +42,7 @@ public class CurrenciesController {
     @PutMapping("/{id}")
     public String updateCurrency(
             @RequestParam(name = "currency") String currencyName,
-            @PathVariable(name = "id") Integer id) throws JsonProcessingException {
+            @PathVariable(name = "id") UUID id) throws JsonProcessingException {
         Currency currency = currencyRepository.findById(id);
         if (currency == null) {
             throw new ResourceNotFound();
@@ -57,7 +58,7 @@ public class CurrenciesController {
     }
 
     @DeleteMapping("/{id}")
-    public String deleteCurrency(@PathVariable(value = "id") int id) {
+    public String deleteCurrency(@PathVariable(value = "id") UUID id) {
         Currency currency = currencyRepository.findById(id);
         if (currency != null) {
             currencyRepository.delete(currency);

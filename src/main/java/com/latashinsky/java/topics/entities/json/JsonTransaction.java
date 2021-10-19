@@ -7,13 +7,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Objects;
+import java.util.UUID;
 
 public class JsonTransaction implements Transaction {
-    private int id;
+    private UUID id = UUID.randomUUID();
 
-    private int accountFromId;
+    private UUID accountFromId = UUID.randomUUID();
 
-    private int accountToId;
+    private UUID accountToId = UUID.randomUUID();
 
     private Date date;
 
@@ -60,11 +61,11 @@ public class JsonTransaction implements Transaction {
         this.value = value;
     }
 
-    public int getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -92,19 +93,19 @@ public class JsonTransaction implements Transaction {
         this.date = date;
     }
 
-    public int getAccountFromId() {
+    public UUID getAccountFromId() {
         return accountFromId;
     }
 
-    public void setAccountFromId(int accountFromId) {
+    public void setAccountFromId(UUID accountFromId) {
         this.accountFromId = accountFromId;
     }
 
-    public int getAccountToId() {
+    public UUID getAccountToId() {
         return accountToId;
     }
 
-    public void setAccountToId(int accountToId) {
+    public void setAccountToId(UUID accountToId) {
         this.accountToId = accountToId;
     }
 }

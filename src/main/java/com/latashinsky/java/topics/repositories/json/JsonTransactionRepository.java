@@ -14,10 +14,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.*;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class JsonTransactionRepository implements TransactionRepository<JsonTransaction> {
@@ -41,9 +38,9 @@ public class JsonTransactionRepository implements TransactionRepository<JsonTran
     }
 
     @Override
-    public JsonTransaction findById(int id) {
+    public JsonTransaction findById(UUID id) {
         return update(
-                findAll().stream().filter(r -> r.getId() == id)
+                findAll().stream().filter(r -> r.getId().equals(id))
                         .findAny().orElse(null));
     }
 
@@ -78,10 +75,9 @@ public class JsonTransactionRepository implements TransactionRepository<JsonTran
         transaction.setAccountToId(transaction.getAccountTo().getId());
         transaction.setAccountFromId(transaction.getAccountFrom().getId());
         String str;
-        int idMax = findAll().stream().map(Transaction::getId).max(Integer::compare).orElse(0);
         HashSet<JsonTransaction> hashSet = findAll();
-        if (transaction.getId() == 0) {
-            transaction.setId(1 + idMax);
+        if (transaction.getId() == null) {
+            transaction.setId(UUID.randomUUID());
         } else {
             hashSet.remove(transaction);
         }

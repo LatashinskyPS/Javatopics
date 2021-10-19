@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.UUID;
 
 public interface Bank {
     Logger logger = LoggerFactory.getLogger(Bank.class);
@@ -21,9 +22,9 @@ public interface Bank {
 
     void setLegalCommission(BigDecimal legalCommission);
 
-    int getId();
+    UUID getId();
 
-    void setId(int id);
+    void setId(UUID id);
 
     List<? extends Account> getAccounts();
 

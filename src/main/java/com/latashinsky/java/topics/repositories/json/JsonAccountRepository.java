@@ -15,6 +15,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class JsonAccountRepository implements AccountRepository<JsonAccount> {
@@ -39,8 +40,8 @@ public class JsonAccountRepository implements AccountRepository<JsonAccount> {
     }
 
     @Override
-    public JsonAccount findById(int id) {
-        JsonAccount account = findAll().stream().filter(r -> r.getId() == id).findAny().orElse(null);
+    public JsonAccount findById(UUID id) {
+        JsonAccount account = findAll().stream().filter(r -> r.getId().equals(id)).findAny().orElse(null);
         return update(account);
     }
 
@@ -86,15 +87,14 @@ public class JsonAccountRepository implements AccountRepository<JsonAccount> {
         } else {
             return;
         }
-        if (account.getBankId() == 0 || account.getUserId() == 0
-                || account.getCurrencyId() == 0) {
+        if (account.getBankId() == null || account.getUserId() == null
+                || account.getCurrencyId() == null) {
             return;
         }
         String str = "[]";
         HashSet<JsonAccount> hashSet = findAll();
-        int idMax = findAll().stream().map(Account::getId).max(Integer::compare).orElse(0);
-        if (account.getId() == 0) {
-            account.setId(idMax + 1);
+        if (account.getId() == null) {
+            account.setId(UUID.randomUUID());
         } else {
             hashSet.remove(account);
         }
@@ -119,7 +119,7 @@ public class JsonAccountRepository implements AccountRepository<JsonAccount> {
         String str = "[]";
         try {
             HashSet<JsonAccount> hashSet = findAll();
-            hashSet.removeIf(r -> account.getId() == r.getId());
+            hashSet.removeIf(r -> account.getId().equals(r.getId()));
             str = new ObjectMapper().writeValueAsString(hashSet);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
@@ -141,7 +141,7 @@ public class JsonAccountRepository implements AccountRepository<JsonAccount> {
     @Override
     public Collection<JsonAccount> getAccountsUser(User user) {
         return findAll()
-                .stream().filter(r -> r.getBankId() == user.getId())
+                .stream().filter(r -> r.getBankId().equals(user.getId()))
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 }

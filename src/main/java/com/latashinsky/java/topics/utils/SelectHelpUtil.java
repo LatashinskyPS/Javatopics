@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Locale;
 import java.util.Scanner;
+import java.util.UUID;
 import java.util.regex.Pattern;
 
 public class SelectHelpUtil {
@@ -24,12 +25,9 @@ public class SelectHelpUtil {
         while (true) {
             logger.info("Enter id of bank(0 to cancel):\n");
             String str = in.next();
-            if (Pattern.matches(Constants.PATTERN_INT, str)) {
-                int index = Integer.parseInt(str);
-                Bank bank = myRepository.findById(index);
-                if (bank != null) {
-                    return bank;
-                }
+            Bank bank = myRepository.findById(UUID.fromString(str));
+            if (bank != null) {
+                return bank;
             }
             if ("0".equals(str)) {
                 break;
@@ -46,12 +44,9 @@ public class SelectHelpUtil {
         while (true) {
             logger.info("Enter id of user(0 to cancel):\n");
             String str = in.next();
-            if (Pattern.matches(Constants.PATTERN_INT, str)) {
-                int index = Integer.parseInt(str);
-                User user = myRepository.findById(index);
-                if (user != null) {
-                    return user;
-                }
+            User user = myRepository.findById(UUID.fromString(str));
+            if (user != null) {
+                return user;
             }
             if ("0".equals(str)) {
                 break;
@@ -71,12 +66,9 @@ public class SelectHelpUtil {
         while (true) {
             logger.info("Enter id of account(0 to cancel):\n");
             String str = in.next();
-            if (Pattern.matches(Constants.PATTERN_INT, str)) {
-                int index = Integer.parseInt(str);
-                Account account = myRepository.findById(index);
-                if (account != null) {
-                    return account;
-                }
+            Account account = myRepository.findById(UUID.fromString(str));
+            if (account != null) {
+                return account;
             }
             if ("0".equals(str)) {
                 break;

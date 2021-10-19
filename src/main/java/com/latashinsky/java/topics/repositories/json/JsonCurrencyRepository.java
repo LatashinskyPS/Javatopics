@@ -11,6 +11,7 @@ import com.latashinsky.java.topics.repositories.CurrencyRepository;
 
 import java.io.*;
 import java.util.HashSet;
+import java.util.UUID;
 
 public class JsonCurrencyRepository implements CurrencyRepository<JsonCurrency> {
 
@@ -30,8 +31,8 @@ public class JsonCurrencyRepository implements CurrencyRepository<JsonCurrency> 
     }
 
     @Override
-    public JsonCurrency findById(int id) {
-        return findAll().stream().filter(r -> r.getId() == id).findAny().orElse(null);
+    public JsonCurrency findById(UUID id) {
+        return findAll().stream().filter(r -> r.getId().equals(id)).findAny().orElse(null);
     }
 
     @Override
@@ -68,11 +69,8 @@ public class JsonCurrencyRepository implements CurrencyRepository<JsonCurrency> 
     public void save(JsonCurrency jsonCurrency) {
         String str = "[]";
         HashSet<JsonCurrency> hashSet = findAll();
-        int idMax = findAll().stream().map(JsonCurrency::getId).max(Integer::compare).orElse(0);
-        if (jsonCurrency.getId() == 0) {
-            jsonCurrency.setId(idMax + 1);
-            hashSet.add(jsonCurrency);
-        }
+        jsonCurrency.setId(UUID.randomUUID());
+        hashSet.add(jsonCurrency);
         try {
             str = new ObjectMapper().writeValueAsString(hashSet);
         } catch (JsonProcessingException e) {
@@ -93,7 +91,7 @@ public class JsonCurrencyRepository implements CurrencyRepository<JsonCurrency> 
         String str = "[]";
         try {
             HashSet<JsonCurrency> hashSet = findAll();
-            hashSet.removeIf(r -> jsonCurrency.getId() == r.getId());
+            hashSet.removeIf(r -> jsonCurrency.getId().equals(r.getId()));
             str = new ObjectMapper().writeValueAsString(hashSet);
         } catch (JsonProcessingException e) {
             e.printStackTrace();

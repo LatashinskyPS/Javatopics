@@ -8,6 +8,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import java.util.List;
+import java.util.UUID;
 
 public class DataBaseBankRepository implements BankRepository<DataBaseBank> {
     private final SessionFactory sessionFactory = HibernateSessionFactory.getSessionFactory();
@@ -25,7 +26,7 @@ public class DataBaseBankRepository implements BankRepository<DataBaseBank> {
     }
 
     @Override
-    public DataBaseBank findById(int id) {
+    public DataBaseBank findById(UUID id) {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
         DataBaseBank bank = session.get(DataBaseBank.class, id);
@@ -49,7 +50,7 @@ public class DataBaseBankRepository implements BankRepository<DataBaseBank> {
     public void save(DataBaseBank bank) {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
-        if (bank.getId() != 0) {
+        if (bank.getId() != null) {
             session.update(bank);
         } else {
             session.save(bank);

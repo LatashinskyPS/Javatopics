@@ -5,9 +5,10 @@ import com.latashinsky.java.topics.entities.Currency;
 import com.latashinsky.java.topics.entities.CurrencyExchange;
 
 import java.util.List;
+import java.util.UUID;
 
 public class JsonCurrency implements Currency {
-    private int id;
+    private UUID id = UUID.randomUUID();
 
     private String name;
 
@@ -23,11 +24,11 @@ public class JsonCurrency implements Currency {
         this.currencyExchanges = (List<CurrencyExchange>) currencyExchanges;
     }
 
-    public int getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

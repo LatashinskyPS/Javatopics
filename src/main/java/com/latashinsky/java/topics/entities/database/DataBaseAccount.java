@@ -1,34 +1,42 @@
 package com.latashinsky.java.topics.entities.database;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.latashinsky.java.topics.entities.*;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 @Table(name = "accounts")
 public class DataBaseAccount implements Account {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Column(name = "id", updatable = false, nullable = false)
+    @Type(type = "org.hibernate.type.PostgresUUIDType")
+    private UUID id;
 
     @Column(name = "bank_id", insertable = false, updatable = false)
-    private int bankId;
+    private UUID bankId;
 
     @Column(name = "user_id", insertable = false, updatable = false)
-    private int userId;
+    private UUID userId;
 
     @Column(name = "currency_id", insertable = false, updatable = false)
-    private int currencyId;
+    private UUID currencyId;
+
+    private BigDecimal balance;
 
     @ManyToOne
     @JoinColumn(name = "currency_id")
     private DataBaseCurrency currency;
-
-    private BigDecimal balance;
 
     @ManyToOne
     @JoinColumn(name = "bank_id")
@@ -40,10 +48,12 @@ public class DataBaseAccount implements Account {
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_from_id")
+    @JsonIgnore
     private List<DataBaseTransaction> transactionsFrom;
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_to_id")
+    @JsonIgnore
     private List<DataBaseTransaction> transactionsTo;
 
     public DataBaseAccount() {
@@ -58,7 +68,7 @@ public class DataBaseAccount implements Account {
             return false;
         }
         DataBaseAccount account = (DataBaseAccount) o;
-        return id == account.id;
+        return id.equals(account.id);
     }
 
     @Override
@@ -72,85 +82,106 @@ public class DataBaseAccount implements Account {
                 id, bank.getName().toUpperCase(Locale.ROOT), balance, currency);
     }
 
+
+    @Override
     public User getUser() {
         return user;
     }
 
+    @Override
     public void setUser(User user) {
         this.user = (DataBaseUser) user;
     }
 
-    public List<DataBaseTransaction> getTransactionsFrom() {
+    @Override
+    public List<? extends Transaction> getTransactionsFrom() {
         return transactionsFrom;
     }
 
     @SuppressWarnings("unchecked")
+    @Override
     public void setTransactionsFrom(List<? extends Transaction> transactionsFrom) {
         this.transactionsFrom = (List<DataBaseTransaction>) transactionsFrom;
     }
 
-    public List<DataBaseTransaction> getTransactionsTo() {
+    @Override
+    public List<? extends Transaction> getTransactionsTo() {
         return transactionsTo;
     }
 
     @SuppressWarnings("unchecked")
+    @Override
     public void setTransactionsTo(List<? extends Transaction> transactionsTo) {
         this.transactionsTo = (List<DataBaseTransaction>) transactionsTo;
     }
 
+    @Override
     public BigDecimal getBalance() {
         return balance;
     }
 
+    @Override
     public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }
 
-    public int getId() {
+    @Override
+    public void setCurrency(Currency currency) {
+        this.currency = (DataBaseCurrency) currency;
+    }
+
+    @Override
+    public UUID getId() {
         return id;
     }
 
-    public void setId(int id) {
+    @Override
+    public void setId(UUID id) {
         this.id = id;
     }
 
-    public Bank getBank() {
-        return bank;
-    }
-
-    public void setBank(Bank bank) {
-        this.bank = (DataBaseBank) bank;
-    }
-
-    public int getBankId() {
+    @Override
+    public UUID getBankId() {
         return bankId;
     }
 
-    public void setBankId(int idBank) {
-        this.bankId = idBank;
+    @Override
+    public void setBankId(UUID bankId) {
+        this.bankId = id;
     }
 
-    public int getUserId() {
+    @Override
+    public UUID getUserId() {
         return userId;
     }
 
-    public void setUserId(int idUser) {
-        this.userId = idUser;
+    @Override
+    public void setUserId(UUID userId) {
+        this.userId = userId;
     }
 
+    @Override
+    public UUID getCurrencyId() {
+        return currencyId;
+    }
+
+    @Override
+    public void setCurrencyId(UUID currencyId) {
+        this.currencyId = currencyId;
+    }
+
+    @Override
     public DataBaseCurrency getCurrency() {
         return currency;
     }
 
-    public int getCurrencyId() {
-        return currencyId;
+    @Override
+    public DataBaseBank getBank() {
+        return bank;
     }
 
-    public void setCurrencyId(int currencyId) {
-        this.currencyId = currencyId;
-    }
-
-    public void setCurrency(Currency currency) {
-        this.currency = (DataBaseCurrency) currency;
+    @Override
+    public void setBank(Bank bank) {
+        this.bank = (DataBaseBank) bank;
     }
 }

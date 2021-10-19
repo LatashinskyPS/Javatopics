@@ -11,6 +11,7 @@ import org.hibernate.SessionFactory;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 public class DataBaseAccountRepository implements AccountRepository<DataBaseAccount> {
 
@@ -30,7 +31,7 @@ public class DataBaseAccountRepository implements AccountRepository<DataBaseAcco
     }
 
     @Override
-    public DataBaseAccount findById(int id) {
+    public DataBaseAccount findById(UUID id) {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
         DataBaseAccount account = session.get(DataBaseAccount.class, id);
@@ -54,7 +55,7 @@ public class DataBaseAccountRepository implements AccountRepository<DataBaseAcco
     public void save(DataBaseAccount dataBaseAccount) {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
-        if (dataBaseAccount.getId() != 0) {
+        if (dataBaseAccount.getId() != null) {
             session.update(dataBaseAccount);
         } else {
             session.save(dataBaseAccount);

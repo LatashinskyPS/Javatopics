@@ -10,6 +10,7 @@ import org.hibernate.SessionFactory;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 public class DataBaseCurrencyRepository implements CurrencyRepository<DataBaseCurrency> {
     private final SessionFactory sessionFactory = HibernateSessionFactory.getSessionFactory();
@@ -27,7 +28,7 @@ public class DataBaseCurrencyRepository implements CurrencyRepository<DataBaseCu
     }
 
     @Override
-    public DataBaseCurrency findById(int id) {
+    public DataBaseCurrency findById(UUID id) {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
         DataBaseCurrency dataBaseCurrency = session.get(DataBaseCurrency.class, id);
@@ -51,7 +52,7 @@ public class DataBaseCurrencyRepository implements CurrencyRepository<DataBaseCu
     public void save(DataBaseCurrency dataBaseCurrency) {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
-        if (dataBaseCurrency.getId() != 0) {
+        if (dataBaseCurrency.getId() != null) {
             session.update(dataBaseCurrency);
         } else {
             session.save(dataBaseCurrency);
@@ -73,10 +74,11 @@ public class DataBaseCurrencyRepository implements CurrencyRepository<DataBaseCu
     public Currency findByName(String name) {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
+        @SuppressWarnings("unchecked")
         DataBaseCurrency dataBaseCurrency = (DataBaseCurrency) session
                 .createQuery("from DataBaseCurrency a where a.name= :name")
                 .setParameter("name", name)
-                .getSingleResult();
+                .getResultStream().findAny().orElse(null);
         session.getTransaction().commit();
         session.close();
         return dataBaseCurrency;

@@ -15,6 +15,7 @@ import java.io.*;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class JsonCurrencyExchangeRepository implements CurrencyExchangeRepository<JsonCurrencyExchange> {
@@ -39,8 +40,8 @@ public class JsonCurrencyExchangeRepository implements CurrencyExchangeRepositor
     }
 
     @Override
-    public JsonCurrencyExchange findById(int id) {
-        return findAll().stream().filter(r -> r.getId() == id).findAny().orElse(null);
+    public JsonCurrencyExchange findById(UUID id) {
+        return findAll().stream().filter(r -> r.getId().equals(id)).findAny().orElse(null);
     }
 
     @Override
@@ -77,10 +78,9 @@ public class JsonCurrencyExchangeRepository implements CurrencyExchangeRepositor
     public void save(JsonCurrencyExchange jsonCurrencyExchange) {
         String str = "[]";
         HashSet<JsonCurrencyExchange> hashSet = findAll();
-        int idMax = findAll().stream().map(JsonCurrencyExchange::getId).max(Integer::compare).orElse(0);
         try {
-            if (jsonCurrencyExchange.getId() == 0) {
-                jsonCurrencyExchange.setId(idMax + 1);
+            if (jsonCurrencyExchange.getId() == null) {
+                jsonCurrencyExchange.setId(UUID.randomUUID());
                 hashSet.add(jsonCurrencyExchange);
             }
             str = new ObjectMapper().writeValueAsString(hashSet);

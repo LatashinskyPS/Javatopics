@@ -1,35 +1,42 @@
 package com.latashinsky.java.topics.entities.database;
 
 import com.latashinsky.java.topics.entities.CurrencyExchange;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.UUID;
 
 @Entity
 @Table(name = "currencies_exchange")
 public class DataBaseCurrencyExchange implements CurrencyExchange {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Column(name = "id", updatable = false, nullable = false)
+    @Type(type = "org.hibernate.type.PostgresUUIDType")
+    private UUID id;
 
     @Temporal(TemporalType.DATE)
     private Date date;
 
-    @Column(name = "value_to")
-    private BigDecimal valueTo;
+    @ManyToOne
+    @JoinColumn(name = "currency_id")
+    protected DataBaseCurrency dataBaseCurrency;
 
-    @Column(name = "value_from")
-    private BigDecimal valueIn;
+    @Column(name = "rate")
+    private BigDecimal rate;
 
     @Column(name = "currency_id", updatable = false, insertable = false)
-    private int currencyId;
+    private UUID currencyId;
 
-    public int getCurrencyId() {
+    public UUID getCurrencyId() {
         return currencyId;
     }
 
-    public void setCurrencyId(int currencyId) {
+    public void setCurrencyId(UUID currencyId) {
         this.currencyId = currencyId;
     }
 
@@ -41,27 +48,19 @@ public class DataBaseCurrencyExchange implements CurrencyExchange {
         this.date = date;
     }
 
-    public BigDecimal getValueTo() {
-        return valueTo;
+    public BigDecimal getRate() {
+        return rate;
     }
 
-    public void setValueTo(BigDecimal valueTo) {
-        this.valueTo = valueTo;
+    public void setRate(BigDecimal rate) {
+        this.rate = rate;
     }
 
-    public BigDecimal getValueIn() {
-        return valueIn;
-    }
-
-    public void setValueIn(BigDecimal valueIn) {
-        this.valueIn = valueIn;
-    }
-
-    public int getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 }

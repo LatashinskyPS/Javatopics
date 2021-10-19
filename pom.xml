@@ -119,6 +119,7 @@
                 <configuration>
                     <configLocation>google_checks.xml</configLocation>
                     <includeTestSourceDirectory>true</includeTestSourceDirectory>
+                    <consoleOutput>true</consoleOutput>
                 </configuration>
                 <executions>
                     <execution>

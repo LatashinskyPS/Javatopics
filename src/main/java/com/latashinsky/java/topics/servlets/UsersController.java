@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/users")
@@ -27,7 +28,7 @@ public class UsersController {
     }
 
     @GetMapping("/{id}")
-    public String getUser(@PathVariable("id") int id) throws JsonProcessingException {
+    public String getUser(@PathVariable("id") UUID id) throws JsonProcessingException {
         User user = userMyRepository.findById(id);
         if (user != null) {
             return new ObjectMapper().writeValueAsString(user);
@@ -55,7 +56,7 @@ public class UsersController {
     @PutMapping("/{id}")
     public String updateUser(@RequestParam(value = "name", required = false) String name,
                              @RequestParam(value = "type", required = false) String type,
-                             @PathVariable("id") int id) {
+                             @PathVariable("id") UUID id) {
         User user = userMyRepository.findById(id);
         if (user == null) {
             throw new ResourceNotFound();
@@ -75,7 +76,7 @@ public class UsersController {
     }
 
     @DeleteMapping("/{id}")
-    public String deleteUser(@PathVariable("id") int id) {
+    public String deleteUser(@PathVariable("id") UUID id) {
         User user = userMyRepository.findById(id);
         if (user == null) {
             throw new ResourceNotFound();

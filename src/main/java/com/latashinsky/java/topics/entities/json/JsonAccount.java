@@ -2,35 +2,42 @@ package com.latashinsky.java.topics.entities.json;
 
 import com.latashinsky.java.topics.entities.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.latashinsky.java.topics.entities.database.*;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
+
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.UUID;
 
 public class JsonAccount implements Account {
+    private UUID id = UUID.randomUUID();
 
-    private int id;
+    private UUID bankId = UUID.randomUUID();
 
-    private int currencyId;
+    private UUID userId = UUID.randomUUID();
 
-    private int bankId;
-
-    private int userId;
-
-    private Currency currency;
+    private UUID currencyId = UUID.randomUUID();
 
     private BigDecimal balance;
 
-    private Bank bank;
+    @JsonIgnore
+    private JsonCurrency currency;
 
     @JsonIgnore
-    private User user;
+    protected JsonBank bank;
 
     @JsonIgnore
-    private List<Transaction> transactionsFrom;
+    private JsonUser user;
 
     @JsonIgnore
-    private List<Transaction> transactionsTo;
+    private List<JsonTransaction> transactionsFrom;
+
+    @JsonIgnore
+    private List<JsonTransaction> transactionsTo;
 
     public JsonAccount() {
     }
@@ -58,85 +65,106 @@ public class JsonAccount implements Account {
                 id, bank.getName().toUpperCase(Locale.ROOT), balance, currency);
     }
 
+
+    @Override
     public User getUser() {
         return user;
     }
 
+    @Override
     public void setUser(User user) {
-        this.user = user;
+        this.user = (JsonUser) user;
     }
 
+    @Override
     public List<? extends Transaction> getTransactionsFrom() {
         return transactionsFrom;
     }
 
     @SuppressWarnings("unchecked")
+    @Override
     public void setTransactionsFrom(List<? extends Transaction> transactionsFrom) {
-        this.transactionsFrom = (List<Transaction>) transactionsFrom;
+        this.transactionsFrom = (List<JsonTransaction>) transactionsFrom;
     }
 
-    public List<Transaction> getTransactionsTo() {
+    @Override
+    public List<? extends Transaction> getTransactionsTo() {
         return transactionsTo;
     }
 
     @SuppressWarnings("unchecked")
+    @Override
     public void setTransactionsTo(List<? extends Transaction> transactionsTo) {
-        this.transactionsTo = (List<Transaction>) transactionsTo;
+        this.transactionsTo = (List<JsonTransaction>) transactionsTo;
     }
 
+    @Override
     public BigDecimal getBalance() {
         return balance;
     }
 
+    @Override
     public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }
 
-    public int getId() {
+    @Override
+    public void setCurrency(Currency currency) {
+        this.currency = (JsonCurrency) currency;
+    }
+
+    @Override
+    public UUID getId() {
         return id;
     }
 
-    public void setId(int id) {
+    @Override
+    public void setId(UUID id) {
         this.id = id;
     }
 
-    public Bank getBank() {
-        return bank;
-    }
-
-    public void setBank(Bank bank) {
-        this.bank = bank;
-    }
-
-    public int getBankId() {
+    @Override
+    public UUID getBankId() {
         return bankId;
     }
 
-    public void setBankId(int bankId) {
-        this.bankId = bankId;
+    @Override
+    public void setBankId(UUID bankId) {
+        this.bankId = id;
     }
 
-    public int getUserId() {
+    @Override
+    public UUID getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    @Override
+    public void setUserId(UUID userId) {
         this.userId = userId;
     }
 
-    public int getCurrencyId() {
+    @Override
+    public UUID getCurrencyId() {
         return currencyId;
     }
 
-    public void setCurrencyId(int currencyId) {
+    @Override
+    public void setCurrencyId(UUID currencyId) {
         this.currencyId = currencyId;
     }
 
-    public Currency getCurrency() {
+    @Override
+    public JsonCurrency getCurrency() {
         return currency;
     }
 
-    public void setCurrency(Currency currency) {
-        this.currency = currency;
+    @Override
+    public JsonBank getBank() {
+        return bank;
+    }
+
+    @Override
+    public void setBank(Bank bank) {
+        this.bank = (JsonBank) bank;
     }
 }

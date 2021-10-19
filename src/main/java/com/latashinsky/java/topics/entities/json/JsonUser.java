@@ -8,9 +8,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 public class JsonUser implements User {
-    private int id;
+    private UUID id = UUID.randomUUID();
 
     private String name;
 
@@ -51,11 +52,11 @@ public class JsonUser implements User {
         this.accounts = (List<Account>) accounts;
     }
 
-    public int getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

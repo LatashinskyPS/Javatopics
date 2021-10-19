@@ -2,15 +2,16 @@ package com.latashinsky.java.topics.entities;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.UUID;
 
 public interface Transaction {
     BigDecimal getValue();
 
     void setValue(BigDecimal value);
 
-    int getId();
+    UUID getId();
 
-    void setId(int id);
+    void setId(UUID id);
 
     Account getAccountFrom();
 
@@ -24,11 +25,11 @@ public interface Transaction {
 
     void setDate(Date date);
 
-    int getAccountFromId();
+    UUID getAccountFromId();
 
-    void setAccountFromId(int accountFromId);
+    void setAccountFromId(UUID accountFromId);
 
-    int getAccountToId();
+    UUID getAccountToId();
 
-    void setAccountToId(int accountToId);
+    void setAccountToId(UUID accountToId);
 }

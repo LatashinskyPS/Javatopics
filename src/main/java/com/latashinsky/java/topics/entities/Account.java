@@ -2,7 +2,12 @@ package com.latashinsky.java.topics.entities;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.UUID;
 
+import com.latashinsky.java.topics.entities.database.DataBaseBank;
+import com.latashinsky.java.topics.entities.database.DataBaseCurrency;
+import com.latashinsky.java.topics.entities.database.DataBaseTransaction;
+import com.latashinsky.java.topics.entities.database.DataBaseUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,27 +31,27 @@ public interface Account {
 
     void setBalance(BigDecimal balance);
 
-    Currency getCurrency();
-
-    int getCurrencyId();
-
-    void setCurrencyId(int currencyId);
-
     void setCurrency(Currency currency);
 
-    int getId();
+    UUID getId();
 
-    void setId(int id);
+    void setId(UUID id);
+
+    UUID getBankId();
+
+    void setBankId(UUID bankId);
+
+    UUID getUserId();
+
+    void setUserId(UUID userId);
+
+    UUID getCurrencyId();
+
+    void setCurrencyId(UUID currencyId);
+
+    Currency getCurrency();
 
     Bank getBank();
 
     void setBank(Bank bank);
-
-    int getBankId();
-
-    void setBankId(int bankId);
-
-    int getUserId();
-
-    void setUserId(int userId);
 }

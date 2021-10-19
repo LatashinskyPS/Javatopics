@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collection;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("currencies/{id}")
@@ -24,7 +25,7 @@ public class CurrencyExchangesController {
             (CurrencyRepository<Currency>) Factory.getInstance().getRepository(Currency.class);
 
     @GetMapping("")
-    public String getCurrencyExchanges(@PathVariable(value = "id") int id) throws JsonProcessingException {
+    public String getCurrencyExchanges(@PathVariable(value = "id") UUID id) throws JsonProcessingException {
         Currency currency = currencyRepository.findById(id);
         if (currency == null) {
             throw new ResourceNotFound();

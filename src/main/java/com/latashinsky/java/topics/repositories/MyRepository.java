@@ -1,9 +1,10 @@
 package com.latashinsky.java.topics.repositories;
 
 import java.util.Collection;
+import java.util.UUID;
 
 public interface MyRepository<T> {
-    T findById(int id);
+    T findById(UUID id);
 
     Collection<T> findAll();
 

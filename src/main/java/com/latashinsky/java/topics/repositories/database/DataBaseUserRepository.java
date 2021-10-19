@@ -7,6 +7,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import java.util.List;
+import java.util.UUID;
 
 public class DataBaseUserRepository implements UserRepository<DataBaseUser> {
     private final SessionFactory sessionFactory = HibernateSessionFactory.getSessionFactory();
@@ -24,7 +25,7 @@ public class DataBaseUserRepository implements UserRepository<DataBaseUser> {
     }
 
     @Override
-    public DataBaseUser findById(int id) {
+    public DataBaseUser findById(UUID id) {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
         DataBaseUser user = session.get(DataBaseUser.class, id);
@@ -48,7 +49,7 @@ public class DataBaseUserRepository implements UserRepository<DataBaseUser> {
     public void save(DataBaseUser user) {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
-        if (user.getId() != 0) {
+        if (user.getId() != null) {
             session.update(user);
         } else {
             session.save(user);

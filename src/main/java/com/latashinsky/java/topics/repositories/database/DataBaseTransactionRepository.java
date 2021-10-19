@@ -9,6 +9,7 @@ import org.hibernate.SessionFactory;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 public class DataBaseTransactionRepository implements TransactionRepository<DataBaseTransaction> {
     private static DataBaseTransactionRepository transactionRepository;
@@ -26,7 +27,7 @@ public class DataBaseTransactionRepository implements TransactionRepository<Data
     SessionFactory sessionFactory = HibernateSessionFactory.getSessionFactory();
 
     @Override
-    public DataBaseTransaction findById(int id) {
+    public DataBaseTransaction findById(UUID id) {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
         DataBaseTransaction transaction = session.get(DataBaseTransaction.class, id);
@@ -50,7 +51,7 @@ public class DataBaseTransactionRepository implements TransactionRepository<Data
     public void save(DataBaseTransaction transaction) {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
-        if (transaction.getId() != 0) {
+        if (transaction.getId() != null) {
             session.update(transaction);
         } else {
             session.save(transaction);

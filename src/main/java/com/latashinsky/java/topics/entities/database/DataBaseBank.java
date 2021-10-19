@@ -1,20 +1,27 @@
 package com.latashinsky.java.topics.entities.database;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.latashinsky.java.topics.entities.Account;
 import com.latashinsky.java.topics.entities.Bank;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 @Table(name = "banks")
 public class DataBaseBank implements Bank {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Column(name = "id", updatable = false, nullable = false)
+    @Type(type = "org.hibernate.type.PostgresUUIDType")
+    private UUID id;
 
     private String name;
 
@@ -26,6 +33,7 @@ public class DataBaseBank implements Bank {
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "bank_id")
+    @JsonIgnore
     private List<DataBaseAccount> accounts;
 
     @Override
@@ -75,11 +83,11 @@ public class DataBaseBank implements Bank {
         this.legalCommission = legalCommission;
     }
 
-    public int getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

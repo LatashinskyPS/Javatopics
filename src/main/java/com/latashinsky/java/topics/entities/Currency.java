@@ -1,15 +1,16 @@
 package com.latashinsky.java.topics.entities;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface Currency {
     List<? extends CurrencyExchange> getCurrencyExchanges();
 
     void setCurrencyExchanges(List<? extends CurrencyExchange> currencyExchanges);
 
-    int getId();
+    UUID getId();
 
-    void setId(int id);
+    void setId(UUID id);
 
     String getName();
 

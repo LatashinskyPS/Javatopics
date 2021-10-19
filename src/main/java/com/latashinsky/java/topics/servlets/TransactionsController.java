@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.Collection;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/transactions")
@@ -20,8 +21,8 @@ public class TransactionsController {
     private final MyRepository<Transaction> myRepository = Factory.getInstance().getRepository(Transaction.class);
 
     @GetMapping("")
-    public String getTransactions(@RequestParam(value = "id-account-to", required = false) Integer idAccountTo,
-                                  @RequestParam(value = "id-account-from", required = false) Integer idAccountFrom) throws JsonProcessingException {
+    public String getTransactions(@RequestParam(value = "id-account-to", required = false) UUID idAccountTo,
+                                  @RequestParam(value = "id-account-from", required = false) UUID idAccountFrom) throws JsonProcessingException {
         Collection<Transaction> transactions = myRepository.findAll();
         if (idAccountFrom != null) {
             transactions.removeIf(r -> !idAccountFrom.equals(r.getAccountFromId()));
@@ -33,8 +34,8 @@ public class TransactionsController {
     }
 
     @PostMapping("")
-    public String createTransaction(@RequestParam(value = "id-account-to") Integer idAccountTo,
-                                    @RequestParam(value = "id-account-from") Integer idAccountFrom,
+    public String createTransaction(@RequestParam(value = "id-account-to") UUID idAccountTo,
+                                    @RequestParam(value = "id-account-from") UUID idAccountFrom,
                                     @RequestParam(value = "value") BigDecimal value) {
         if (idAccountTo == null || idAccountFrom == null
                 || value == null) {

@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.UUID;
 
 public class JsonUserRepository implements UserRepository<JsonUser> {
     private static final JsonUserRepository jsonUserRepository = new JsonUserRepository();
@@ -32,8 +33,8 @@ public class JsonUserRepository implements UserRepository<JsonUser> {
     }
 
     @Override
-    public JsonUser findById(int id) {
-        return update(findAll().stream().filter(r -> r.getId() == id).findAny().orElse(null));
+    public JsonUser findById(UUID id) {
+        return update(findAll().stream().filter(r -> r.getId().equals(id)).findAny().orElse(null));
     }
 
     @Override
@@ -62,9 +63,8 @@ public class JsonUserRepository implements UserRepository<JsonUser> {
     @Override
     public void save(JsonUser user) {
         HashSet<JsonUser> hashSet = findAll();
-        int idMax = findAll().stream().map(User::getId).max(Integer::compare).orElse(0);
-        if (user.getId() == 0) {
-            user.setId(idMax + 1);
+        if (user.getId() == null) {
+            user.setId(UUID.randomUUID());
         } else {
             hashSet.remove(user);
         }

@@ -2,25 +2,22 @@ package com.latashinsky.java.topics.entities;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.UUID;
 
 public interface CurrencyExchange {
-    BigDecimal getValueTo();
-
-    void setValueTo(BigDecimal valueTo);
-
     Date getDate();
 
     void setDate(Date date);
 
-    int getCurrencyId();
+    UUID getCurrencyId();
 
-    void setCurrencyId(int currencyId);
+    void setCurrencyId(UUID currencyId);
 
-    BigDecimal getValueIn();
+    BigDecimal getRate();
 
-    void setValueIn(BigDecimal valueIn);
+    void setRate(BigDecimal rate);
 
-    int getId();
+    UUID getId();
 
-    void setId(int id);
+    void setId(UUID id);
 }

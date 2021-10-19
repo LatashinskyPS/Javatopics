@@ -6,17 +6,16 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.UUID;
 
 public class JsonCurrencyExchange implements CurrencyExchange {
-    private int id;
+    private UUID id = UUID.randomUUID();
 
     private Date date;
 
-    private BigDecimal valueTo;
+    private BigDecimal rate;
 
-    private BigDecimal valueIn;
-
-    private int currencyId;
+    private UUID currencyId;
 
     public Date getDate() {
         return date;
@@ -26,35 +25,27 @@ public class JsonCurrencyExchange implements CurrencyExchange {
         this.date = date;
     }
 
-    public BigDecimal getValueTo() {
-        return valueTo;
+    public BigDecimal getRate() {
+        return rate;
     }
 
-    public void setValueTo(BigDecimal valueTo) {
-        this.valueTo = valueTo;
+    public void setRate(BigDecimal rate) {
+        this.rate = rate;
     }
 
-    public BigDecimal getValueIn() {
-        return valueIn;
-    }
-
-    public void setValueIn(BigDecimal valueIn) {
-        this.valueIn = valueIn;
-    }
-
-    public int getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
-    public int getCurrencyId() {
+    public UUID getCurrencyId() {
         return currencyId;
     }
 
-    public void setCurrencyId(int currencyId) {
+    public void setCurrencyId(UUID currencyId) {
         this.currencyId = currencyId;
     }
 }

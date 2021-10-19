@@ -2,24 +2,31 @@ package com.latashinsky.java.topics.entities.database;
 
 import com.latashinsky.java.topics.entities.Account;
 import com.latashinsky.java.topics.entities.Transaction;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 @Table(name = "transactions")
 public class DataBaseTransaction implements Transaction {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Column(name = "id", updatable = false, nullable = false)
+    @Type(type = "org.hibernate.type.PostgresUUIDType")
+    private UUID id;
 
     @Column(name = "account_from_id", insertable = false, updatable = false)
-    private int accountFromId;
+    private UUID accountFromId;
 
     @Column(name = "account_to_id", insertable = false, updatable = false)
-    private int accountToId;
+    private UUID accountToId;
 
     @Column(name = "transaction_time")
     @Temporal(TemporalType.DATE)
@@ -70,11 +77,11 @@ public class DataBaseTransaction implements Transaction {
         this.value = value;
     }
 
-    public int getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -102,19 +109,19 @@ public class DataBaseTransaction implements Transaction {
         this.date = date;
     }
 
-    public int getAccountFromId() {
+    public UUID getAccountFromId() {
         return accountFromId;
     }
 
-    public void setAccountFromId(int idAccountFrom) {
+    public void setAccountFromId(UUID idAccountFrom) {
         this.accountFromId = idAccountFrom;
     }
 
-    public int getAccountToId() {
+    public UUID getAccountToId() {
         return accountToId;
     }
 
-    public void setAccountToId(int idAccountTo) {
+    public void setAccountToId(UUID idAccountTo) {
         this.accountToId = idAccountTo;
     }
 }

@@ -20,7 +20,7 @@ public class UserTransactionsController {
     private final MyRepository<Transaction> transactionMyRepository = Factory.getInstance().getRepository(Transaction.class);
 
     @GetMapping("")
-    public String getUserTransactions(@PathVariable("id") int id,
+    public String getUserTransactions(@PathVariable("id") UUID id,
                                       @RequestParam(value = "date-from", required = false) Long dateFrom,
                                       @RequestParam(value = "date-to", required = false) Long dateTo) throws JsonProcessingException {
         User user = userMyRepository.findById(id);

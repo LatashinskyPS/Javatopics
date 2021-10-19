@@ -1,23 +1,31 @@
 package com.latashinsky.java.topics.entities.database;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.latashinsky.java.topics.entities.Currency;
 import com.latashinsky.java.topics.entities.CurrencyExchange;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "currencies")
 public class DataBaseCurrency implements Currency {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Column(name = "id", updatable = false, nullable = false)
+    @Type(type = "org.hibernate.type.PostgresUUIDType")
+    private UUID id;
 
     @Column(name = "name", length = 3)
     private String name;
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "currency_id")
+    @JsonIgnore
     private List<DataBaseCurrencyExchange> currencyExchanges;
 
     public List<DataBaseCurrencyExchange> getCurrencyExchanges() {
@@ -29,11 +37,11 @@ public class DataBaseCurrency implements Currency {
         this.currencyExchanges = (List<DataBaseCurrencyExchange>) currencyExchanges;
     }
 
-    public int getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

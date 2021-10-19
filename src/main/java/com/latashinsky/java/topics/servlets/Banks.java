@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Collection;
+import java.util.UUID;
 import java.util.regex.Pattern;
 
 @WebServlet(name = "Banks", urlPatterns = "/banks/*")
@@ -45,18 +46,14 @@ public class Banks extends HttpServlet {
     }
 
     private void getBankById(HttpServletResponse response, String id) throws IOException {
-        if (Pattern.matches("[0-9]+", id)) {
-            Bank bank = myBankRepository.findById(
-                    Integer.parseInt(id));
-            if (bank == null) {
-                response.setStatus(404);
-                return;
-            }
-            response.getWriter().write(
-                    new ObjectMapper().writeValueAsString(bank));
-        } else {
+        Bank bank = myBankRepository.findById(
+                UUID.fromString(id));
+        if (bank == null) {
             response.setStatus(404);
+            return;
         }
+        response.getWriter().write(
+                new ObjectMapper().writeValueAsString(bank));
     }
 
     private void getAllBanksWithFilter(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -93,8 +90,8 @@ public class Banks extends HttpServlet {
     @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String[] path = request.getRequestURI().split("/");
-        if (path.length == 3 && Pattern.matches(Constants.PATTERN_INT, path[2])) {
-            Bank bank = myBankRepository.findById(Integer.parseInt(path[2]));
+        if (path.length == 3) {
+            Bank bank = myBankRepository.findById(UUID.fromString(path[2]));
             if (bank == null) {
                 response.setStatus(404);
                 return;
@@ -119,8 +116,8 @@ public class Banks extends HttpServlet {
     @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String[] path = request.getRequestURI().split("/");
-        if (path.length == 3 && Pattern.matches(Constants.PATTERN_INT, path[2])) {
-            myBankRepository.delete(myBankRepository.findById(Integer.parseInt(path[2])));
+        if (path.length == 3) {
+            myBankRepository.delete(myBankRepository.findById(UUID.fromString(path[2])));
             response.sendRedirect("/banks");
         }
     }

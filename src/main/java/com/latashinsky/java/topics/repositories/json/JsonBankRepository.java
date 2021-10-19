@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.UUID;
 
 public class JsonBankRepository implements BankRepository<JsonBank> {
     private static final JsonBankRepository jsonBankRepository = new JsonBankRepository();
@@ -32,8 +33,8 @@ public class JsonBankRepository implements BankRepository<JsonBank> {
     }
 
     @Override
-    public JsonBank findById(int id) {
-        JsonBank bank = findAll().stream().filter(r -> r.getId() == id).findAny().orElse(null);
+    public JsonBank findById(UUID id) {
+        JsonBank bank = findAll().stream().filter(r -> r.getId().equals(id)).findAny().orElse(null);
         return update(bank);
     }
 
@@ -67,10 +68,9 @@ public class JsonBankRepository implements BankRepository<JsonBank> {
 
     @Override
     public void save(JsonBank bank) {
-        int idMax = findAll().stream().map(Bank::getId).max(Integer::compare).orElse(0);
         HashSet<JsonBank> hashSet = findAll();
-        if (bank.getId() == 0) {
-            bank.setId(idMax + 1);
+        if (bank.getId() == null) {
+            bank.setId(UUID.randomUUID());
         } else {
             hashSet.remove(bank);
         }
@@ -96,7 +96,7 @@ public class JsonBankRepository implements BankRepository<JsonBank> {
         String str = "[]";
         try {
             HashSet<JsonBank> hashSet = findAll();
-            hashSet.removeIf(r -> bank.getId() == r.getId());
+            hashSet.removeIf(r -> bank.getId().equals(r.getId()));
             str = new ObjectMapper().writeValueAsString(hashSet);
         } catch (JsonProcessingException e) {
             e.printStackTrace();

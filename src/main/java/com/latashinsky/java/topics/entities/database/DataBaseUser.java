@@ -1,20 +1,29 @@
 package com.latashinsky.java.topics.entities.database;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.latashinsky.java.topics.entities.Account;
 import com.latashinsky.java.topics.entities.User;
 import com.latashinsky.java.topics.entities.UserTypes;
+import com.latashinsky.java.topics.factory.Factory;
 import com.latashinsky.java.topics.helpers.MyListConverter;
+import com.latashinsky.java.topics.repositories.AccountRepository;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 @Table(name = "users")
 public class DataBaseUser implements User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Column(name = "id", updatable = false, nullable = false)
+    @Type(type = "org.hibernate.type.PostgresUUIDType")
+    private UUID id;
 
     private String name;
 
@@ -23,13 +32,15 @@ public class DataBaseUser implements User {
     private UserTypes userType;
 
     @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JsonIgnore
     private List<DataBaseAccount> accounts;
 
     @Override
     public String toString() {
         return String.format("%s)%s\nUser type:%s\nAccounts:\n%s",
-                id, name, userType, MyListConverter.convert(accounts));
+                id, name, userType, MyListConverter.convert(
+                        ((AccountRepository<Account>) Factory.getInstance().getRepository(Account.class)).getAccountsUser(this)));
     }
 
     @Override
@@ -58,11 +69,11 @@ public class DataBaseUser implements User {
         this.accounts = (List<DataBaseAccount>) accounts;
     }
 
-    public int getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
