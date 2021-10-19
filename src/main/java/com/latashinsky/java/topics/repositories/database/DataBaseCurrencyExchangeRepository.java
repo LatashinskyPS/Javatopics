@@ -85,4 +85,18 @@ public class DataBaseCurrencyExchangeRepository implements CurrencyExchangeRepos
         session.close();
         return dataBaseCurrencyExchange;
     }
+
+    @Override
+    public Collection<CurrencyExchange>  findByCurrency(Currency currency) {
+        Session session = sessionFactory.getCurrentSession();
+        session.beginTransaction();
+        @SuppressWarnings("unchecked")
+        List<CurrencyExchange> dataBaseCurrencyExchange = (List<CurrencyExchange>) session
+                .createQuery("from DataBaseCurrencyExchange a where a.currencyId = :currencyId")
+                .setParameter("currencyId", currency.getId())
+                .list();
+        session.getTransaction().commit();
+        session.close();
+        return dataBaseCurrencyExchange;
+    }
 }

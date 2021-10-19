@@ -13,7 +13,7 @@ import java.util.Objects;
 public class DataBaseAccount implements Account {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    protected int id;
+    private int id;
 
     @Column(name = "bank_id", insertable = false, updatable = false)
     private int bankId;

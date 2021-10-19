@@ -18,7 +18,6 @@ import java.util.stream.Collectors;
 public class UserTransactionsController {
     private final MyRepository<User> userMyRepository = Factory.getInstance().getRepository(User.class);
     private final MyRepository<Transaction> transactionMyRepository = Factory.getInstance().getRepository(Transaction.class);
-    private final MyRepository<Account> accountMyRepository = Factory.getInstance().getRepository(Account.class);
 
     @GetMapping("")
     public String getUserTransactions(@PathVariable("id") int id,

@@ -12,8 +12,10 @@ import com.latashinsky.java.topics.helpers.DirectoryHelper;
 import com.latashinsky.java.topics.repositories.CurrencyExchangeRepository;
 
 import java.io.*;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.stream.Collectors;
 
 public class JsonCurrencyExchangeRepository implements CurrencyExchangeRepository<JsonCurrencyExchange> {
     private static final JsonCurrencyExchangeRepository jsonCurrencyExchangeRepository = new JsonCurrencyExchangeRepository();
@@ -29,6 +31,11 @@ public class JsonCurrencyExchangeRepository implements CurrencyExchangeRepositor
     public CurrencyExchange findByCurrencyWhereDateIsNow(Currency currency) {
         Date date = new Date();
         return findAll().stream().filter(r -> r.getCurrencyId() == currency.getId() && r.getDate().equals(date)).findAny().orElse(null);
+    }
+
+    @Override
+    public Collection<CurrencyExchange> findByCurrency(Currency currency) {
+        return findAll().stream().filter(r -> r.getCurrencyId() == currency.getId()).collect(Collectors.toSet());
     }
 
     @Override
