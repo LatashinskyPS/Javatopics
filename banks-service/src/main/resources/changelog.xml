@@ -1,0 +1,28 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+
+    <changeSet author="pavel.lotashinski" id="V1_init">
+        <sqlFile path="db/V1_init.sql" stripComments="false"/>
+        <rollback>
+            <sqlFile path="db/V1_init_rollback.sql" stripComments="false"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet author="pavel.lotashinski" id="V2_currency_exchange">
+        <sqlFile path="db/V2_currency_exchange.sql" stripComments="false"/>
+        <rollback>
+            <sqlFile path="db/V2_rollback.sql" stripComments="false"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet author="pavel.lotashinski" id="V3_user_notification">
+        <sqlFile path="db/V3_user_notification.sql" stripComments="false"/>
+        <rollback>
+            <sqlFile path="db/V3_rollback.sql" stripComments="false"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>
