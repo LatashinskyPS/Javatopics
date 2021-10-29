@@ -1,0 +1,22 @@
+server:
+  port: 8081
+  servlet:
+    context-path: /
+spring:
+  rabbitmq:
+    listener:
+      simple:
+        default-requeue-rejected: false
+  mail:
+    host: ${SMTP_HOST:mail.intexsoft.by}
+    port: ${SMTP_PORT:587}
+    username: ${SMTP_USERNAME:pavel.lotashinski@intexsoft.by}
+    password: ${SMTP_PASSWORD:}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+telegram:
+  token: ${TOKEN:2028585308:AAFIVh4-DMS0Xptzy30993E4xD2wtOIr38g}
