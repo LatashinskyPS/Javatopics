@@ -4,6 +4,7 @@ server:
     context-path: /
 spring:
   rabbitmq:
+    max-retries: ${MAX_RETRIES:3}
     listener:
       simple:
         default-requeue-rejected: false
@@ -20,3 +21,4 @@ spring:
             enable: true
 telegram:
   token: ${TOKEN:2025620834:AAEKFyfG86egIuBODQwermnNnJHV0JpA2wA}
+  name: ${BOT_NAME:Java-Topics}

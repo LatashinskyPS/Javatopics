@@ -2,7 +2,8 @@ version: "3"
 
 services:
   db-java-topics:
-    image: postgres
+    container_name: java-topics-db
+    image: postgres:14.0
     ports:
       - "5432:5432"
     environment:
@@ -10,7 +11,8 @@ services:
       POSTGRES_USER: pavel
       POSTGRES_DB: topics
   rabbitmq-java-topics:
-    image: rabbitmq
+    container_name: java-topics-rabbit-mq
+    image: rabbitmq:3.9.8-management
     ports:
       - "5672:5672"
       - "15672:15672"

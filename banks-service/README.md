@@ -23,6 +23,6 @@
 
 5. `mvn install
 
-6. `mvn exec:java -Dexec.mainClass="com.latashinsky.java.topics.MainClass"
+6. `mvn exec:java -Dexec.mainClass="MainClass"
 
 ### Откроется интерактивное меню для работы с консолью и развернется сервер http://localhost:8080/

@@ -8,7 +8,7 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
     <groupId>com.latashinsky</groupId>
-    <artifactId>BankService</artifactId>
+    <artifactId>BanksService</artifactId>
     <version>1.0-SNAPSHOT</version>
     <name>java-topics</name>
     <packaging>war</packaging>
