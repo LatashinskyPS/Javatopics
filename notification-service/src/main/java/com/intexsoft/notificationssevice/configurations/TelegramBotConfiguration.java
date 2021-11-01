@@ -2,12 +2,13 @@ package com.intexsoft.notificationssevice.configurations;
 
 import com.intexsoft.notificationssevice.bots.TelegramBot;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
-@Component
+@Configuration
 public class TelegramBotConfiguration {
     private final TelegramBot telegramBot;
 
