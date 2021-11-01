@@ -1,4 +1,4 @@
-package com.latashinsky.banksservice;
+package com.latashinsky.banksservice.configurations;
 
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;

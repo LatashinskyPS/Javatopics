@@ -1,5 +1,6 @@
-package com.latashinsky.banksservice;
+package com.latashinsky.banksservice.configurations;
 
+import com.latashinsky.banksservice.HibernateSessionFactory;
 import com.latashinsky.banksservice.helpers.Constants;
 import com.latashinsky.banksservice.services.MessageService;
 import org.hibernate.SessionFactory;
